@@ -1,0 +1,107 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="mt-3">
+    <h2>🛒 My Cart</h2><br>
+
+    <% if (cart && cart.items.length > 0) { %>
+        <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-success">
+                    <tr>
+                        <th>Vegetable</th>
+                        <th>Image</th>
+                        <th>Price (₹/kg)</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% let grandTotal = 0; %>
+                    <% for (let cartItem of cart.items) { %>
+                        <% let itemTotal = cartItem.vegetable.price * cartItem.quantity; %>
+                        <% grandTotal += itemTotal; %>
+                        <tr>
+                            <td><b><%= cartItem.vegetable.title %></b></td>
+                            <td>
+                                <img src="<%= cartItem.vegetable.image.url %>" alt="vegetable_img" class="rounded" width="60">
+                            </td>
+                            <td>₹<%= cartItem.vegetable.price.toLocaleString("en-IN") %></td>
+                            <td>
+                                <form action="/cart/update/<%= cartItem.vegetable._id %>?_method=PUT" method="POST" class="d-flex justify-content-center align-items-center">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary quantity-btn" data-action="decrease">-</button>
+                                    <input type="number" name="quantity" value="<%= cartItem.quantity %>" min="1" class="form-control text-center mx-2 quantity-input" style="width: 60px;">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary quantity-btn" data-action="increase">+</button>
+                                    <button type="submit" class="btn btn-dark ms-2">✔</button>
+                                </form>
+                            </td>
+                            <td>₹<%= itemTotal.toLocaleString("en-IN") %></td>
+                            <td>
+                                <form action="/cart/remove/<%= cartItem.vegetable._id %>?_method=DELETE" method="POST">
+                                    <button type="submit" class="btn btn-danger btn-sm">❌ Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-4 p-3 border rounded shadow-sm bg-light">
+            <h4><b>Grand Total: ₹<%= grandTotal.toLocaleString("en-IN") %></b></h4>
+            
+            <!-- Razorpay Payment Button -->
+            <form id="payment-form" action="/order/place" method="POST">
+                <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+                <button type="button" id="pay-btn" class="btn btn-success">Pay Now</button>
+                <BUTTon class="btn btn-success btn-sm"><i class="fa-solid fa-check"></i></BUTTon>
+            </form>
+
+            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+            <script>
+                document.getElementById('pay-btn').addEventListener('click', function () {
+                    var amount = <%= grandTotal * 100 %>; // Amount in paisa (₹)
+
+                    var options = {
+                        key: "rzp_test_qExnan2lZ1IP7w", // Replace with your actual Razorpay Key
+                        amount: amount,
+                        currency: "INR",
+                        name: "Farmconnect",
+                        description: "Payment for your order",
+                        image: "<%= cart.items.length > 0 ? cart.items[0].vegetable.image.url : '' %>", // First item image (if available)
+                        handler: function (response) {
+                            document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+                            document.getElementById('payment-form').submit();
+                        },
+                        prefill: {
+                            name: "Customer Name",
+                            email: "customer@example.com",
+                            contact: "9999999999"
+                        }
+                    };
+
+                    var rzp = new Razorpay(options);
+                    rzp.open();
+                });
+            </script>
+        </div>
+    <% } else { %>
+        <div class="alert alert-warning text-center" role="alert">
+            🛍️ Your cart is empty.
+        </div>
+        <div class="text-center">
+            <a href="/vegetables" class="btn btn-primary">Continue Shopping</a>
+        </div>
+    <% } %>
+</div>
+
+<script>
+    document.querySelectorAll(".quantity-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            let input = this.parentNode.querySelector(".quantity-input");
+            let action = this.getAttribute("data-action");
+            let newValue = action === "increase" ? parseInt(input.value) + 1 : parseInt(input.value) - 1;
+            if (newValue >= 1) input.value = newValue;
+        });
+    });
+</script>

@@ -1,0 +1,30 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+    <div class="row mt-3">
+        <h1 class="col-6 offset-3 mt-2 mb-3">Login On FarmConnect</h1>
+        <div class="col-6 offset-3">
+            <form action="/user/login" method="POST" novalidate class="needs-validation">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                    <div class="invalid-feedback">Please enter email!</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                    <div class="invalid-feedback">Please enter password!</div>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select class="form-control" id="role" name="role"  required>
+                      <option value="" disabled selected>Select Role</option>
+                      <option value="farmer">Farmer</option>
+                      <option value="customer">Customer</option>
+                      <option value="delivery_boy">Delivery Boy</option>
+                    </select>
+                </div>
+                <button class="btn btn-dark add-btn mt-3">Login</button>
+            </form>
+
+        </div>
+    </div>

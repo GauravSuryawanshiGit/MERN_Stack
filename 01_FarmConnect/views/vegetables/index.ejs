@@ -1,0 +1,78 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<div class="mt-3">
+  <h2>All Vegetables</h2><br>
+  
+  <!-- Sorting Options -->
+  <div class="d-flex gap-3 mb-3">
+    <select id="sortOptions" class="form-select w-25">
+      <option value="newest">Newest First</option>
+      <option value="oldest">Oldest First</option>
+    </select>
+
+    <select id="categoryOptions" class="form-select w-25">
+      <option value="all">All Categories</option>
+      <% 
+        let categories = [...new Set(allVegetables.map(veg => veg.category))]; 
+        categories.forEach(category => { 
+      %>
+        <option value="<%= category %>"><%= category %></option>
+      <% }); %>
+    </select>
+  </div>
+
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-xs-1" id="vegetableList">
+    <% for(let vegetable of allVegetables) { %>
+      <div class="col mb-4 vegetable-item" data-createdAt="<%= new Date(vegetable.createdAt).getTime() %>" data-category="<%= vegetable.category %>">
+        <div class="card shadow-sm border rounded-3 p-2" style="width: 18rem;">
+          <a href="/vegetables/<%= vegetable._id %>">
+            <img src="<%= vegetable.image.url %>" class="card-img-top p-2" alt="vegetable_img">
+          </a>
+          <div class="card-body p-3">
+            <h5 class="card-title">
+              <b>
+                <a href="/vegetables/<%= vegetable._id %>" class="vegetable-link text-decoration-none">
+                  <%= vegetable.title %>
+                </a>
+              </b>
+              <div><h6>Available Qty: <%= vegetable.quantity %> </h6>
+              <h6>Category: <%= vegetable.category %></h6>
+              <h6>Location: <%= vegetable.location %></h6></div>
+            </h5>
+            <p class="card-text mt-2">&#8377;<%= vegetable.price.toLocaleString("en-IN") %> / kg <br>
+            <% if(vegetable.quantity === 0) {%> <b style="color: red;"> Out of stock.</b><%}%>
+            </p>
+            <a href="/vegetables/<%= vegetable._id %>" class="btn btn-primary mt-2 see-btn">See Details</a>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<script>
+  document.getElementById("sortOptions").addEventListener("change", sortAndFilter);
+  document.getElementById("categoryOptions").addEventListener("change", sortAndFilter);
+
+  function sortAndFilter() {
+    let sortOption = document.getElementById("sortOptions").value;
+    let categoryOption = document.getElementById("categoryOptions").value;
+    let container = document.getElementById("vegetableList");
+    let items = Array.from(container.getElementsByClassName("vegetable-item"));
+
+    // Filter by category
+    items.forEach(item => {
+      let itemCategory = item.getAttribute("data-category");
+      item.style.display = (categoryOption === "all" || itemCategory === categoryOption) ? "block" : "none";
+    });
+
+    // Sort by date
+    items.sort((a, b) => {
+      let dateA = parseInt(a.getAttribute("data-createdAt"));
+      let dateB = parseInt(b.getAttribute("data-createdAt"));
+      return sortOption === "newest" ? dateB - dateA : dateA - dateB;
+    });
+
+    // Reorder elements in DOM
+    items.forEach(item => container.appendChild(item));
+  }
+</script>

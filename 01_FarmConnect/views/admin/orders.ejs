@@ -1,0 +1,56 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container mt-4">
+    <h2>Manage Orders</h2>
+    <hr>
+
+    <% if (orders.length === 0) { %>
+        <p class="text-muted">No orders available.</p>
+    <% } else { %>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Delivery Boy</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (order of orders) { %>
+                    <tr>
+                        <td><%= order._id %></td>
+                        <td><%= order.user.name %></td>
+                        <td>₹<%= order.totalPrice.toLocaleString("en-IN") %></td>
+                        <td>
+                            <% if (order.status === "Delivered") { %>
+                                <span class="badge bg-success p-2">Delivered</span>
+                            <% } else { %>
+                                <span class="badge bg-warning p-2"><%= order.status %></span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (order.assignedTo) { %>
+                                <span class="text-success"><%= order.assignedTo.name %></span>
+                            <% } else { %>
+                                <span class="text-danger">Not Assigned</span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (order.status === "Delivered") { %>
+                                <button class="btn btn-secondary btn-sm" disabled>Delivered</button>
+                            <% } else { %>
+                                <!-- Reassign Button -->
+                                <form action="/admin/orders/<%= order._id %>/assign" method="POST">
+                                    <button type="submit" class="btn btn-warning btn-sm">Reassign</button>
+                                </form>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    <% } %>
+</div>

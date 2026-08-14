@@ -1,0 +1,200 @@
+body {
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+}
+
+.container {
+    flex: 1 !important;
+}
+
+/* Navbar */
+.navbar {
+    height: 5rem;
+    background-color: white;
+}
+
+.fa-compass {
+    color: rgb(25, 135, 84);
+    /* color: #fe424d; */
+    font-size: 2rem;
+}
+.see-btn{
+    background-color: rgb(25, 135, 84) !important;
+    border: none !important;
+    border-left: 500px!important;
+}
+.nav-link {
+    color: #222222 !important;
+}
+
+.navbar-collapse {
+    background-color: white !important;
+}
+
+/* Footer */
+.d-flex {
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+
+}
+
+.fa-brands {
+    font-size: 1.5rem;
+}
+
+/* Cards */
+.vegetable-card {
+    border: none !important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top {
+    border-radius: 1.1rem !important;
+    width: 100% !important;
+    height: 20rem !important;
+    object-fit: cover !important;
+
+}
+
+.card-body {
+    padding: 0 !important;
+}
+
+.card-text p {
+    font-weight: 400 !important;
+}
+
+.vegetable-link {
+    color: black !important;
+    text-decoration: none !important;
+}
+
+.card-img-overlay {
+    opacity: 0;
+}
+
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background-color: white;
+}
+
+/* New Page */
+
+.add-btn {
+    background-color: rgb(25, 135, 84) !important;
+    border: none !important;
+}
+
+/* Show Img  */
+.show-img {
+    height: 30vh;
+}
+
+.btns {
+    display: flex;
+}
+
+.show-card {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+/* MAP */
+#map {
+    height: 400px;
+    width: 80vh;
+}
+
+;
+
+
+/* Search-Box */
+
+.search-btn:hover {
+    background-color: rgb(25, 135, 84);
+    color: #fff;
+}
+
+.search-btn {
+    background-color: rgb(25, 135, 84);
+    color: #fff;
+    border-radius: 25px;
+}
+
+
+.search-inp {
+    border-radius: 25px;
+    padding: 0.5rem 3rem 0.5rem 3rem;
+    font-size: 0.9rem;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.card-body i {
+    color: #6c757d;
+}
+
+.btn-secondary {
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 30px;
+}
+
+/* herewego */
+.nav-logo{
+    height: 50px;
+    width: 100px;
+}
+.logo{
+    background-image: url("https://i.ibb.co/dcJwvMZ/logo-nav.png");
+    background-size: cover;
+    height: 50px;
+    width: 100px;
+     
+}
+
+.hover-text-black:hover {
+    color: black !important;
+}
+.hover-text-red:hover {
+    color: red !important;
+}
+.text-muted-helper{
+    size: 200% !important;
+    color: #222222 !important;
+}
+#sortOptions{
+    margin-left: 850px !important;
+    margin-bottom: 40px !important;
+    margin-top: -70px !important;
+    /* padding-left: 50px !important ; */
+    padding: 50px,0,50px,0!important;
+    width: 170px !important;
+    height: 40px !important;
+}
+#categoryOptions{
+    margin-left: 40px !important;
+    margin-top: -70px !important;
+    width: 170px !important;
+    height: 40px !important;
+}
+#translate{
+    /* margin-left: 3px !important; */
+}
+.fc{
+    margin-left: 0 !important;
+    padding-left: 0 !important ;
+}
+.fd{
+    margin-left: 20px !important;
+}
+.chatbot_btn{
+    margin-left: 0px !important;
+}

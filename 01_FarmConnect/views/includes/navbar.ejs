@@ -1,0 +1,111 @@
+<link rel="stylesheet" href="/public/css/style.css">
+</head>
+
+<nav class="navbar navbar-expand-md bg-light border-bottom shadow-sm sticky-top">
+    <div class="container-fluid">
+        <!-- Logo & Brand Name -->
+        <a class="navbar-brand text-success fw-bold d-flex align-items-center" href="/vegetables">
+            <i class="fa-solid fa-seedling"></i> FarmConnect
+        </a>
+
+        <!-- Navbar Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse bg-light" id="navbarContent">
+            <!-- Search Bar -->
+            <form class="d-flex mx-auto" style="max-width: 600px; width: 100%;" role="search">
+                <input class="form-control" type="search" name="search" placeholder="Search Veggies..." style="border-radius: 5px 0 0 5px;">
+                <button class="btn btn-success" type="submit" style="border-radius: 0 5px 5px 0;">
+                    <i class="fa-solid fa-search"></i>
+                </button>
+            </form>
+
+            <!-- Navigation Links -->
+            <ul class="navbar-nav ms-auto">
+                <% if (currUser) { %>
+                    <% if (roles === 'farmer') { %>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="/vegetables/new">
+                                <i class="fa-solid fa-plus"></i> Add Veggies
+                            </a>
+                        </li>
+                    <% } %>
+
+                    <% if (roles === 'customer') { %>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="/cart">
+                                <i class="fa-solid fa-cart-shopping"></i> My Cart
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="/order">
+                                <i class="fa-solid fa-cart-arrow-down"></i> Orders
+                            </a>
+                        </li>
+                    <% } %>
+
+                    <% if (roles === 'admin') { %>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="/admin/orders">
+                                <i class="fa-solid fa-list-check"></i> Manage Orders
+                            </a>
+                        </li>
+                    <% } %>
+
+                    <% if (roles === 'delivery_boy') { %>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="/delivery/orders">
+                                <i class="fa-solid fa-truck"></i> Delivery
+                            </a>
+                        </li>
+                    <% } %>
+
+                    <!-- Profile Dropdown (Except Admin) -->
+                    <% if (roles !== 'admin') { %>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-success" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-user"></i> Profile
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/user/me">My Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="/user/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="/admin/logout">
+                                <i class="fa-solid fa-sign-in-alt"></i> Logout
+                            </a>
+                        </li>
+                    <% } %>
+
+                <% } else { %>
+                    <!-- Guest User (Not Logged In) -->
+                    <li class="nav-item">
+                        <a class="nav-link text-success" href="/admin/login">
+                            <i class="fa-solid fa-lock"></i> Admin
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-success" href="/user/register">
+                            <i class="fa-solid fa-user-plus"></i> Register
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-success" href="/user/login">
+                            <i class="fa-solid fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
+                <% } %>
+
+                
+            </ul>
+        </div>
+    </div>
+</nav>
+
+

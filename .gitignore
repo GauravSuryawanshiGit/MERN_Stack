@@ -1,0 +1,88 @@
+# ==============================
+# ENVIRONMENT & SECRETS
+# ==============================
+.env
+.env.*
+!.env.example
+*.env
+
+# Secret / credential files
+secrets/
+secret/
+credentials/
+*.secret
+*.secrets
+*.credentials
+
+# API keys / tokens / JWT
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jwt
+*token*
+*apikey*
+*api-key*
+*secret*
+*credential*
+
+# Google / Firebase / service accounts
+service-account*.json
+*-service-account*.json
+firebase-adminsdk*.json
+
+# ==============================
+# NODE.JS
+# ==============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==============================
+# PYTHON
+# ==============================
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# ==============================
+# BUILD OUTPUT
+# ==============================
+dist/
+build/
+out/
+coverage/
+.cache/
+
+# ==============================
+# IDE
+# ==============================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ==============================
+# LOGS
+# ==============================
+*.log
+
+# ==============================
+# OS FILES
+# ==============================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==============================
+# TEMPORARY FILES
+# ==============================
+*.tmp
+*.temp

@@ -1,0 +1,1065 @@
+<%- include("../partials/header") %>
+
+<%
+const profileUser = typeof user !== "undefined" && user ? user : {};
+const safeLevel = typeof level !== "undefined" ? level : 1;
+const safeRank = typeof rank !== "undefined" ? rank : 1;
+const safeAccuracy = typeof accuracy !== "undefined" ? accuracy : 0;
+const safeAchievementCount =
+    typeof achievementCount !== "undefined" ? achievementCount : 0;
+const safeRecentAttempts =
+    typeof recentAttempts !== "undefined" && Array.isArray(recentAttempts)
+        ? recentAttempts
+        : [];
+const safeChartLabels =
+    typeof chartLabels !== "undefined" && Array.isArray(chartLabels)
+        ? chartLabels
+        : [];
+const safeChartData =
+    typeof chartData !== "undefined" && Array.isArray(chartData)
+        ? chartData
+        : [];
+const safeXpPercent =
+    typeof xpPercent !== "undefined"
+        ? xpPercent
+        : Math.min(((Number(profileUser.xp) || 0) / 1500) * 100, 100);
+const safeAchievementPercent =
+    typeof achievementPercent !== "undefined"
+        ? achievementPercent
+        : Math.round((safeAchievementCount / 11) * 100);
+const safeQuizzesPercent =
+    typeof quizzesPercent !== "undefined"
+        ? quizzesPercent
+        : Math.min(Number(profileUser.totalQuizzes) || 0, 100);
+%>
+
+
+
+
+
+<!-- ===================================
+        PROFILE HERO
+=================================== -->
+
+<section class="profile-hero">
+
+    <div class="profile-left">
+
+        <div class="profile-avatar">
+
+            <%= user.name.charAt(0).toUpperCase() %>
+
+        </div>
+
+        <div class="profile-details">
+
+            <div class="role-badge">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <%= user.role.toUpperCase() %>
+
+            </div>
+
+            <h1>
+
+                <%= user.name %>
+
+            </h1>
+
+            <p>
+
+                <i class="fa-solid fa-envelope me-2"></i>
+
+                <%= user.email %>
+
+            </p>
+
+            <% if(user.bio && user.bio.trim() !== ""){ %>
+
+<p class="profile-bio mt-2">
+
+    <i class="fa-solid fa-user-pen me-2 text-success"></i>
+
+    <%= user.bio %>
+
+</p>
+
+<% } %>
+
+            <div class="joined-date">
+
+                <i class="fa-regular fa-calendar"></i>
+
+                Member Since
+
+                <strong>
+
+                    <%= new Date(user.createdAt).toLocaleDateString() %>
+
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="profile-right">
+
+        <div class="level-circle">
+
+                <span>
+
+                Lv.
+
+            </span>
+
+            <h2>
+
+                <%= safeLevel %>
+
+            </h2>
+
+        </div>
+
+        <div class="xp-section">
+
+            <div class="xp-header">
+
+                <span>
+
+                    Experience
+
+                </span>
+
+                <strong>
+
+                    <%= profileUser.xp %> XP
+
+                </strong>
+
+            </div>
+
+            <div class="xp-bar">
+
+                <div
+                    class="xp-fill"
+                    style="width:<%= safeXpPercent %>%">
+                </div>
+
+            </div>
+
+            <small>
+
+                Keep solving quizzes to reach the next level.
+
+            </small>
+
+        </div>
+
+      <a href="/profile/edit" class="edit-profile-btn text-decoration-none">
+
+    <i class="fa-solid fa-pen"></i>
+
+    Edit Profile
+
+</a>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================
+        PROFILE STATS
+=================================== -->
+
+<section class="profile-stats">
+
+    <div class="stat-box">
+
+        <div class="stat-icon emerald">
+
+            <i class="fa-solid fa-star"></i>
+
+        </div>
+
+        <div>
+
+            <small>Experience</small>
+
+            <h3>
+
+                <%= profileUser.xp %>
+
+            </h3>
+
+            <span>Total XP Earned</span>
+
+        </div>
+
+    </div>
+
+    <div class="stat-box">
+
+        <div class="stat-icon blue">
+
+            <i class="fa-solid fa-layer-group"></i>
+
+        </div>
+
+        <div>
+
+            <small>Current Level</small>
+
+            <h3>
+
+                <%= safeLevel %>
+
+            </h3>
+
+            <span>Keep Growing</span>
+
+        </div>
+
+    </div>
+
+    <div class="stat-box">
+
+        <div class="stat-icon orange">
+
+            <i class="fa-solid fa-fire"></i>
+
+        </div>
+
+        <div>
+
+            <small>Daily Streak</small>
+
+            <h3>
+
+                <%= user.streak %>
+
+            </h3>
+
+            <span>Days Active</span>
+
+        </div>
+
+    </div>
+
+    <div class="stat-box">
+
+        <div class="stat-icon red">
+
+            <i class="fa-solid fa-bullseye"></i>
+
+        </div>
+
+        <div>
+
+            <small>Accuracy</small>
+
+            <h3>
+
+                <%= safeAccuracy %>%
+
+            </h3>
+
+            <span>Correct Answers</span>
+
+        </div>
+
+    </div>
+
+    <div class="stat-box">
+
+        <div class="stat-icon purple">
+
+            <i class="fa-solid fa-book-open"></i>
+
+        </div>
+
+        <div>
+
+            <small>Total Quizzes</small>
+
+            <h3>
+
+                <%= user.totalQuizzes %>
+
+            </h3>
+
+            <span>Completed</span>
+
+        </div>
+
+    </div>
+
+    <div class="stat-box">
+
+        <div class="stat-icon teal">
+
+            <i class="fa-solid fa-check-double"></i>
+
+        </div>
+
+        <div>
+
+            <small>Correct Answers</small>
+
+            <h3>
+
+                <%= user.totalCorrect %>
+
+            </h3>
+
+            <span>Questions Solved</span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ===================================
+        PROFILE OVERVIEW
+=================================== -->
+
+<div class="row g-4 mt-4">
+
+    <!-- Profile Summary -->
+
+    <div class="col-lg-5">
+
+        <section class="profile-panel">
+
+            <div class="panel-header">
+
+                <h3>
+
+                    <i class="fa-solid fa-id-card me-2 text-success"></i>
+
+                    Profile Summary
+
+                </h3>
+
+            </div>
+
+            <div class="profile-info">
+
+                <div class="info-row">
+
+                    <span>
+
+                        <i class="fa-solid fa-user"></i>
+
+                        Name
+
+                    </span>
+
+                    <strong>
+
+                        <%= user.name %>
+
+                    </strong>
+
+                </div>
+
+                <div class="info-row">
+
+                    <span>
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        Email
+
+                    </span>
+
+                    <strong>
+
+                        <%= user.email %>
+
+                    </strong>
+
+                </div>
+
+                <div class="info-row">
+
+                    <span>
+
+                        <i class="fa-solid fa-user-shield"></i>
+
+                        Role
+
+                    </span>
+
+                    <strong>
+
+                        <%= user.role %>
+
+                    </strong>
+
+                </div>
+
+                <div class="info-row">
+
+                    <span>
+
+                        <i class="fa-solid fa-calendar-days"></i>
+
+                        Joined
+
+                    </span>
+
+                    <strong>
+
+                        <%= new Date(user.createdAt).toLocaleDateString() %>
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h6 class="mb-3">
+
+                Achievement Progress
+
+            </h6>
+
+            <div class="achievement-progress">
+
+                <div class="progress">
+
+                    <div
+                    class="progress-bar bg-success"
+                    style="width:<%= safeAchievementPercent %>%">
+
+                    </div>
+
+                </div>
+
+                <div class="mt-2 d-flex justify-content-between">
+
+                    <small>
+
+                        <%= safeAchievementCount %> of 11 badges unlocked
+
+                    </small>
+
+                    <strong class="text-success">
+
+                        <%= safeAchievementPercent %>%
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Recent Activity -->
+
+    <div class="col-lg-7">
+
+        <section class="profile-panel">
+
+            <div class="panel-header">
+
+                <h3>
+
+                    <i class="fa-solid fa-clock-rotate-left me-2 text-primary"></i>
+
+                    Recent Quiz Activity
+
+                </h3>
+
+            </div>
+
+            <% if(safeRecentAttempts.length > 0){ %>
+
+            <div class="activity-list">
+
+                <% safeRecentAttempts.forEach(a=>{ %>
+
+                <div class="activity-item">
+
+                    <div class="activity-icon">
+
+                        <i class="fa-solid fa-book-open"></i>
+
+                    </div>
+
+                    <div class="activity-content">
+
+                        <strong>
+
+                            <%= a.subject %>
+
+                        </strong>
+
+                        <small>
+
+                            <%= a.accuracy %>% Accuracy
+
+                            •
+
+                            <%= a.correct %>/<%= a.total %> Correct
+
+                        </small>
+
+                    </div>
+
+                    <div class="activity-xp">
+
+                        +<%= a.xp %> XP
+
+                    </div>
+
+                </div>
+
+                <% }) %>
+
+            </div>
+
+            <% }else{ %>
+
+            <div class="empty-state">
+
+                <i class="fa-solid fa-book-open-reader"></i>
+
+                <h5>
+
+                    No Quiz Activity
+
+                </h5>
+
+                <p>
+
+                    Complete your first quiz to start tracking your progress.
+
+                </p>
+
+            </div>
+
+            <% } %>
+
+        </section>
+
+    </div>
+
+</div>
+<!-- ===================================
+        QUIZO SUPPORT
+=================================== -->
+
+<div class="row mt-4">
+
+    <div class="col-lg-8">
+
+        <section class="profile-panel">
+
+            <div class="panel-header d-flex justify-content-between align-items-center">
+
+                <h3>
+
+                    <i class="fa-solid fa-headset me-2 text-success"></i>
+
+                    Quizo Support Center
+
+                </h3>
+
+                <span class="analytics-badge">
+
+                    We're Here to Help
+
+                </span>
+
+            </div>
+
+            <div class="p-4">
+
+                <div class="d-flex align-items-start mb-4">
+
+                    <i class="fa-solid fa-circle-info fa-xl text-primary me-3 mt-1"></i>
+
+                    <div>
+
+                        <h5 class="mb-1">About Quizo</h5>
+
+                        <p class="text-muted mb-0">
+                            Quizo is an AI-powered learning platform designed to help students improve their technical knowledge through interactive quizzes, achievements, daily challenges, and personalized progress tracking.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="d-flex align-items-start mb-4">
+
+                    <i class="fa-solid fa-robot fa-xl text-success me-3 mt-1"></i>
+
+                    <div>
+
+                        <h5 class="mb-1">AI Tutor Support</h5>
+
+                        <p class="text-muted mb-0">
+                            Use the Quizo AI Assistant anytime to get explanations, solve coding doubts, prepare for interviews, and learn technical concepts instantly.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="d-flex align-items-start mb-4">
+
+                    <i class="fa-solid fa-shield-halved fa-xl text-warning me-3 mt-1"></i>
+
+                    <div>
+
+                        <h5 class="mb-1">Account & Progress</h5>
+
+                        <p class="text-muted mb-0">
+                            Your XP, streaks, achievements, and quiz history are securely saved so you can continue learning across sessions.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="d-flex align-items-start">
+
+                    <i class="fa-solid fa-envelope fa-xl text-danger me-3 mt-1"></i>
+
+                    <div>
+
+                        <h5 class="mb-1">Need Help?</h5>
+
+                        <p class="text-muted mb-0">
+                            Having trouble with quizzes or your account? Contact the Quizo team or use the AI Assistant for immediate guidance and learning support.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+    <div class="col-lg-4">
+
+        <section class="profile-panel">
+
+            <div class="panel-header">
+
+                <h3>
+
+                    <i class="fa-solid fa-lightbulb me-2 text-warning"></i>
+
+                    Learning Insights
+
+                </h3>
+
+            </div>
+
+            <div class="insight-item">
+
+                <i class="fa-solid fa-fire"></i>
+
+                <div>
+
+                    <strong>
+
+                        Current Streak
+
+                    </strong>
+
+                    <small>
+
+                        <%= user.streak %> Days
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="insight-item">
+
+                <i class="fa-solid fa-award"></i>
+
+                <div>
+
+                    <strong>
+
+                        Achievements
+
+                    </strong>
+
+                    <small>
+
+                        <%= safeAchievementCount %> Unlocked
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="insight-item">
+
+                <i class="fa-solid fa-bullseye"></i>
+
+                <div>
+
+                    <strong>
+
+                        Overall Accuracy
+
+                    </strong>
+
+                    <small>
+
+                        <%= safeAccuracy %>%
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="insight-item">
+
+                <i class="fa-solid fa-book-open"></i>
+
+                <div>
+
+                    <strong>
+
+                        Quiz Attempts
+
+                    </strong>
+
+                    <small>
+
+                        <%= user.totalQuizzes %>
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+
+<!-- ===================================
+        PROFILE INSIGHTS
+=================================== -->
+
+<div class="row mt-4">
+
+    <!-- Progress -->
+
+    <div class="col-lg-6">
+
+        <section class="profile-panel">
+
+            <div class="panel-header">
+
+                <h3>
+
+                    <i class="fa-solid fa-chart-simple text-success me-2"></i>
+
+                    Learning Progress
+
+                </h3>
+
+            </div>
+
+            <div class="skill">
+
+                <div class="skill-title">
+
+                    Quiz Completion
+
+                    <span>
+
+                        <%= safeQuizzesPercent %>%
+
+                    </span>
+
+                </div>
+
+                <div class="skill-bar">
+
+                    <div
+                    class="skill-fill emerald"
+                    style="width:<%= safeQuizzesPercent %>%">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="skill">
+
+                <div class="skill-title">
+
+                    Accuracy
+
+                    <span>
+
+                        <%= safeAccuracy %>%
+
+                    </span>
+
+                </div>
+
+                <div class="skill-bar">
+
+                    <div
+                    class="skill-fill blue"
+                    style="width:<%= safeAccuracy %>%">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="skill">
+
+                <div class="skill-title">
+
+                    XP Progress
+
+                    <span>
+
+                        <%= safeXpPercent %>%
+
+                    </span>
+
+                </div>
+
+                <div class="skill-bar">
+
+                    <div
+                    class="skill-fill orange"
+                    style="width:<%= safeXpPercent %>%">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Rank -->
+
+    <div class="col-lg-6">
+
+        <section class="profile-panel">
+
+            <div class="panel-header">
+
+                <h3>
+
+                    <i class="fa-solid fa-ranking-star text-warning me-2"></i>
+
+                    Profile Status
+
+                </h3>
+
+            </div>
+
+            <div class="status-grid">
+
+                <div class="status-card">
+
+                    <i class="fa-solid fa-trophy"></i>
+
+                    <h2>
+
+                        <%= safeRank %>
+
+                    </h2>
+
+                    <small>
+
+                        Global Rank
+
+                    </small>
+
+                </div>
+
+                <div class="status-card">
+
+                    <i class="fa-solid fa-award"></i>
+
+                    <h2>
+
+                        <%= safeAchievementCount %>
+
+                    </h2>
+
+                    <small>
+
+                        Badges
+
+                    </small>
+
+                </div>
+
+                <div class="status-card">
+
+                    <i class="fa-solid fa-fire"></i>
+
+                    <h2>
+
+                        <%= user.streak %>
+
+                    </h2>
+
+                    <small>
+
+                        Streak
+
+                    </small>
+
+                </div>
+
+                <div class="status-card">
+
+                    <i class="fa-solid fa-star"></i>
+
+                    <h2>
+
+                        Lv <%= safeLevel %>
+
+                    </h2>
+
+                    <small>
+
+                        Current Level
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+
+
+
+<script>
+
+const profileCtx=document.getElementById("profileChart");
+
+if(profileCtx){
+
+new Chart(profileCtx,{
+
+type:"line",
+
+data:{
+
+labels:<%- JSON.stringify(safeChartLabels) %>,
+
+datasets:[{
+
+label:"Accuracy %",
+
+data:<%- JSON.stringify(safeChartData) %>,
+
+borderColor:"#0F766E",
+
+backgroundColor:"rgba(15,118,110,.15)",
+
+fill:true,
+
+tension:.4,
+
+pointRadius:5,
+
+pointHoverRadius:7
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false,
+
+plugins:{
+
+legend:{
+
+display:false
+
+}
+
+},
+
+scales:{
+
+y:{
+
+beginAtZero:true,
+
+max:100
+
+}
+
+}
+
+}
+
+});
+
+}
+
+</script>
+
+
+
+
+
+
+<%- include("../partials/footer") %>

@@ -1,0 +1,96 @@
+<style>
+  .footer-container {
+    background: #f8f9fa;
+    padding: 20px 0;
+    border-top: 2px solid #ddd;
+    height: 120px;
+  }
+
+  .footer-container footer {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items:flex-start;
+    margin-top: 0 !important;
+  }
+
+  .footer-logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #28a745;
+    text-decoration: none;
+  }
+
+  .footer-logo i {
+    font-size: 24px;
+    margin-right: 8px;
+  }
+
+  .footer-text {
+    font-size: 14px;
+    color: #6c757d;
+  }
+
+  .social-icons a {
+    color: #6c757d;
+    font-size: 24px;
+    margin: 0 10px;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .social-icons a:hover {
+    color: #28a745;
+  }
+
+  .help-icon {
+    color: #6c757d;
+    font-size: 22px;
+    margin-left: 10px;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .help-icon:hover {
+    color: #007bff;
+  }
+
+  .translate-widget {
+    margin-left: 15px;
+  }
+</style>
+
+<div class="footer-container">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 fc">
+    <!-- Left Section -->
+    <div class="d-flex align-items-center fc">
+      <a href="/" class="footer-logo d-flex align-items-center text-decoration-none">
+        <i class="fa-solid fa-seedling fc"></i> FarmConnect
+      </a>
+    </div>
+
+    <!-- Center Section -->
+    <span class="footer-text">© 2025 FarmConnect, Inc. | All rights reserved.</span>
+
+    <!-- Right Section: Social Media & Help -->
+    <div class="d-flex align-items-center fd">
+      <div class="social-icons">
+        <a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+      </div>
+      <a href="/help" class="help-icon" target="_blank"><i class="fa-solid fa-circle-info"></i></a>
+      
+      <!-- Google Translate Widget -->
+      <div id="google_translate_element" class="translate-widget"></div>
+    </div>
+  </footer>
+</div>
+
+<!-- Google Translate Script -->
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

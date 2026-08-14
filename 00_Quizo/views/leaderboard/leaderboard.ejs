@@ -1,0 +1,356 @@
+<%- include("../partials/header") %>
+
+<div class="container-fluid">
+
+    <!-- Hero -->
+
+    <div class="card hero-card border-0 shadow-lg mb-4">
+
+        <div class="card-body p-5">
+
+            <h1 class="fw-bold">
+                🏆 Global Leaderboard
+            </h1>
+
+            <p class="mb-0">
+                Compete with top performers and climb the rankings.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Top 3 Users -->
+
+    <div class="row g-4 mb-5">
+
+        <% if(leaders[1]){ %>
+
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow stat-card">
+
+                <div class="card-body text-center">
+
+                    <h1>🥈</h1>
+
+                    <h4>
+                        <%= leaders[1].name %>
+                    </h4>
+
+                    <%
+
+                    const acc2 =
+                    leaders[1].totalQuestions > 0
+                    ? Math.round(
+                    (leaders[1].totalCorrect /
+                    leaders[1].totalQuestions) * 100
+                    )
+                    : 0;
+
+                    %>
+
+                    <p>
+                        Accuracy: <%= acc2 %>%
+                    </p>
+
+                    <p>
+                        XP: <%= leaders[1].xp %>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <% } %>
+
+        <% if(leaders[0]){ %>
+
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow stat-card">
+
+                <div class="card-body text-center">
+
+                    <h1>🥇</h1>
+
+                    <h3 class="fw-bold">
+                        <%= leaders[0].name %>
+                    </h3>
+
+                    <%
+
+                    const acc1 =
+                    leaders[0].totalQuestions > 0
+                    ? Math.round(
+                    (leaders[0].totalCorrect /
+                    leaders[0].totalQuestions) * 100
+                    )
+                    : 0;
+
+                    %>
+
+                    <p>
+                        Accuracy: <%= acc1 %>%
+                    </p>
+
+                    <p>
+                        XP: <%= leaders[0].xp %>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <% } %>
+
+        <% if(leaders[2]){ %>
+
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow stat-card">
+
+                <div class="card-body text-center">
+
+                    <h1>🥉</h1>
+
+                    <h4>
+                        <%= leaders[2].name %>
+                    </h4>
+
+                    <%
+
+                    const acc3 =
+                    leaders[2].totalQuestions > 0
+                    ? Math.round(
+                    (leaders[2].totalCorrect /
+                    leaders[2].totalQuestions) * 100
+                    )
+                    : 0;
+
+                    %>
+
+                    <p>
+                        Accuracy: <%= acc3 %>%
+                    </p>
+
+                    <p>
+                        XP: <%= leaders[2].xp %>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <% } %>
+
+    </div>
+
+    <!-- Rankings -->
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <h4 class="mb-4">
+                <i class="fa-solid fa-crown"></i>
+                 Full Rankings
+            </h4>
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Rank</th>
+                            <th>User</th>
+                            <th>XP</th>
+                            <th>Accuracy</th>
+                            <th> Streak</th>
+                            <th>Quizzes</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <% leaders.forEach((user,index)=>{ %>
+
+                        <%
+
+                        const accuracy =
+                        user.totalQuestions > 0
+                        ? Math.round(
+                        (user.totalCorrect /
+                        user.totalQuestions) * 100
+                        )
+                        : 0;
+
+                        %>
+
+
+                        <tr>
+
+                            <td>
+
+                                <% if(index===0){ %>
+
+                                <span class="badge bg-warning text-dark">
+                                    🥇 #1
+                                </span>
+
+                                <% }else if(index===1){ %>
+
+                                <span class="badge bg-secondary">
+                                    🥈 #2
+                                </span>
+
+                                <% }else if(index===2){ %>
+
+                                <span class="badge bg-dark">
+                                    🥉 #3
+                                </span>
+
+                                <% }else{ %>
+
+                                #<%= index+1 %>
+
+                                <% } %>
+
+                            </td>
+
+                            <td>
+
+                                <div class="d-flex align-items-center gap-2">
+
+                                    <div
+                                    style="
+                                    width:42px;
+                                    height:42px;
+                                    border-radius:50%;
+                                    background:#0f766e;
+                                    color:white;
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    font-weight:700;
+                                    ">
+
+                                      <%= (user.name || "U").charAt(0).toUpperCase() %>
+
+                                    </div>
+
+                                    <strong>
+                                       <%= user.name || "Unknown User" %>
+                                    </strong>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+
+                                <strong>
+                                    <%= user.xp %>
+                                </strong>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+
+                                    <%= accuracy %>%
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                🔥 <%= user.streak %>
+
+                            </td>
+
+                            <td>
+
+                                <%= user.totalQuizzes %>
+
+                            </td>
+
+                        </tr>
+
+                        <% }) %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function fireConfetti(){
+
+    confetti({
+
+        particleCount:120,
+
+        angle:60,
+
+        spread:70,
+
+        origin:{x:0},
+
+        colors:[
+            "#0F766E",
+            "#14B8A6",
+            "#FBBF24",
+            "#FFFFFF"
+        ]
+
+    });
+
+    confetti({
+
+        particleCount:120,
+
+        angle:120,
+
+        spread:70,
+
+        origin:{x:1},
+
+        colors:[
+            "#0F766E",
+            "#14B8A6",
+            "#FBBF24",
+            "#FFFFFF"
+        ]
+
+    });
+
+}
+
+window.onload = fireConfetti;
+
+</script>
+
+<%- include("../partials/footer") %>

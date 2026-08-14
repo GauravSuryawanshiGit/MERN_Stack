@@ -1,0 +1,76 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<!-- <script> let mapToken = "<%= process.env.MAP_API %>"; let locMap = "mumbai, india" </script> -->
+<div id="customer-data" data-customers='<%= JSON.stringify(customerLocations || []) %>'></div>
+<script> 
+    let mapToken = "<%= process.env.MAP_API %>"; 
+
+    //hubs
+    let hubs = [
+    { name: "Mayani Hub", coords: [74.0322, 17.0717] },
+        { name: "Vita Hub", coords: [74.4510, 17.1420] },
+        { name: "GCEK Hub", coords: [74.1860, 17.2772] },
+        // { name: "Rankala", coords: [74.2625, 16.6892] }
+    ];
+
+    //customer
+    let customerDataElement = document.getElementById("customer-data");
+    let customerLocations = JSON.parse(customerDataElement.dataset.customers);
+
+    console.log("Customer Locations:", customerLocations);
+
+
+</script>
+
+<div class="container mt-4">
+    <h2>My Assigned Orders</h2>
+    <hr>
+
+    <% if (orders.length === 0) { %>
+        <p class="text-muted">No orders assigned to you.</p>
+    <% } else { %>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (order of orders) { %>
+                    <tr>
+                        <td><%= order._id %></td>
+                        <td><%= order.user.name %></td>
+                        <td>
+                            <ul>
+                                <% for (item of order.items) { %>
+                                    <li><%= item.vegetable.title %> - <%= item.quantity %> kg</li>
+                                <% } %>
+                            </ul>
+                        </td>
+                        <td>₹<%= order.totalPrice.toLocaleString("en-IN") %></td>
+                        <td><span class="badge bg-warning p-2"><%= order.status %></span></td>
+                        <td>
+                            <% if (order.status !== "Delivered") { %>
+                                <form action="/delivery/orders/<%= order._id %>/deliver" method="POST">
+                                    <button type="submit" class="btn btn-success btn-sm">Mark as Delivered</button>
+                                </form>
+                            <% } else { %>
+                                <span class="text-success">Delivered</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    <% } %>
+</div>
+                <div class="col-6 mt-3 offset-3">
+                    <h3><i class="fa-solid fa-location-dot" style="color: blue;"></i>Hub's location | <i class="fa-solid fa-location-dot" style="color: red;"></i>Customer Location
+                    </h3>
+                    <div class="card-img-top show-img" id="map"></div>
+                </div>
+                <script src="/js/map.js"></script>

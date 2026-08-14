@@ -1,0 +1,75 @@
+<% layout("/layouts/boilerplate.ejs") %>
+    <div class="row mt-3">
+        <div class="col-8 offset-2">
+            <h3>Edit Your Vegetable</h3><br>
+            <form method="POST" action="/vegetables/<%= vegetable._id %>?_method=PUT" novalidate class="needs-validation">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" name="title" value="<%= vegetable.title %>" class="form-control" required>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please enter title!</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" cols="30" rows="10"
+                        class="form-control" required><%= vegetable.description %></textarea>
+                    <div class="invalid-feedback">Please enter description!</div>
+
+                </div>
+
+                <!-- <div class="mb-3">
+                    <label for="image" class="form-label">Image URL</label>
+                    <input type="text" name="image.url" value="<%= vegetable.image.url %>" class="form-control" required>
+                    <div class="invalid-feedback">Please enter valid url!</div>
+                </div> -->
+
+                <!-- <div class="mb-3">
+                    <label for="image" class="form-label">Image URL</label>
+                    <input type="text" name="image" value="<%= vegetable.image.url %>" class="form-control">
+                    <div class="invalid-feedback">Please enter valid url!</div>
+                </div> -->
+                <!-- <div class="mb-3">
+                    <label for="image" class="form-label">Image Upload</label>
+                    <input type="file" name="image" placeholder="Enter URL Link" class="form-control">
+                </div> -->
+
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" name="price" value="<%= vegetable.price %>" class="form-control" required>
+                    <div class="invalid-feedback">Please enter price!</div>
+                    </div>
+                    <div class="mb-3 col-md-8">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-control" id="category" name="category" required>
+                            <option value="" disabled><%=vegetable.category%> </option>
+                            <option value="roots">Roots</option>
+                            <option value="leaves">Leaves</option>
+                            <option value="pods">Pods</option>
+                            <option value="flowers">Flowers</option>
+                            <option value="Fruits">Fruits</option>
+                        </select>
+                        <div class="invalid-feedback">Please enter country!</div>
+                        
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" name="quantity" min="1" value="<%=vegetable.quantity%>" cols="30" rows="10" class="form-control" required>
+                        <div class="invalid-feedback">Please enter Quantity!</div>
+                    </div>
+
+                    <div class="mb-3 col-md-8">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" name="location" value="<%= vegetable.location %>" class="form-control" required>
+                        <div class="invalid-feedback">Please enter location!</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-dark add-btn mt-3">Update</button><br><br>
+            </form>
+        </div>
+    </div> 

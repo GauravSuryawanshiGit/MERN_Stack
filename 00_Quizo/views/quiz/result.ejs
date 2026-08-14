@@ -1,0 +1,150 @@
+<%- include("../partials/header") %>
+
+<div class="container-fluid">
+
+<div class="card hero-card border-0 shadow-lg mb-4">
+
+<div class="card-body text-center p-5">
+
+<h1 class="display-4 fw-bold">
+🎉 Quiz Complete
+</h1>
+
+<p class="lead">
+Great job! Here's your performance summary.
+</p>
+
+</div>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-lg-3">
+
+<div class="card stat-card shadow-sm border-0">
+
+<div class="card-body text-center">
+
+<h6>Score</h6>
+
+<h2>
+
+<%= correct %>/<%= total %>
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-3">
+
+<div class="card stat-card shadow-sm border-0">
+
+<div class="card-body text-center">
+
+<h6>Accuracy</h6>
+
+<h2>
+
+<%= accuracy %>%
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-3">
+
+<div class="card stat-card shadow-sm border-0">
+
+<div class="card-body text-center">
+
+<h6>XP Earned</h6>
+
+<h2>
+
++<%= xp %>
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-3">
+
+<div class="card stat-card shadow-sm border-0">
+
+<div class="card-body text-center">
+
+<h6>Time Taken</h6>
+
+<h2>
+
+<%= Math.floor(quizTime/60) %>m
+<%= quizTime%60 %>s
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="text-center mt-5">
+    <a
+href="/quiz/review/<%= resultId %>"
+class="btn btn-primary btn-lg me-3"
+>
+Review Answers
+</a>
+
+<a
+href="/dashboard"
+class="btn btn-success btn-lg me-3"
+
+>
+
+Dashboard
+
+</a>
+
+<a
+href="/leaderboard"
+class="btn btn-outline-success btn-lg me-3"
+
+>
+
+Leaderboard
+
+</a>
+
+<a
+href="/"
+class="btn btn-dark btn-lg"
+
+>
+
+Play Again
+
+</a>
+
+</div>
+
+</div>
+
+<%- include("../partials/footer") %>

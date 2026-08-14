@@ -1,0 +1,24 @@
+{
+  "name": "carbonfootprintcalculator",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node app.js",
+  "dev": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "🌱 CarbonCalc – Carbon Footprint Calculator",
+  "dependencies": {
+    "@google-cloud/translate": "^9.4.2",
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^17.4.2",
+    "ejs": "^3.1.10",
+    "express": "^4.22.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.19.0",
+    "mongoose": "^8.24.1",
+    "path": "^0.12.7"
+  }
+}

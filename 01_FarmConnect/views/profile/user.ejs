@@ -1,0 +1,16 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="container mt-5">
+  <div class="row justify-content-center"> <!-- Center the profile card -->
+      <!-- Profile Card -->
+      <div class="col-md-4 ps-4"> <!-- Add padding from the left -->
+          <div class="card shadow-lg border-0">
+              <div class="card-body text-center mt-4">
+                  <i class="fa-solid fa-user-circle fa-7x text-white bg-secondary mb-3 p-3 rounded-circle"></i>
+                  <h3 class="card-title"><%= user.name %></h3>
+                  <p class="text-muted"><i class="fa-solid fa-envelope"></i> <%= user.email %></p>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

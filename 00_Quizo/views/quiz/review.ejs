@@ -1,0 +1,88 @@
+<%- include("../partials/header") %>
+
+<div class="container-fluid">
+
+<h1 class="mb-4">
+📖 Review Answers
+</h1>
+
+<% questions.forEach((q,index)=>{ %>
+
+<div class="card shadow-sm border-0 mb-4">
+
+<div class="card-body">
+
+<h5>
+Q<%= index+1 %>.
+<%= q.question %>
+</h5>
+
+<hr>
+
+<p>
+
+<strong>Your Answer:</strong>
+
+<%= result.answers[q._id] || "Not Answered" %>
+
+<% if(
+result.answers[q._id]
+=== q.correctAnswer
+){ %>
+
+<span class="badge bg-success">
+Correct
+</span>
+
+<% } else { %>
+
+<span class="badge bg-danger">
+Wrong
+</span>
+
+<% } %>
+
+</p>
+
+<p>
+
+<strong>
+Correct Answer:
+</strong>
+
+<span class="text-success">
+
+<%= q.correctAnswer %>
+
+</span>
+
+</p>
+
+<p>
+
+<strong>
+Explanation:
+</strong>
+
+<%= q.explanation %>
+
+</p>
+
+</div>
+
+</div>
+
+<% }) %>
+
+<a
+href="/dashboard"
+class="btn btn-success"
+>
+
+Back To Dashboard
+
+</a>
+
+</div>
+
+<%- include("../partials/footer") %>

@@ -1,0 +1,354 @@
+<%- include("../partials/header") %>
+
+<div class="container-fluid">
+
+<!-- Hero -->
+
+<div class="card hero-card border-0 shadow-lg mb-4">
+    <div class="card-body p-5">
+        <h1 class="fw-bold">
+            Welcome Back, <%= user.name %> 👋
+        </h1>
+
+
+    <p class="mb-0">
+        Track your progress, improve your skills and climb the leaderboard.
+    </p>
+</div>
+
+
+</div>
+
+<!-- Top Cards -->
+
+<div class="row g-4 mb-4">
+
+
+<div class="col-lg-3 col-md-6">
+    <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body text-center">
+            <h6 class="text-muted">XP</h6>
+            <h2><%= user.xp %></h2>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 col-md-6">
+    <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body text-center">
+            <h6 class="text-muted">Level</h6>
+            <h2><%= level %></h2>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 col-md-6">
+    <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body text-center">
+            <h6 class="text-muted">Rank</h6>
+            <h2>#<%= rank %></h2>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 col-md-6">
+    <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body text-center">
+            <h6 class="text-muted">Best Time</h6>
+            <h2>
+                <%= bestTime !== null
+                ? Math.floor(bestTime / 60) + "m " + (bestTime % 60) + "s"
+                : "--" %>
+            </h2>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 col-md-6">
+    <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body text-center">
+            <h6 class="text-muted">
+                Streak
+            </h6>
+            <h2>
+                🔥 <%= user.streak %>
+            </h2>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<!-- XP Progress + Achievements -->
+
+<div class="row g-4 mb-4">
+
+
+<div class="col-lg-8">
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between mb-3">
+                <h4><i class="fa-solid fa-mountain"></i>
+                     Level Progress</h4>
+                <span>Level <%= level %></span>
+            </div>
+
+            <div class="progress" style="height:25px">
+
+                <div
+                    class="progress-bar bg-success"
+                    style="width:<%= xpProgress %>%;">
+                    <%= xpProgress %>%
+                </div>
+
+            </div>
+
+            <div class="mt-3">
+                Current XP:
+                <strong><%= user.xp %></strong>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="col-lg-4">
+
+    <div class="card border-0 shadow-sm h-100">
+
+        <div class="card-body">
+
+            <h4> Achievements</h4>
+
+            <div class="mt-3">
+
+                <span class="badge bg-warning text-dark p-2 me-2">
+                    First Quiz
+                </span>
+
+                <% if(user.totalQuizzes >= 10){ %>
+                    <span class="badge bg-success p-2 me-2">
+                        10 Quizzes
+                    </span>
+                <% } %>
+
+                <% if(user.xp >= 100){ %>
+                    <span class="badge bg-info p-2 me-2">
+                        Level Up
+                    </span>
+                <% } %>
+
+                <% if(accuracy === 100){ %>
+                    <span class="badge bg-danger p-2">
+                        Perfect Accuracy
+                    </span>
+                <% } %>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+<!-- Statistics -->
+
+<div class="row g-4 mb-4">
+
+
+<div class="col-lg-3">
+    <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body text-center">
+            <h6>Total Quizzes</h6>
+            <h3><%= user.totalQuizzes %></h3>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3">
+    <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body text-center">
+            <h6>Total Questions</h6>
+            <h3><%= user.totalQuestions %></h3>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3">
+    <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body text-center">
+            <h6>Correct Answers</h6>
+            <h3><%= user.totalCorrect %></h3>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3">
+    <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body text-center">
+            <h6>Accuracy</h6>
+            <h3><%= accuracy %>%</h3>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<!-- Analytics  -->
+
+<div class="row g-4 mb-4">
+
+
+<div class="col-lg-8">
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <h4 class="mb-3">
+                <i class="fa-solid fa-chart-line"></i>
+                 Subject Performance
+            </h4>
+
+           <div style="height:320px">
+
+<canvas id="subjectChart"></canvas>
+
+</div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <h4>
+            <i class="fa-solid fa-puzzle-piece"></i>
+            Daily Challenge
+        </h4>
+
+        <p class="mb-2">
+
+            <strong>Subject:</strong>
+            <%= dailyChallenge.subject %>
+
+        </p>
+
+        <p class="mb-2">
+
+            <strong>Difficulty:</strong>
+            <%= dailyChallenge.difficulty %>
+
+        </p>
+
+        <p>
+
+            <strong>Reward:</strong>
+            +<%= dailyChallenge.rewardXP %> XP
+
+        </p>
+
+        <a
+            href="/challenge"
+            class="btn btn-success" style = " color : white"
+        >
+            Start Challenge
+        </a>
+
+    </div>
+
+</div>
+
+<!-- Recent Attempts -->
+
+<div class="card border-0 shadow-sm">
+
+
+<div class="card-body">
+
+    <h4 class="mb-4">
+        <i class="fa-solid fa-hourglass"></i>
+         Recent Quiz Attempts
+    </h4>
+
+    <div class="table-responsive">
+
+        <table class="table align-middle">
+
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Difficulty</th>
+                    <th>Score</th>
+                    <th>Accuracy</th>
+                    <th>Time</th>
+                    <th>XP</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            <% attempts.forEach(a => { %>
+
+                <tr>
+
+                    <td><%= a.subject %></td>
+
+                    <td>
+                        <span class="badge bg-success">
+                            <%= a.difficulty %>
+                        </span>
+                    </td>
+
+                    <td>
+                        <%= a.correct %>/<%= a.total %>
+                    </td>
+
+                    <td>
+                        <%= a.accuracy %>%
+                    </td>
+
+                    <td>
+                        <%= Math.floor((a.quizTime || 0)/60) %>m
+                        <%= (a.quizTime || 0)%60 %>s
+                    </td>
+
+                    <td>
+                        +<%= a.xp %>
+                    </td>
+
+                </tr>
+
+            <% }) %>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+</div>
+
+</div>
+
+<%- include("../partials/footer") %>

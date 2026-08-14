@@ -1,0 +1,125 @@
+
+<% layout("/layouts/boilerplate.ejs") %>
+
+
+    <div class="row">
+        <div class="col-8 mt-3 offset-3">
+            <h3>Vegetables Details </h3><br>
+        </div>
+        <div class="card col-6 offset-3 show-card vegetable-card">
+            <img src="<%= vegetable.image.url %>" class="card-img-top show-img" alt="vegetable_img">
+            <div class="card-body mt-2">
+                <p class="card-text">
+                <h5><b>
+                        <%=vegetable.title%>
+                    </b></h5>
+                <b><i>Description</i></b>: <%=vegetable.description%> <br>
+                    <b><i> Price</i></b>: &#8377;<%= vegetable.price.toLocaleString("en-IN") %> <br>
+                        <b><i>Location</i></b>: <%=vegetable.location%> <br>
+                        <b><i>Category</i></b>: <%=vegetable.category%> <br>
+                        <b><i>Quantity</i></b>: <%=vegetable.quantity%> <i>kg</i> <br>
+                                <b><i>Owned by</i></b>: <a href="/user/<%=vegetable.owner.id%>">
+                                    <%=vegetable.owner.name%>
+                                </a><br>
+                                </p>
+            </div>
+        </div>
+
+        <% if(currUser == vegetable.owner._id) {%>
+            <div class="btns">
+                <a href="/vegetables/<%=vegetable._id%>/edit" class="btn btn-dark add-btn col-1 offset-3">Edit</a>
+
+                <!-- <form method="POST" action="/vegetables/<%=vegetable._id%>?_method=DELETE">
+                    <button class="btn btn-dark offset-5">Delete</button>
+                </form> -->
+            </div>
+            <% } %> 
+
+            <% if(vegetable.quantity == 0){ %> 
+                <div class="row mt-3" style="margin-left: 320px;">
+                <h5><b style="color: red;">
+                    Out of stock.
+                </b></h5>
+            </div>
+                <% } %> 
+            <!--Add to cart  -->
+            <% if(currUser && roles=='customer' && vegetable.quantity !== 0) {%>
+            <div class="row mt-3" style="margin-left: 290px;">
+                <form action="/cart/add/<%= vegetable._id %>" method="POST" class="d-flex align-items-center">
+                  <label for="quantity" class="form-label me-2">Quantity:</label>
+                  <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control me-2" style="width: 80px;" required>
+                  <button type="submit" class="btn btn-dark add-btn">Add to Cart</button>
+                </form>
+              </div>
+            <% } %>
+
+            <!-- review -->
+                <br>
+                <div class="col-8 mt-3 offset-3">
+
+                    <% if(currUser && roles=='customer') {%>
+                        <hr><br>
+                        <h4>Leave a Review</h4>
+                        <form action="/vegetables/<%=vegetable._id%>/reviews" method="POST" novalidate
+                            class="needs-validation">
+
+                            <div class="mb-3 mt-3">
+                                <label for="rating" class="form-label">Rating</label>
+                                <fieldset class="starability-basic">
+                                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]"
+                                        value="1" checked aria-label="No rating." />
+                                    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                                    <label for="first-rate1" title="Terrible">1 star</label>
+                                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                                    <label for="first-rate2" title="Not good">2 stars</label>
+                                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                                    <label for="first-rate3" title="Average">3 stars</label>
+                                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                                    <label for="first-rate4" title="Very good">4 stars</label>
+                                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                                    <label for="first-rate5" title="Amazing">5 stars</label>
+                                </fieldset>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="comment" class="form-label">Comments</label>
+                                <textarea name="review[comment]" id="" cols="30" rows="5" class="form-control"
+                                    required></textarea>
+                                <div class="invalid-feedback">Please enter comment!</div>
+                            </div>
+                            <button class="btn btn-outline-dark">Submit</button>
+                        </form>
+                        <% } %>
+                            <!-- show review -->
+                            
+                            <% if(vegetable.reviews.length> 0){ %>
+                                <hr>
+                                <p><b>All Reviews</b></p>
+                                <div class="row">
+                                    <% for(review of vegetable.reviews) {%>
+                                        <div class="card col-5 mb-3 ms-3">
+                                            <div class="card-body">
+                                                <h5 class="card-title mt-2">@<%= review.author.name %>
+                                                </h5>
+                                                <p class="card-text">
+                                                    <%= review.comment %>
+                                                </p>
+                                                <p class="starability-result card-text"
+                                                    data-rating="<%= review.rating %>"></p>
+                                                <div class="mb-2">
+                                                    <% if(currUser==review.author._id) {%>
+                                                        <form class="mb-2" method="POST"
+                                                            action="/vegetables/<%= vegetable._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                                            <button class="btn btn-sm btn-dark">Delete</button>
+                                                        </form>
+                                                        <% } %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                </div>
+                                <% } %>
+                </div>
+                
+    </div>
+     

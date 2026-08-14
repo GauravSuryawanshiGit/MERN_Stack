@@ -1,0 +1,230 @@
+<%- include("../partials/header") %>
+
+<div class="container-fluid">
+
+<!-- Quiz Header -->
+
+<div class="card hero-card border-0 shadow-lg mb-4">
+
+<div class="card-body d-flex justify-content-between align-items-center">
+
+<div>
+
+<h2 class="fw-bold mb-1">
+<%= subject %> Quiz
+</h2>
+
+<p class="mb-0">
+Difficulty: <%= difficulty %>
+</p>
+
+</div>
+
+<div class="text-end">
+
+<h4>
+⏱ <span id="timer">00:00</span>
+</h4>
+
+<button
+type="button"
+id="startBtn"
+class="btn btn-success me-2"
+
+>
+
+Start </button>
+
+<button
+type="button"
+id="stopBtn"
+class="btn btn-light"
+
+>
+
+Stop </button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Progress -->
+
+<div class="progress mb-4" style="height:12px;">
+
+<div
+class="progress-bar bg-success"
+style="width:100%;"
+>
+
+</div>
+
+</div>
+
+<form
+action="/quiz/submit"
+method="POST"
+data-submit-alert="true"
+data-confirm-submit="true"
+data-confirm-title="Submit quiz?"
+data-confirm-text="Once submitted, your answers will be evaluated and saved."
+data-submit-title="Submitting quiz"
+data-submit-text="Calculating your score and updating your progress.">
+
+<input
+type="hidden"
+id="quizTime"
+name="quizTime"
+value="0"
+
+>
+
+<input
+type="hidden"
+name="subject"
+value="<%= subject %>"
+
+>
+
+<input
+type="hidden"
+name="difficulty"
+value="<%= difficulty %>"
+
+>
+
+<% if (typeof isDailyChallenge !== "undefined" && isDailyChallenge) { %>
+
+<input
+type="hidden"
+name="isDailyChallenge"
+value="true"
+
+>
+
+<% } %>
+
+<% questions.forEach((q,index)=>{ %>
+
+<div class="card border-0 shadow-sm mb-4 quiz-question-card">
+
+<div class="card-body p-4">
+
+<div class="d-flex justify-content-between mb-3">
+
+<h5 class="fw-bold">
+Question <%= index+1 %>
+</h5>
+
+<span class="badge bg-success">
+#<%= index+1 %>
+</span>
+
+</div>
+
+<h4 class="mb-4">
+
+<%= q.question %>
+
+</h4>
+
+<div class="row">
+
+<% q.options.forEach(option => { %>
+
+<div class="col-md-6 mb-3">
+
+<label class="option-card">
+
+<input
+type="radio"
+name="<%= q._id %>"
+value="<%= option %>"
+required
+
+>
+
+<span>
+<%= option %>
+</span>
+
+</label>
+
+</div>
+
+<% }) %>
+
+</div>
+
+</div>
+
+</div>
+
+<% }) %>
+
+<div class="text-center mb-5">
+
+<button
+class="btn btn-success btn-lg px-5"
+
+>
+
+Submit Quiz
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+<%- include("../partials/footer") %>
+
+<script>
+
+let seconds = 0;
+let interval = null;
+
+const timerDisplay =
+document.getElementById("timer");
+
+document
+.getElementById("startBtn")
+.addEventListener("click", () => {
+
+if(interval) return;
+
+interval = setInterval(() => {
+
+seconds++;
+
+const mins =
+Math.floor(seconds/60);
+
+const secs =
+seconds%60;
+
+timerDisplay.textContent =
+`${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+
+document
+.getElementById("quizTime")
+.value = seconds;
+
+},1000);
+
+});
+
+document
+.getElementById("stopBtn")
+.addEventListener("click", () => {
+
+clearInterval(interval);
+interval = null;
+
+});
+
+</script>

@@ -1,0 +1,65 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<div class="row mt-3">
+<div class="col-8 offset-2">
+    <h2>Create new vegetable</h2><br>
+    <form method="POST" action="/vegetables" novalidate class="needs-validation" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="title" placeholder="Add title" class="form-control" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter title!</div>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="description" cols="30" rows="10" class="form-control" required></textarea>
+            <div class="invalid-feedback">Please enter description!</div>
+        </div>
+        <!-- <div class="mb-3">
+            <label for="image" class="form-label">Image URL</label>
+            <input type="text" name="image" placeholder="Enter URL Link" class="form-control">
+        </div> -->
+        <div class="mb-3">
+            <label for="image" class="form-label">Image Upload</label>
+            <input type="file" name="image" placeholder="Enter URL Link" class="form-control">
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" name="price" placeholder="1200" class="form-control" required>
+                <div class="invalid-feedback">Please enter valid price!</div>
+            </div>
+            <div class="mb-3 col-md-8">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-control" id="category" name="category" required>
+                    <option value="" disabled>Select Category</option>
+                    <option value="roots">Roots</option>
+                    <option value="leaves">Leaves</option>
+                    <option value="pods">Pods</option>
+                    <option value="flowers">Flowers</option>
+                    <option value="fruits">Fruits</option>
+                </select>
+                <div class="invalid-feedback">Please enter country!</div>
+                
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" name="quantity" value="1" min="1" placeholder="1" cols="30" rows="10" class="form-control" required>
+                <div class="invalid-feedback">Please enter Quantity!</div>
+            </div>
+
+            <div class="mb-3 col-md-8"> 
+                <label for="location" class="form-label">Location</label>
+                <input type="text" name="location" placeholder="Pune Maharashtra" class="form-control" required>
+                <div class="invalid-feedback">Please enter location!</div>
+            </div>
+        </div>
+        
+        <button class="btn btn-dark add-btn mt-3">Add</button>
+        <br><br>
+    </form>
+</div>
+</div>
