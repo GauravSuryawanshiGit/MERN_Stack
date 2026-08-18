@@ -1,53 +1,37 @@
 <%- include("../partials/header") %>
 
-<div class="auth-container">
+    <div class="auth-container">
 
-    <div class="auth-card">
+        <div class="auth-card">
 
-        <h2>Create Account 🚀</h2>
+            <h2>Create Account 🚀</h2>
 
-        <p class="auth-subtitle">
-            Join Quizo and start your learning journey today.
-        </p>
+            <p class="auth-subtitle">
+                Join Quizo and start your learning journey today.
+            </p>
 
-        <form
-            method="POST"
-            action="/signup"
-            data-submit-alert="true"
-            data-submit-title="Creating your account"
-            data-submit-text="Setting up your profile and getting Quizo ready.">
+            <form method="POST" action="/signup" data-submit-alert="true" data-submit-title="Creating your account"
+                data-submit-text="Setting up your profile and getting Quizo ready.">
 
-            <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                required>
+                <input type="text" name="name" placeholder="Full Name" required>
 
-            <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                required>
+                <input type="email" name="email" placeholder="Email Address" required>
 
-            <input
-                type="password"
-                name="password"
-                placeholder="Create Password"
-                required>
+                <input type="password" name="password" placeholder="Create Password" required>
 
-            <button type="submit">
-                Create Account
-            </button>
+                <button type="submit">
+                    Create Account
+                </button>
 
-        </form>
+            </form>
 
-        <p class="auth-link">
-            Already have an account?
-            <a href="/login">Login here</a>
-        </p>
+            <p class="auth-link">
+                Already have an account?
+                <a href="/login">Login here</a>
+            </p>
+
+        </div>
 
     </div>
 
-</div>
-
-<%- include("../partials/footer") %>
+    <%- include("../partials/footer") %>

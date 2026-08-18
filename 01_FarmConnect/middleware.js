@@ -5,7 +5,7 @@ const { vegetableSchema, reviewSchema } = require("./schema.js");
 const jwt = require("jsonwebtoken");
 const User = require("./models/user.js");
 
-/*  auth  */
+
 
 module.exports.isAuth = async (req, res, next) => {
   try {
@@ -33,7 +33,7 @@ module.exports.isAuth = async (req, res, next) => {
   }
 };
 
-/*  owner  */
+
 
 module.exports.isOwner = async (req, res, next) => {
   try {
@@ -61,7 +61,7 @@ module.exports.isOwner = async (req, res, next) => {
   }
 };
 
-/*  validation  */
+
 
 module.exports.validateVegetable = (req, res, next) => {
   const { error } = vegetableSchema.validate(req.body);
@@ -81,7 +81,7 @@ module.exports.validateReview = (req, res, next) => {
   next();
 };
 
-/*  review auther  */
+
 
 module.exports.isReviewAuthor = async (req, res, next) => {
   try {
@@ -100,7 +100,7 @@ module.exports.isReviewAuthor = async (req, res, next) => {
   }
 };
 
-/*  current user  */
+
 
 module.exports.setCurrUser = async (req, res, next) => {
   const token = req.cookies.token;
@@ -125,7 +125,7 @@ module.exports.setCurrUser = async (req, res, next) => {
   next();
 };
 
-/*  admin  */
+
 
 module.exports.isAdminAuth = async (req, res, next) => {
   try {
@@ -142,7 +142,7 @@ module.exports.isAdminAuth = async (req, res, next) => {
   }
 };
 
-/*  roles  */
+
 
 module.exports.isFarmer = async (req, res, next) => {
   try {

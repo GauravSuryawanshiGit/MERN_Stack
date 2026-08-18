@@ -9,7 +9,7 @@ body {
     flex: 1 !important;
 }
 
-/* Navbar */
+
 .navbar {
     height: 5rem;
     background-color: white;
@@ -17,14 +17,15 @@ body {
 
 .fa-compass {
     color: rgb(25, 135, 84);
-    /* color: #fe424d; */
     font-size: 2rem;
 }
-.see-btn{
+
+.see-btn {
     background-color: rgb(25, 135, 84) !important;
     border: none !important;
-    border-left: 500px!important;
+    border-left: 500px !important;
 }
+
 .nav-link {
     color: #222222 !important;
 }
@@ -46,7 +47,6 @@ body {
     font-size: 1.5rem;
 }
 
-/* Cards */
 .vegetable-card {
     border: none !important;
     margin-bottom: 2rem;
@@ -82,14 +82,13 @@ body {
     background-color: white;
 }
 
-/* New Page */
+
 
 .add-btn {
     background-color: rgb(25, 135, 84) !important;
     border: none !important;
 }
 
-/* Show Img  */
 .show-img {
     height: 30vh;
 }
@@ -104,16 +103,11 @@ body {
 }
 
 
-/* MAP */
 #map {
     height: 400px;
     width: 80vh;
 }
 
-;
-
-
-/* Search-Box */
 
 .search-btn:hover {
     background-color: rgb(25, 135, 84);
@@ -147,54 +141,60 @@ body {
     border-radius: 30px;
 }
 
-/* herewego */
-.nav-logo{
+.nav-logo {
     height: 50px;
     width: 100px;
 }
-.logo{
+
+.logo {
     background-image: url("https://i.ibb.co/dcJwvMZ/logo-nav.png");
     background-size: cover;
     height: 50px;
     width: 100px;
-     
+
 }
 
 .hover-text-black:hover {
     color: black !important;
 }
+
 .hover-text-red:hover {
     color: red !important;
 }
-.text-muted-helper{
+
+.text-muted-helper {
     size: 200% !important;
     color: #222222 !important;
 }
-#sortOptions{
+
+#sortOptions {
     margin-left: 850px !important;
     margin-bottom: 40px !important;
     margin-top: -70px !important;
-    /* padding-left: 50px !important ; */
-    padding: 50px,0,50px,0!important;
+
+    padding: 50px, 0, 50px, 0 !important;
     width: 170px !important;
     height: 40px !important;
 }
-#categoryOptions{
+
+#categoryOptions {
     margin-left: 40px !important;
     margin-top: -70px !important;
     width: 170px !important;
     height: 40px !important;
 }
-#translate{
-    /* margin-left: 3px !important; */
-}
-.fc{
+
+#translate {}
+
+.fc {
     margin-left: 0 !important;
-    padding-left: 0 !important ;
+    padding-left: 0 !important;
 }
-.fd{
+
+.fd {
     margin-left: 20px !important;
 }
-.chatbot_btn{
+
+.chatbot_btn {
     margin-left: 0px !important;
 }

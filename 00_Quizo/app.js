@@ -1,4 +1,4 @@
-
+/*configure requirements*/
 require("dotenv").config();
 
 const express = require("express");
@@ -7,11 +7,8 @@ const { MongoStore } = require("connect-mongo");
 const path = require("path");
 
 const connectDB = require("./config/db");
-
-// Models
 const Question = require("./models/Question");
 
-// Routes
 const authRoutes = require("./routes/authRoutes");
 const quizRoutes = require("./routes/quizRoutes");
 const leaderboardRoutes = require("./routes/leaderboardRoutes");
@@ -22,64 +19,50 @@ const challengeRoutes = require("./routes/challengeRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 
+/*Create app using express*/
 const app = express();
 
-// =========================
-// Database
-// =========================
-
+/*Connecting mongoDB to app*/
 connectDB();
 
-// =========================
-// View Engine
-// =========================
-
+/*configuring ejs engine & views path*/
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// =========================
-// Middleware
-// =========================
-
+/*Parse incoming form and JSON data*/
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+/*Serve static files from the public folder*/
 app.use(
     express.static(
         path.join(__dirname, "public")
     )
 );
 
-
-
-// =========================
-// Session
-// =========================
-
+/*Configure sessions and cookies*/
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
-
         resave: false,
-
         saveUninitialized: false,
 
+        /*Store sessions in MongoDB*/
         store: MongoStore.create({
             mongoUrl: process.env.MONGO_URI
         }),
 
         cookie: {
-            maxAge: 1000 * 60 * 60 * 24
+            maxAge: 1000 * 60 * 60 * 24 /*24 hours*/
         }
     })
 );
 
-// =========================
-// Global Variables + Alerts
-// =========================
-
+/*Configure custom flash messages*/
 app.use((req, res, next) => {
+
     req.flash = (type, message, titleOrOptions, maybeOptions) => {
+
         const title =
             typeof titleOrOptions === "string"
                 ? titleOrOptions
@@ -102,7 +85,9 @@ app.use((req, res, next) => {
     next();
 });
 
+/*Make user and alert data available to EJS views*/
 app.use((req, res, next) => {
+
     const queryAlert =
         req.query.logout === "true"
             ? {
@@ -117,6 +102,7 @@ app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     res.locals.alert = req.session.alert || queryAlert || null;
 
+    /*Remove flash message after making it available to the current request*/
     if (req.session.alert) {
         delete req.session.alert;
     }
@@ -124,30 +110,17 @@ app.use((req, res, next) => {
     next();
 });
 
-
-
-
+/*API endpoint for retrieving available quiz subjects*/
 app.get("/api/subjects", async (req, res) => {
-
-    try{
-
+    try {
         const subjects = await Question.distinct("subject");
-
         res.json(subjects);
-
-    }catch(err){
-
+    } catch (err) {
         res.status(500).json([]);
-
     }
-
 });
 
-
-// =========================
-// Routes
-// =========================
-
+/*Register application routes*/
 app.use("/", authRoutes);
 
 app.use("/ai", aiRoutes);
@@ -166,94 +139,57 @@ app.use("/admin", adminRoutes);
 
 app.use("/profile", profileRoutes);
 
-// Redirect singular to plural
-
+/*Redirect old achievement URL to the achievements route*/
 app.get("/achievement", (req, res) => {
     res.redirect("/achievements");
 });
 
-// =========================
-// Home
-// =========================
-
+/*Render the home page*/
 app.get("/", (req, res) => {
     res.render("index");
 });
 
-// =========================
-// Debug Routes
-// =========================
-
+/*Testing route for checking the current session*/
 app.get("/session-test", (req, res) => {
     res.json(req.session);
 });
 
+/*Testing route for checking questions stored in MongoDB*/
 app.get("/check-questions", async (req, res) => {
-
     try {
-
         const questions = await Question.find({});
-
         res.json(questions);
-
     } catch (err) {
-
         res.status(500).json({
             error: err.message
         });
-
     }
-
 });
 
+/*Testing route for checking the total number of questions*/
 app.get("/stats", async (req, res) => {
 
     try {
-
         const count = await Question.countDocuments();
-
         res.json({
             totalQuestions: count
         });
-
     } catch (err) {
-
         res.status(500).json({
             error: err.message
         });
-
     }
-
 });
 
-
-// app.get("/flash-test", (req, res) => {
-
-//     req.flash("success", "Flash is Working!");
-
-//     res.redirect("/");
-
-// });
-
-
-// =========================
-// 404
-// =========================
-
+/*Handle requests for pages that do not exist*/
 app.use((req, res) => {
     res.status(404).render("errors/404");
-
 });
 
-// =========================
-// Start Server
-// =========================
-
+/*Configure application port*/
 const PORT = process.env.PORT || 8080;
 
+/*Start the Quizo server*/
 app.listen(PORT, () => {
-
-    console.log(`🚀 Quizo Running On Port ${PORT}`);
-
+    console.log(`Quizo Running On Port ${PORT}`);
 });
-

@@ -1,8 +1,10 @@
-// .env setup
+
+const dns = require("dns");
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 require("dotenv").config();
 
-// BASIC SETUP
+
 
 const express = require("express");
 const app = express();
@@ -12,11 +14,11 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const cookieParser = require("cookie-parser");
 
-// errors handled
+
 
 const ExpressError = require("./utils/ExpressError");
 
-// routes
+
 
 const vegetableRouter = require("./routes/vegetable");
 const reviewRouter = require("./routes/review");
@@ -27,11 +29,11 @@ const adminRouter = require("./routes/admin");
 const deliveryBoyRouter = require("./routes/deliveryBoy");
 const helpRouter = require("./routes/help");
 
-// middlewares
+
 
 const { setCurrUser } = require("./middleware");
 
-// database connectivity
+
 
 const ATLAS_URL = process.env.ATLAS_DB_URL;
 
@@ -44,13 +46,13 @@ main()
     .catch(err => console.log(err));
 
 
-// view engine setup
+
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// express configuration 
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
@@ -58,7 +60,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
 
 
-//  COOKIES (extra feature) 
+
 
 app.use((req, res, next) => {
     res.locals.success = req.cookies.success || null;
@@ -78,18 +80,17 @@ app.use((req, res, next) => {
     next();
 });
 
-// current user
 
 app.use(setCurrUser);
 
 
-// root
+
 
 app.get("/", (req, res) => {
     res.render("vegetables/home.ejs");
 });
 
-// routes
+
 
 app.use("/vegetables", vegetableRouter);
 app.use("/vegetables/:id/reviews", reviewRouter);
@@ -101,14 +102,14 @@ app.use("/delivery", deliveryBoyRouter);
 app.use("/help", helpRouter);
 
 
-// 404 handler
+
 
 app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Not Found!"));
 });
 
 
-// error handler
+
 
 app.use((err, req, res, next) => {
     const { statusCode = 500, message = "Something went wrong!" } = err;
@@ -116,7 +117,7 @@ app.use((err, req, res, next) => {
 });
 
 
-// server port (listen to port 8888)
+
 
 const PORT = process.env.PORT || 8888;
 app.listen(PORT, () => {

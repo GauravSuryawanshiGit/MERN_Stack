@@ -17,7 +17,7 @@ const OrderSchema = new mongoose.Schema({
     },
     assignedTo: {
         type: Schema.Types.ObjectId,
-        ref: "User", //  delivery_boy
+        ref: "User",
         default: null
     },
     createdAt: { type: Date, default: Date.now }

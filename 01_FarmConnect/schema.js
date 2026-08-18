@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-//scema for vegies 
+
 
 module.exports.vegetableSchema = Joi.object({
 

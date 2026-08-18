@@ -21,15 +21,15 @@ const resultSchema = new mongoose.Schema({
     timeTaken: Number,
 
     answers: {
-    type: Object,
-    default: {}
-},
+        type: Object,
+        default: {}
+    },
 
     xp: Number,
     quizTime: {
-    type: Number,
-    default: 0
-}
+        type: Number,
+        default: 0
+    }
 }, {
     timestamps: true
 });

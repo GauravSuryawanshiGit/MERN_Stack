@@ -40,7 +40,6 @@ exports.getAdmin = async (req, res) => {
             await Question.find(filter)
                 .sort({ createdAt: -1 });
 
-        // For Filter Dropdowns
 
         const subjects =
             await Question.distinct("subject");
@@ -201,9 +200,6 @@ exports.deleteQuestion = async (req, res) => {
 
 };
 
-// ============================
-// Edit Page
-// ============================
 
 exports.getEditQuestion = async (req, res) => {
 
@@ -226,10 +222,6 @@ exports.getEditQuestion = async (req, res) => {
     }
 
 };
-
-// ============================
-// Update Question
-// ============================
 
 exports.postEditQuestion = async (req, res) => {
 
@@ -294,7 +286,7 @@ exports.importQuestions = async (req, res) => {
 
         const sheet =
             workbook.Sheets[
-                workbook.SheetNames[0]
+            workbook.SheetNames[0]
             ];
 
         const rows =

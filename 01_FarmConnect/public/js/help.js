@@ -1,7 +1,7 @@
 emailjs.init("d20rUAh9-cEvLP_OJ"); 
 
 document.getElementById("contact-form").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault(); 
 
         emailjs.send("service_z4mwj1e", "template_5poplw1", {
             name: document.getElementById("name").value,

@@ -6,7 +6,7 @@ const historySchema = new mongoose.Schema(
     calculation: { type: String, required: true },
     suggestion: { type: String, required: true },
   },
-  { timestamps: true } 
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("History", historySchema);

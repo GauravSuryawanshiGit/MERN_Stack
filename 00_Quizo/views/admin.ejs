@@ -1,448 +1,402 @@
 <%- include("partials/header") %>
 
-<div class="container" >
-
-    <div class="row mb-4">
-
-<div class="col-md-2">
-<div class="card shadow-sm text-center p-3">
-<h6>Total Users</h6>
-<h3><%= totalUsers %></h3>
-</div>
-</div>
-
-<div class="col-md-2">
-<div class="card shadow-sm text-center p-3">
-<h6>Questions</h6>
-<h3><%= totalQuestions %></h3>
-</div>
-</div>
-
-<div class="col-md-2">
-<div class="card shadow-sm text-center p-3">
-<h6>Attempts</h6>
-<h3><%= totalAttempts %></h3>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card shadow-sm text-center p-3">
-<h6>Avg Accuracy</h6>
-<h3><%= averageAccuracy %>%</h3>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card shadow-sm text-center p-3">
-<h6>Popular Subject</h6>
-<h3><%= mostPopularSubject %></h3>
-</div>
-</div>
-
-</div>
-
-<div class="card shadow-sm p-3 mb-4">
-
-<h4 class="mb-3">
-🏆 Top Users
-</h4>
-
-<table class="table">
-
-<thead>
-
-<tr>
-<th>Rank</th>
-<th>Name</th>
-<th>XP</th>
-<th>Quizzes</th>
-</tr>
-
-</thead>
-
-<tbody>
-
-<% topUsers.forEach((user,index)=>{ %>
-
-<tr>
-
-<td>#<%= index + 1 %></td>
-
-<td><%= user.name %></td>
-
-<td><%= user.xp %></td>
-
-<td><%= user.totalQuizzes %></td>
-
-</tr>
-
-<% }) %>
-
-</tbody>
-
-</table>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="row g-4">
-
-    <!-- ================= LEFT SIDE ================= -->
-
-    <div class="col-lg-8">
-<div class="card shadow border-0 mb-4">
-
-    <div class="card-body">
-
-        <h3 class="mb-4"><i class="bi bi-plus-square-fill"></i> Add Question</h3>
-
-        <form action="/admin/add" method="POST">
-
-            <input
-                class="form-control mb-3"
-                name="subject"
-                placeholder="Subject (Java, Python, DBMS...)"
-                required>
-
-            <input
-                class="form-control mb-3"
-                name="topic"
-                placeholder="Topic"
-                required>
-
-            <select
-                class="form-select mb-3"
-                name="difficulty"
-                required>
-
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-
-            </select>
-
-            <textarea
-                class="form-control mb-3"
-                name="question"
-                rows="3"
-                placeholder="Question"
-                required></textarea>
-
-            <input
-                class="form-control mb-3"
-                name="opt1"
-                placeholder="Option 1"
-                required>
-
-            <input
-                class="form-control mb-3"
-                name="opt2"
-                placeholder="Option 2"
-                required>
-
-            <input
-                class="form-control mb-3"
-                name="opt3"
-                placeholder="Option 3"
-                required>
-
-            <input
-                class="form-control mb-3"
-                name="opt4"
-                placeholder="Option 4"
-                required>
-
-            <input
-                class="form-control mb-3"
-                name="correctAnswer"
-                placeholder="Correct Answer"
-                required>
-
-            <textarea
-                class="form-control mb-3"
-                name="explanation"
-                rows="3"
-                placeholder="Explanation"
-                required></textarea>
-
-            <button class="btn btn-success w-100">
-                Add Question
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
-    <!-- Import Questions -->
-
-    <div class="col-lg-12" style="display: flex ; align-items: center ; justify-content: center;">
-
-        <div class="card shadow border-0 h-100">
-
-            <div class="card-body">
-
-                <h3 class="mb-4">
-                    <i class="bi bi-arrow-down-square-fill"></i>  Import Questions
-                </h3>
-
-                <form
-                    action="/admin/import"
-                    method="POST"
-                    enctype="multipart/form-data">
-
-                    <input
-                        type="file"
-                        class="form-control mb-3"
-                        name="excelFile"
-                        accept=".xlsx,.csv"
-                        required>
-
-                    <button class="btn btn-primary w-100">
-                        Import Excel / CSV
-                    </button>
-
-                </form>
-
+    <div class="container">
+
+        <div class="row mb-4">
+
+            <div class="col-md-2">
+                <div class="card shadow-sm text-center p-3">
+                    <h6>Total Users</h6>
+                    <h3>
+                        <%= totalUsers %>
+                    </h3>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="card shadow-sm text-center p-3">
+                    <h6>Questions</h6>
+                    <h3>
+                        <%= totalQuestions %>
+                    </h3>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="card shadow-sm text-center p-3">
+                    <h6>Attempts</h6>
+                    <h3>
+                        <%= totalAttempts %>
+                    </h3>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm text-center p-3">
+                    <h6>Avg Accuracy</h6>
+                    <h3>
+                        <%= averageAccuracy %>%
+                    </h3>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm text-center p-3">
+                    <h6>Popular Subject</h6>
+                    <h3>
+                        <%= mostPopularSubject %>
+                    </h3>
+                </div>
             </div>
 
         </div>
 
-    </div>
+        <div class="card shadow-sm p-3 mb-4">
 
-</div>
+            <h4 class="mb-3">
+                🏆 Top Users
+            </h4>
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>XP</th>
+                        <th>Quizzes</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <% topUsers.forEach((user,index)=>{ %>
+
+                        <tr>
+
+                            <td>#<%= index + 1 %>
+                            </td>
+
+                            <td>
+                                <%= user.name %>
+                            </td>
+
+                            <td>
+                                <%= user.xp %>
+                            </td>
+
+                            <td>
+                                <%= user.totalQuizzes %>
+                            </td>
+
+                        </tr>
+
+                        <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
 
 
 
-<!-- ================= QUESTIONS TABLE ================= -->
 
-<div class="row mt-4">
 
-    <div class="col-12">
 
-        <div class="card shadow border-0">
 
-            <div class="card-body">
 
-                <form
-                    action="/admin"
-                    method="GET"
-                    class="row g-3 align-items-center mb-4">
 
-                    <div class="col-lg-5">
 
-                        <!-- <input
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="row g-4">
+
+            <!-- ================= LEFT SIDE ================= -->
+
+            <div class="col-lg-8">
+                <div class="card shadow border-0 mb-4">
+
+                    <div class="card-body">
+
+                        <h3 class="mb-4"><i class="bi bi-plus-square-fill"></i> Add Question</h3>
+
+                        <form action="/admin/add" method="POST">
+
+                            <input class="form-control mb-3" name="subject"
+                                placeholder="Subject (Java, Python, DBMS...)" required>
+
+                            <input class="form-control mb-3" name="topic" placeholder="Topic" required>
+
+                            <select class="form-select mb-3" name="difficulty" required>
+
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+
+                            </select>
+
+                            <textarea class="form-control mb-3" name="question" rows="3" placeholder="Question"
+                                required></textarea>
+
+                            <input class="form-control mb-3" name="opt1" placeholder="Option 1" required>
+
+                            <input class="form-control mb-3" name="opt2" placeholder="Option 2" required>
+
+                            <input class="form-control mb-3" name="opt3" placeholder="Option 3" required>
+
+                            <input class="form-control mb-3" name="opt4" placeholder="Option 4" required>
+
+                            <input class="form-control mb-3" name="correctAnswer" placeholder="Correct Answer" required>
+
+                            <textarea class="form-control mb-3" name="explanation" rows="3" placeholder="Explanation"
+                                required></textarea>
+
+                            <button class="btn btn-success w-100">
+                                Add Question
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <!-- Import Questions -->
+
+                <div class="col-lg-12" style="display: flex ; align-items: center ; justify-content: center;">
+
+                    <div class="card shadow border-0 h-100">
+
+                        <div class="card-body">
+
+                            <h3 class="mb-4">
+                                <i class="bi bi-arrow-down-square-fill"></i> Import Questions
+                            </h3>
+
+                            <form action="/admin/import" method="POST" enctype="multipart/form-data">
+
+                                <input type="file" class="form-control mb-3" name="excelFile" accept=".xlsx,.csv"
+                                    required>
+
+                                <button class="btn btn-primary w-100">
+                                    Import Excel / CSV
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= QUESTIONS TABLE ================= -->
+
+            <div class="row mt-4">
+
+                <div class="col-12">
+
+                    <div class="card shadow border-0">
+
+                        <div class="card-body">
+
+                            <form action="/admin" method="GET" class="row g-3 align-items-center mb-4">
+
+                                <div class="col-lg-5">
+
+                                    <!-- <input
                             type="text"
                             name="search"
                             class="form-control"
                             placeholder="Search Question..."
                             value="<%= search %>"> -->
 
+                                </div>
+
+                                <div class="col-lg-2">
+
+                                    <select name="subject" class="form-select">
+
+                                        <option value="">
+                                            All Subjects
+                                        </option>
+
+                                        <% subjects.forEach(s=>{ %>
+
+                                            <option value="<%= s %>" <%=subject===s ? "selected" :"" %>>
+
+                                                <%= s %>
+
+                                            </option>
+
+                                            <% }) %>
+
+                                    </select>
+
+                                </div>
+
+                                <div class="col-lg-2">
+
+                                    <select name="difficulty" class="form-select">
+
+                                        <option value="">
+                                            All Difficulty
+                                        </option>
+
+                                        <option value="easy" <%=difficulty==="easy" ?"selected":"" %>>
+
+                                            Easy
+
+                                        </option>
+
+                                        <option value="medium" <%=difficulty==="medium" ?"selected":"" %>>
+
+                                            Medium
+
+                                        </option>
+
+                                        <option value="hard" <%=difficulty==="hard" ?"selected":"" %>>
+
+                                            Hard
+
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                                <div class="col-lg-2">
+
+                                    <button class="btn btn-success w-100">
+                                        Search
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+
+
+                            <h3 class="fw-bold mb-4">
+                                Questions
+                            </h3>
+
+                            <div class="table-responsive">
+
+                                <table class="table table-hover align-middle">
+
+                                    <thead class="table-light">
+
+                                        <tr>
+
+                                            <th width="15%">
+                                                Subject
+                                            </th>
+
+                                            <th width="12%">
+                                                Difficulty
+                                            </th>
+
+                                            <th>
+                                                Question
+                                            </th>
+
+                                            <th width="130" class="text-center">
+                                                Actions
+                                            </th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        <% questions.forEach(q=>{ %>
+
+                                            <tr>
+
+                                                <td>
+
+                                                    <strong>
+                                                        <%= q.subject %>
+                                                    </strong>
+
+                                                </td>
+
+                                                <td>
+
+                                                    <span class="badge bg-success px-3 py-2">
+
+                                                        <%= q.difficulty %>
+
+                                                    </span>
+
+                                                </td>
+
+                                                <td>
+
+                                                    <%= q.question %>
+
+                                                </td>
+
+                                                <td>
+
+                                                    <div class="d-flex justify-content-center gap-2">
+
+                                                        <a href="/admin/edit/<%= q._id %>"
+                                                            class="btn btn-warning btn-sm">
+
+                                                            <i class="bi bi-pencil"></i>
+
+                                                        </a>
+
+                                                        <a href="/admin/delete/<%= q._id %>"
+                                                            class="btn btn-danger btn-sm" data-confirm="true"
+                                                            data-confirm-title="Delete question?"
+                                                            data-confirm-text="This question will be removed from the quiz bank."
+                                                            data-confirm-icon="warning">
+
+                                                            <i class="bi bi-trash"></i>
+
+                                                        </a>
+
+                                                    </div>
+
+                                                </td>
+
+                                            </tr>
+
+                                            <% }) %>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
                     </div>
-
-                    <div class="col-lg-2">
-
-                        <select
-                            name="subject"
-                            class="form-select">
-
-                            <option value="">
-                                All Subjects
-                            </option>
-
-                            <% subjects.forEach(s=>{ %>
-
-                            <option
-                                value="<%= s %>"
-                                <%= subject===s ? "selected":"" %>>
-
-                                <%= s %>
-
-                            </option>
-
-                            <% }) %>
-
-                        </select>
-
-                    </div>
-
-                    <div class="col-lg-2">
-
-                        <select
-                            name="difficulty"
-                            class="form-select">
-
-                            <option value="">
-                                All Difficulty
-                            </option>
-
-                            <option
-                                value="easy"
-                                <%= difficulty==="easy"?"selected":"" %>>
-
-                                Easy
-
-                            </option>
-
-                            <option
-                                value="medium"
-                                <%= difficulty==="medium"?"selected":"" %>>
-
-                                Medium
-
-                            </option>
-
-                            <option
-                                value="hard"
-                                <%= difficulty==="hard"?"selected":"" %>>
-
-                                Hard
-
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <div class="col-lg-2">
-
-                        <button class="btn btn-success w-100">
-                            Search
-                        </button>
-
-                    </div>
-
-                </form>
-
-
-
-                <h3 class="fw-bold mb-4">
-                    Questions
-                </h3>
-
-                <div class="table-responsive">
-
-                    <table class="table table-hover align-middle">
-
-                        <thead class="table-light">
-
-                            <tr>
-
-                                <th width="15%">
-                                    Subject
-                                </th>
-
-                                <th width="12%">
-                                    Difficulty
-                                </th>
-
-                                <th>
-                                    Question
-                                </th>
-
-                                <th width="130" class="text-center">
-                                    Actions
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            <% questions.forEach(q=>{ %>
-
-                            <tr>
-
-                                <td>
-
-                                    <strong>
-                                        <%= q.subject %>
-                                    </strong>
-
-                                </td>
-
-                                <td>
-
-                                    <span class="badge bg-success px-3 py-2">
-
-                                        <%= q.difficulty %>
-
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                    <%= q.question %>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="d-flex justify-content-center gap-2">
-
-                                        <a
-                                            href="/admin/edit/<%= q._id %>"
-                                            class="btn btn-warning btn-sm">
-
-                                            <i class="bi bi-pencil"></i>
-
-                                        </a>
-
-                                        <a
-                                            href="/admin/delete/<%= q._id %>"
-                                            class="btn btn-danger btn-sm"
-                                            data-confirm="true"
-                                            data-confirm-title="Delete question?"
-                                            data-confirm-text="This question will be removed from the quiz bank."
-                                            data-confirm-icon="warning">
-
-                                            <i class="bi bi-trash"></i>
-
-                                        </a>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                            <% }) %>
-
-                        </tbody>
-
-                    </table>
 
                 </div>
 
             </div>
 
-        </div>
-
-    </div>
-
-</div>
-
-<%- include("partials/footer") %>
+            <%- include("partials/footer") %>

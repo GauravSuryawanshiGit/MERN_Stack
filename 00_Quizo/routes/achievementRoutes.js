@@ -14,23 +14,23 @@ router.get("/", isLoggedIn, async (req, res) => {
 
         const achievements = [
 
-         {
-    title: "First Quiz",
-    icon: "first quiz.png",
-    unlocked: user.totalQuizzes >= 1
-},
+            {
+                title: "First Quiz",
+                icon: "first quiz.png",
+                unlocked: user.totalQuizzes >= 1
+            },
 
-         {
-    title: "First Quiz",
-    icon: "second quiz.png",
-    unlocked: user.totalQuizzes >= 1
-},
+            {
+                title: "First Quiz",
+                icon: "second quiz.png",
+                unlocked: user.totalQuizzes >= 1
+            },
 
-         {
-    title: "First Quiz",
-    icon: "third quizz.png",
-    unlocked: user.totalQuizzes >= 1
-},
+            {
+                title: "First Quiz",
+                icon: "third quizz.png",
+                unlocked: user.totalQuizzes >= 1
+            },
 
             {
                 title: "XP Rookie",

@@ -9,7 +9,7 @@ const upload = multer({ storage });
 
 router
   .route("/")
-  .get(wrapAsync(vegetableController.indexVegetable)) // Sorted in the controller
+  .get(wrapAsync(vegetableController.indexVegetable))
   .post(isAuth, isFarmer, upload.single("image"), wrapAsync(vegetableController.createVegetable));
 
 router.get("/new", isAuth, isFarmer, vegetableController.newVegetable);

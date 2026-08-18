@@ -8,7 +8,7 @@ require("dotenv").config();
 
 const app = express();
 
-// DB
+
 const mongoURI = process.env.MONGO_URL;
 
 if (!mongoURI) {
@@ -31,14 +31,14 @@ async function connectDB() {
 
 connectDB();
 
-// gemini api
+
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const model = genAI.getGenerativeModel({
   model: "gemini-2.5-flash",
 });
 
-// midwares
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

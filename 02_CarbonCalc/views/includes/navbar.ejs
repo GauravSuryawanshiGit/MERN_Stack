@@ -2,7 +2,7 @@
   <h1 class="logo">CarbonCalc</h1>
   <ul class="nav-links">
     <% if (!userId) { %>
-      <!-- Show Home only when not logged in -->
+
       <li><a href="/home">Home</a></li>
       <% } %>
 
@@ -17,14 +17,13 @@
             <li><a href="/signup">Signup</a></li>
             <% } %>
 
-              <!-- Google Translate Widget in navbar -->
               <li>
                 <div id="google_translate_element" class="translate-widget"></div>
               </li>
   </ul>
 </nav>
 
-<!-- Google Translate Script -->
+
 <script type="text/javascript">
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({

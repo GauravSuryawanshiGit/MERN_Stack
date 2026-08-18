@@ -1,88 +1,82 @@
 <%- include("../partials/header") %>
 
-<div class="container-fluid">
+    <div class="container-fluid">
 
-<h1 class="mb-4">
-📖 Review Answers
-</h1>
+        <h1 class="mb-4">
+            📖 Review Answers
+        </h1>
 
-<% questions.forEach((q,index)=>{ %>
+        <% questions.forEach((q,index)=>{ %>
 
-<div class="card shadow-sm border-0 mb-4">
+            <div class="card shadow-sm border-0 mb-4">
 
-<div class="card-body">
+                <div class="card-body">
 
-<h5>
-Q<%= index+1 %>.
-<%= q.question %>
-</h5>
+                    <h5>
+                        Q<%= index+1 %>.
+                            <%= q.question %>
+                    </h5>
 
-<hr>
+                    <hr>
 
-<p>
+                    <p>
 
-<strong>Your Answer:</strong>
+                        <strong>Your Answer:</strong>
 
-<%= result.answers[q._id] || "Not Answered" %>
+                        <%= result.answers[q._id] || "Not Answered" %>
 
-<% if(
-result.answers[q._id]
-=== q.correctAnswer
-){ %>
+                            <% if( result.answers[q._id]===q.correctAnswer ){ %>
 
-<span class="badge bg-success">
-Correct
-</span>
+                                <span class="badge bg-success">
+                                    Correct
+                                </span>
 
-<% } else { %>
+                                <% } else { %>
 
-<span class="badge bg-danger">
-Wrong
-</span>
+                                    <span class="badge bg-danger">
+                                        Wrong
+                                    </span>
 
-<% } %>
+                                    <% } %>
 
-</p>
+                    </p>
 
-<p>
+                    <p>
 
-<strong>
-Correct Answer:
-</strong>
+                        <strong>
+                            Correct Answer:
+                        </strong>
 
-<span class="text-success">
+                        <span class="text-success">
 
-<%= q.correctAnswer %>
+                            <%= q.correctAnswer %>
 
-</span>
+                        </span>
 
-</p>
+                    </p>
 
-<p>
+                    <p>
 
-<strong>
-Explanation:
-</strong>
+                        <strong>
+                            Explanation:
+                        </strong>
 
-<%= q.explanation %>
+                        <%= q.explanation %>
 
-</p>
+                    </p>
 
-</div>
+                </div>
 
-</div>
+            </div>
 
-<% }) %>
+            <% }) %>
 
-<a
-href="/dashboard"
-class="btn btn-success"
->
+                <a href="/dashboard" class="btn btn-success">
 
-Back To Dashboard
+                    Back To Dashboard
 
-</a>
+                </a>
 
-</div>
+    </div>
 
-<%- include("../partials/footer") %>
+    <%- include("../partials/footer") %>

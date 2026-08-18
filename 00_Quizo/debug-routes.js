@@ -9,17 +9,17 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Test both routes side by side
+
 app.use("/achievements", achievementRoutes);
 app.use("/dashboard", dashboardRoutes);
 
-// Log incoming requests
+
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
 
-// Catch-all for 404
+
 app.use((req, res) => {
   console.log(`[404] No route matched for: ${req.method} ${req.path}`);
   res.status(404).send("404 - No route found");

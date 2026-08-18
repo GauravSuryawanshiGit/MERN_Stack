@@ -1,13 +1,13 @@
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    /* Use a gradient background for a more appealing look */
+
     background: linear-gradient(135deg, #e0ffe0 0%, #e0f7fa 100%);
-    /* Light green to light blue */
+
     min-height: 100vh;
     display: grid;
     grid-template-rows: auto 1fr auto;
-    /* Defines three rows: nav, main content, footer */
+
 }
 
 .container {
@@ -19,7 +19,6 @@ body {
     background: #ffffff;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1),
         -10px -10px 20px rgba(255, 255, 255, 0.7);
-    /* Removed: padding-right: -10px; - negative padding is generally not advised */
 }
 
 h2 {
@@ -28,7 +27,6 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* Use Grid for Landscape Layout */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -57,7 +55,6 @@ input:focus {
     box-shadow: 0px 0px 8px rgba(40, 167, 69, 0.5);
 }
 
-/* Buttons at bottom spanning both columns */
 .buttons {
     grid-column: span 2;
     display: flex;
@@ -106,7 +103,7 @@ button:nth-of-type(2):hover {
     margin-top: 20px;
     padding: 15px;
     border-radius: 8px;
-    /* Updated background for a subtle gradient */
+
     background: linear-gradient(135deg, #f8fcfc 0%, #eef7f8 100%);
     color: #2c3e50;
     font-weight: bold;
@@ -114,38 +111,38 @@ button:nth-of-type(2):hover {
     text-align: left;
 }
 
-/* Give main content a name to place it in the grid */
+
 .main-content-wrapper {
     grid-row: 2;
-    /* Explicitly place this in the second row */
+
     padding: 20px;
-    /* Add padding here for spacing around the main container */
+
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Centered buttons */
+
 #cal {
     margin: 10px auto;
-    /* Center horizontally */
+
     border-radius: 20px;
     width: 200px;
-    /* Adjusted width */
+
     height: 50px;
     display: block;
-    /* Ensures margin: auto works */
+
 }
 
 #sendBtn {
     margin: 20px auto;
-    /* Center horizontally */
+
     border-radius: 20px;
     width: 250px;
-    /* Adjusted width */
+
     height: 60px;
     display: block;
-    /* Ensures margin: auto works */
+
 }
 
 .ans {
@@ -153,7 +150,7 @@ button:nth-of-type(2):hover {
     margin-top: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
-    /* Removed negative padding */
+
 }
 
 .result {
@@ -166,13 +163,13 @@ button:nth-of-type(2):hover {
     margin-bottom: 20px;
 }
 
-/* Navbar */
+
 .navbar {
     background: #2c3e50;
     color: white;
     padding: 15px 20px;
     grid-row: 1;
-    /* Place navbar in the first row of the grid */
+
 }
 
 .nav-container {
@@ -192,9 +189,9 @@ button:nth-of-type(2):hover {
     display: flex;
     gap: 20px;
     margin: 0;
-    /* Reset default list margin */
+
     padding: 0;
-    /* Reset default list padding */
+
 }
 
 .nav-links li a {
@@ -208,16 +205,16 @@ button:nth-of-type(2):hover {
     color: #28a745;
 }
 
-/* Footer */
+
 .footer {
     background: #2c3e50;
     color: white;
     padding: 20px;
     text-align: center;
     margin-top: 0;
-    /* Grid handles spacing, no need for margin-top */
+
     grid-row: 3;
-    /* Place footer in the third row of the grid */
+
 }
 
 .footer-container {
@@ -242,23 +239,22 @@ button:nth-of-type(2):hover {
     color: #28a745;
 }
 
-/* Navbar basic styling */
+
 .nav-container {
     background-color: #1b6744;
-    /* light gray background for visibility */
+
     color: #333;
-    /* dark text */
+
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* subtle shadow */
+
 }
 
 .navbar a {
     color: #333;
-    /* dark links */
     text-decoration: none;
     margin-right: 1rem;
     font-weight: 500;
@@ -266,23 +262,19 @@ button:nth-of-type(2):hover {
 
 .navbar a:hover {
     color: #007bff;
-    /* blue highlight on hover */
 }
 
 .home-container {
     font-family: Arial, sans-serif;
 }
 
-/* Hero Section */
 .hero {
     height: 100vh;
-    /* Full screen */
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     background-image: url('/images/eco-bg.jpg');
-    /* Replace with your image */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -290,7 +282,6 @@ button:nth-of-type(2):hover {
     color: white;
 }
 
-/* Overlay to make text readable */
 .hero::before {
     content: '';
     position: absolute;
@@ -317,7 +308,6 @@ button:nth-of-type(2):hover {
     margin-bottom: 2rem;
 }
 
-/* Buttons */
 .hero-buttons {
     display: flex;
     gap: 20px;
@@ -424,7 +414,6 @@ button:nth-of-type(2):hover {
     color: #333;
 }
 
-/* Hero Section */
 .about-hero {
     height: 450px;
     background-size: cover;
@@ -469,7 +458,7 @@ button:nth-of-type(2):hover {
     transform: scale(1.05);
 }
 
-/* Cards */
+
 .about-section {
     display: flex;
     justify-content: center;
@@ -531,23 +520,16 @@ button:nth-of-type(2):hover {
 .card img {
     display: block;
     margin: 0 auto 25px;
-    /* centers the image */
     width: 280px;
-    /* increase size */
     max-width: 100%;
-    /* keeps it responsive */
     height: auto;
-    /* keeps aspect ratio */
     border-radius: 15px;
-    /* rounded corners */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    /* deeper shadow */
     transition: transform 0.3s ease-in-out;
 }
 
 .card img:hover {
     transform: scale(1.1);
-    /* zoom effect on hover */
 }
 
 

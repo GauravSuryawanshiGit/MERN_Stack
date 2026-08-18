@@ -13,11 +13,11 @@ module.exports.registerUser = TryCatch(async (req, res) => {
     if (!name || !email || !password || !role || !address) {
         req.flash("error", "All fields are required!");
         return res.redirect("/user/register");
-      };
+    };
 
     let user = await User.findOne({ email });
 
-    if (user){
+    if (user) {
         req.flash("error", "User already exist!");
         return res.redirect("/user/register");
     };
@@ -32,7 +32,7 @@ module.exports.registerUser = TryCatch(async (req, res) => {
         address,
     });
 
-    // console.log(user);
+
 
     generateToken(user, res);
 
@@ -51,22 +51,22 @@ module.exports.loginUser = TryCatch(async (req, res) => {
 
     const user = await User.findOne({ email });
 
-    if (!user){
+    if (!user) {
         req.flash("error", "Incorrect email or password!");
         return res.redirect("/user/login");
     };
     const comparePassword = await bcrypt.compare(password, user.password);
 
-    if (!comparePassword){
+    if (!comparePassword) {
         req.flash("error", "Incorrect email or password!");
         return res.redirect("/user/login");
     };
 
-    if(user.role!=role){
+    if (user.role != role) {
         req.flash("error", "Incorrect Role!");
         return res.redirect("/user/login");
     };
-        
+
     generateToken(user, res);
 
     req.flash("success", "You are logged in!");
@@ -81,14 +81,14 @@ module.exports.myProfile = TryCatch(async (req, res) => {
 
 module.exports.userProfile = TryCatch(async (req, res) => {
     const user = await User.findById(req.params.id);
-  const loggedInUser = await User.findById(req.user._id);
+    const loggedInUser = await User.findById(req.user._id);
 
-  if (!user) {
-    req.flash("error", "User not found!");
-    return res.status(404).redirect("/vegetables");
-  }
+    if (!user) {
+        req.flash("error", "User not found!");
+        return res.status(404).redirect("/vegetables");
+    }
 
-  res.render("profile/user.ejs", { user});
+    res.render("profile/user.ejs", { user });
 });
 
 

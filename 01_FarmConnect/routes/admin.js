@@ -12,7 +12,7 @@ router.get("/orders", isAdminAuth, adminController.viewOrders);
 router.post("/orders/:id/assign", isAdminAuth, adminController.assignOrders);
 
 
-router.get("/logout",isAdminAuth, adminController.logoutAdmin);
+router.get("/logout", isAdminAuth, adminController.logoutAdmin);
 
 
 module.exports = router;

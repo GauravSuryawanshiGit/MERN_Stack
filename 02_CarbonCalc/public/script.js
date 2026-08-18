@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let totalDaily = 0;
 
 
-  // Calculate Carbon Footprint
+
 
   function calculateFootprint() {
     const family = parseFloat(document.getElementById("family_member").value) || 0;
@@ -33,11 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("result-daily").textContent = totalDaily;
   }
 
-  // Bind calculate button
+
   calBtn.addEventListener("click", calculateFootprint);
 
 
-  // Get AI Suggestions (BACKEND CALL)
+
 
   sendBtn.addEventListener("click", async () => {
     if (!totalMonthly || !totalDaily) {
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formatTextResponse(data.suggestions);
 
 
-      // Save to backend (history)
+
 
       await fetch("/calculator", {
         method: "POST",
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  // Format AI Response
+
 
   function formatTextResponse(text) {
     let formatted = text

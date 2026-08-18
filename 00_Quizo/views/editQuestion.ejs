@@ -1,199 +1,142 @@
 <%- include("partials/header") %>
 
-<div class="container-fluid">
+    <div class="container-fluid">
 
-    <!-- Page Header -->
+        <div class="card hero-card border-0 shadow-lg mb-4">
 
-    <div class="card hero-card border-0 shadow-lg mb-4">
+            <div class="card-body p-4">
 
-        <div class="card-body p-4">
+                <h1 class="fw-bold">
+                    ✏️ Edit Question
+                </h1>
 
-            <h1 class="fw-bold">
-                ✏️ Edit Question
-            </h1>
+                <p class="mb-0">
+                    Update question details and save your changes.
+                </p>
 
-            <p class="mb-0">
-                Update question details and save your changes.
-            </p>
+            </div>
 
         </div>
 
-    </div>
+        <div class="row justify-content-center">
 
-    <div class="row justify-content-center">
+            <div class="col-lg-8">
 
-        <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
 
-            <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
 
-                <div class="card-body p-4">
+                        <form action="/admin/edit/<%= question._id %>" method="POST">
 
-                    <form action="/admin/edit/<%= question._id %>" method="POST">
 
-                        <!-- Subject -->
+                            <label class="form-label fw-semibold">
+                                Subject
+                            </label>
 
-                        <label class="form-label fw-semibold">
-                            Subject
-                        </label>
+                            <input type="text" name="subject" class="form-control mb-3" value="<%= question.subject %>"
+                                required>
 
-                        <input
-                            type="text"
-                            name="subject"
-                            class="form-control mb-3"
-                            value="<%= question.subject %>"
-                            required
-                        >
 
-                        <!-- Topic -->
 
-                        <label class="form-label fw-semibold">
-                            Topic
-                        </label>
+                            <label class="form-label fw-semibold">
+                                Topic
+                            </label>
 
-                        <input
-                            type="text"
-                            name="topic"
-                            class="form-control mb-3"
-                            value="<%= question.topic %>"
-                            required
-                        >
+                            <input type="text" name="topic" class="form-control mb-3" value="<%= question.topic %>"
+                                required>
 
-                        <!-- Difficulty -->
 
-                        <label class="form-label fw-semibold">
-                            Difficulty
-                        </label>
 
-                        <select
-                            name="difficulty"
-                            class="form-select mb-3"
-                        >
+                            <label class="form-label fw-semibold">
+                                Difficulty
+                            </label>
 
-                            <option
-                                value="easy"
-                                <%= question.difficulty==="easy" ? "selected" : "" %>>
-                                Easy
-                            </option>
+                            <select name="difficulty" class="form-select mb-3">
 
-                            <option
-                                value="medium"
-                                <%= question.difficulty==="medium" ? "selected" : "" %>>
-                                Medium
-                            </option>
+                                <option value="easy" <%=question.difficulty==="easy" ? "selected" : "" %>>
+                                    Easy
+                                </option>
 
-                            <option
-                                value="hard"
-                                <%= question.difficulty==="hard" ? "selected" : "" %>>
-                                Hard
-                            </option>
+                                <option value="medium" <%=question.difficulty==="medium" ? "selected" : "" %>>
+                                    Medium
+                                </option>
 
-                        </select>
+                                <option value="hard" <%=question.difficulty==="hard" ? "selected" : "" %>>
+                                    Hard
+                                </option>
 
-                        <!-- Question -->
+                            </select>
 
-                        <label class="form-label fw-semibold">
-                            Question
-                        </label>
 
-                        <textarea
-                            name="question"
-                            class="form-control mb-3"
-                            rows="4"
-                            required
-                        ><%= question.question %></textarea>
 
-                        <!-- Options -->
+                            <label class="form-label fw-semibold">
+                                Question
+                            </label>
 
-                        <label class="form-label fw-semibold">
-                            Option 1
-                        </label>
+                            <textarea name="question" class="form-control mb-3" rows="4"
+                                required><%= question.question %></textarea>
 
-                        <input
-                            class="form-control mb-3"
-                            name="opt1"
-                            value="<%= question.options[0] %>"
-                            required
-                        >
 
-                        <label class="form-label fw-semibold">
-                            Option 2
-                        </label>
 
-                        <input
-                            class="form-control mb-3"
-                            name="opt2"
-                            value="<%= question.options[1] %>"
-                            required
-                        >
+                            <label class="form-label fw-semibold">
+                                Option 1
+                            </label>
 
-                        <label class="form-label fw-semibold">
-                            Option 3
-                        </label>
+                            <input class="form-control mb-3" name="opt1" value="<%= question.options[0] %>" required>
 
-                        <input
-                            class="form-control mb-3"
-                            name="opt3"
-                            value="<%= question.options[2] %>"
-                            required
-                        >
+                            <label class="form-label fw-semibold">
+                                Option 2
+                            </label>
 
-                        <label class="form-label fw-semibold">
-                            Option 4
-                        </label>
+                            <input class="form-control mb-3" name="opt2" value="<%= question.options[1] %>" required>
 
-                        <input
-                            class="form-control mb-3"
-                            name="opt4"
-                            value="<%= question.options[3] %>"
-                            required
-                        >
+                            <label class="form-label fw-semibold">
+                                Option 3
+                            </label>
 
-                        <!-- Correct Answer -->
+                            <input class="form-control mb-3" name="opt3" value="<%= question.options[2] %>" required>
 
-                        <label class="form-label fw-semibold">
-                            Correct Answer
-                        </label>
+                            <label class="form-label fw-semibold">
+                                Option 4
+                            </label>
 
-                        <input
-                            class="form-control mb-3"
-                            name="correctAnswer"
-                            value="<%= question.correctAnswer %>"
-                            required
-                        >
+                            <input class="form-control mb-3" name="opt4" value="<%= question.options[3] %>" required>
 
-                        <!-- Explanation -->
 
-                        <label class="form-label fw-semibold">
-                            Explanation
-                        </label>
 
-                        <textarea
-                            name="explanation"
-                            class="form-control mb-4"
-                            rows="4"
-                            required
-                        ><%= question.explanation %></textarea>
+                            <label class="form-label fw-semibold">
+                                Correct Answer
+                            </label>
 
-                        <!-- Buttons -->
+                            <input class="form-control mb-3" name="correctAnswer" value="<%= question.correctAnswer %>"
+                                required>
 
-                        <div class="d-flex justify-content-between">
 
-                            <a
-                                href="/admin"
-                                class="btn btn-secondary"
-                            >
-                                ← Cancel
-                            </a>
 
-                            <button
-                                class="btn btn-success px-5"
-                            >
-                                💾 Update Question
-                            </button>
+                            <label class="form-label fw-semibold">
+                                Explanation
+                            </label>
 
-                        </div>
+                            <textarea name="explanation" class="form-control mb-4" rows="4"
+                                required><%= question.explanation %></textarea>
 
-                    </form>
+
+
+                            <div class="d-flex justify-content-between">
+
+                                <a href="/admin" class="btn btn-secondary">
+                                    ← Cancel
+                                </a>
+
+                                <button class="btn btn-success px-5">
+                                    💾 Update Question
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
@@ -203,6 +146,4 @@
 
     </div>
 
-</div>
-
-<%- include("partials/footer") %>
+    <%- include("partials/footer") %>

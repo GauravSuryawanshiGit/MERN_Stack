@@ -13,6 +13,6 @@ router.put("/update/:id", isAuth, isCustomer, cartController.updateCart);
 
 router.delete("/remove/:vegId", isAuth, isCustomer, cartController.deleteCart);
 
-// router.get("/demo", cartController.demo);
+
 
 module.exports = router;

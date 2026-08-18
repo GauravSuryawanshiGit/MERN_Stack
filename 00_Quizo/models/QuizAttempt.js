@@ -3,14 +3,14 @@ const mongoose = require("mongoose");
 const quizAttemptScema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref : "User"
+        ref: "User"
     },
 
-    questions : [String],
+    questions: [String],
 
-    answers : Object,
+    answers: Object,
 
-    score : Number
+    score: Number
 }, {
     timestamps: true
 });

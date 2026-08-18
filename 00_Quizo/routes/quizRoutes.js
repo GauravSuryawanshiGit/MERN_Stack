@@ -6,9 +6,7 @@ const Result = require("../models/Result");
 const User = require("../models/User");
 const { isLoggedIn } = require("../middleware/authMiddleware");
 
-// =========================
-// Start Quiz
-// =========================
+
 router.get("/start", isLoggedIn, async (req, res) => {
 
     const { subject, difficulty, count } = req.query;
@@ -59,9 +57,7 @@ router.get("/start", isLoggedIn, async (req, res) => {
     });
 
 });
-// =========================
-// Submit Quiz
-// =========================
+
 
 router.post("/submit", isLoggedIn, async (req, res) => {
 
@@ -110,193 +106,185 @@ router.post("/submit", isLoggedIn, async (req, res) => {
                 )
                 : 0;
 
-       const xp = correct * 10;
+        const xp = correct * 10;
 
-let bonusXP = 0;
+        let bonusXP = 0;
 
-if(req.body.isDailyChallenge){
+        if (req.body.isDailyChallenge) {
 
-    const challengeUser =
-    await User.findById(
-        req.session.user._id
-    );
+            const challengeUser =
+                await User.findById(
+                    req.session.user._id
+                );
 
-    const todayDate =
-    new Date();
+            const todayDate =
+                new Date();
 
-    todayDate.setHours(0,0,0,0);
+            todayDate.setHours(0, 0, 0, 0);
 
-    let alreadyCompleted = false;
+            let alreadyCompleted = false;
 
-    if(challengeUser.lastChallengeCompleted){
+            if (challengeUser.lastChallengeCompleted) {
 
-        const lastCompleted =
-        new Date(
-            challengeUser.lastChallengeCompleted
-        );
+                const lastCompleted =
+                    new Date(
+                        challengeUser.lastChallengeCompleted
+                    );
 
-        lastCompleted.setHours(0,0,0,0);
+                lastCompleted.setHours(0, 0, 0, 0);
 
-        alreadyCompleted =
-            lastCompleted.getTime() ===
-            todayDate.getTime();
+                alreadyCompleted =
+                    lastCompleted.getTime() ===
+                    todayDate.getTime();
 
-    }
-
-    if(!alreadyCompleted){
-
-        bonusXP = 100;
-
-        await User.findByIdAndUpdate(
-            challengeUser._id,
-            {
-                $set:{
-                    lastChallengeCompleted:
-                    new Date()
-                }
             }
-        );
 
-    }
+            if (!alreadyCompleted) {
 
-}
+                bonusXP = 100;
 
-const totalXP =
-    xp + bonusXP;
+                await User.findByIdAndUpdate(
+                    challengeUser._id,
+                    {
+                        $set: {
+                            lastChallengeCompleted:
+                                new Date()
+                        }
+                    }
+                );
+
+            }
+
+        }
+
+        const totalXP =
+            xp + bonusXP;
 
         console.log(
             "Quiz Time:",
             req.body.quizTime
         );
 
-        // Save Result
 
         const savedResult =
-        await Result.create({
+            await Result.create({
 
-            quizTime:
-                Number(req.body.quizTime || 0),
+                quizTime:
+                    Number(req.body.quizTime || 0),
 
-            userId:
-                req.session.user._id,
+                userId:
+                    req.session.user._id,
 
-            username:
-                req.session.user.name,
+                username:
+                    req.session.user.name,
 
-            subject:
-                req.body.subject,
+                subject:
+                    req.body.subject,
 
-            difficulty:
-                req.body.difficulty,
+                difficulty:
+                    req.body.difficulty,
 
-            correct,
-            total,
-            accuracy,
-           xp: totalXP,
+                correct,
+                total,
+                accuracy,
+                xp: totalXP,
 
-            answers:
-                req.body
+                answers:
+                    req.body
 
-        });
+            });
 
-        // Update User Stats
 
-// =========================
-// Streak Logic
-// =========================
 
-const user =
-await User.findById(
-    req.session.user._id
-);
+        const user =
+            await User.findById(
+                req.session.user._id
+            );
 
-let newStreak = 1;
+        let newStreak = 1;
 
-const today = new Date();
+        const today = new Date();
 
-today.setHours(0,0,0,0);
+        today.setHours(0, 0, 0, 0);
 
-if(user.lastQuizDate){
+        if (user.lastQuizDate) {
 
-    const lastDate =
-    new Date(user.lastQuizDate);
+            const lastDate =
+                new Date(user.lastQuizDate);
 
-    lastDate.setHours(0,0,0,0);
+            lastDate.setHours(0, 0, 0, 0);
 
-    
 
-    const diffDays =
-    Math.floor(
-        (today - lastDate) /
-        (1000 * 60 * 60 * 24)
-    );
 
-    if(diffDays === 0){
+            const diffDays =
+                Math.floor(
+                    (today - lastDate) /
+                    (1000 * 60 * 60 * 24)
+                );
 
-        newStreak = user.streak;
+            if (diffDays === 0) {
 
-    }
-    else if(diffDays === 1){
+                newStreak = user.streak;
 
-        newStreak =
-        user.streak + 1;
+            }
+            else if (diffDays === 1) {
 
-    }
-    else{
+                newStreak =
+                    user.streak + 1;
 
-        newStreak = 1;
+            }
+            else {
 
-    }
+                newStreak = 1;
 
-}
+            }
 
-// =========================
-// Update User
-// =========================
-
-await User.findByIdAndUpdate(
-    req.session.user._id,
-    {
-        $inc:{
-           xp: totalXP,
-            totalQuizzes: 1,
-            totalCorrect: correct,
-            totalQuestions: total
-        },
-
-        $set:{
-            streak: newStreak,
-            lastQuizDate: new Date()
         }
-    }
-);
 
-      res.locals.alert = {
-        type: "success",
-        title: "Quiz submitted",
-        message: bonusXP > 0
-            ? `Great work! You earned ${totalXP} XP including your daily challenge bonus.`
-            : `Great work! You earned ${totalXP} XP.`,
-        mode: "modal",
-        confirmButtonText: "View results"
-      };
 
-      res.render(
-    "quiz/result",
-    {
-        correct,
-        total,
-        accuracy,
-        xp: totalXP,
-        bonusXP,
-        quizTime:
-            Number(
-                req.body.quizTime || 0
-            ),
-        resultId:
-            savedResult._id
-    }
-);
+        await User.findByIdAndUpdate(
+            req.session.user._id,
+            {
+                $inc: {
+                    xp: totalXP,
+                    totalQuizzes: 1,
+                    totalCorrect: correct,
+                    totalQuestions: total
+                },
+
+                $set: {
+                    streak: newStreak,
+                    lastQuizDate: new Date()
+                }
+            }
+        );
+
+        res.locals.alert = {
+            type: "success",
+            title: "Quiz submitted",
+            message: bonusXP > 0
+                ? `Great work! You earned ${totalXP} XP including your daily challenge bonus.`
+                : `Great work! You earned ${totalXP} XP.`,
+            mode: "modal",
+            confirmButtonText: "View results"
+        };
+
+        res.render(
+            "quiz/result",
+            {
+                correct,
+                total,
+                accuracy,
+                xp: totalXP,
+                bonusXP,
+                quizTime:
+                    Number(
+                        req.body.quizTime || 0
+                    ),
+                resultId:
+                    savedResult._id
+            }
+        );
 
     } catch (err) {
 
@@ -310,18 +298,15 @@ await User.findByIdAndUpdate(
 
 });
 
-// =========================
-// Review Answers
-// =========================
 
 router.get("/review/:id", isLoggedIn, async (req, res) => {
 
     try {
 
         const result =
-        await Result.findById(
-            req.params.id
-        );
+            await Result.findById(
+                req.params.id
+            );
 
         if (!result) {
             req.flash("error", "That quiz result could not be found.");
@@ -329,15 +314,15 @@ router.get("/review/:id", isLoggedIn, async (req, res) => {
         }
 
         const questions =
-        await Question.find({
-            _id: {
-                $in: Object.keys(
-                    result.answers
-                ).filter(
-                    id => id.length === 24
-                )
-            }
-        });
+            await Question.find({
+                _id: {
+                    $in: Object.keys(
+                        result.answers
+                    ).filter(
+                        id => id.length === 24
+                    )
+                }
+            });
 
         res.render(
             "quiz/review",

@@ -2,10 +2,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 
-// =========================
-// Signup Page
-// =========================
-
 exports.getSignup = (req, res) => {
     if (req.session.user) {
         req.flash("info", "You are already logged in.", {
@@ -17,10 +13,6 @@ exports.getSignup = (req, res) => {
     res.render("auth/signup");
 };
 
-// =========================
-// Login Page
-// =========================
-
 exports.getLogin = (req, res) => {
     if (req.session.user) {
         req.flash("info", "You are already logged in.", {
@@ -31,10 +23,6 @@ exports.getLogin = (req, res) => {
 
     res.render("auth/login");
 };
-
-// =========================
-// Signup
-// =========================
 
 exports.postSignup = async (req, res) => {
 
@@ -81,10 +69,6 @@ exports.postSignup = async (req, res) => {
     }
 
 };
-
-// =========================
-// Login
-// =========================
 
 exports.postLogin = async (req, res) => {
 
@@ -149,10 +133,6 @@ exports.postLogin = async (req, res) => {
 
 };
 
-// =========================
-// Logout
-// =========================
-
 exports.logout = (req, res) => {
 
     req.session.destroy((err) => {
@@ -164,9 +144,6 @@ exports.logout = (req, res) => {
             return res.redirect("/");
 
         }
-
-        // Flash cannot be used after session destruction.
-        // Redirect with a query parameter instead.
 
         return res.redirect("/login?logout=true");
 

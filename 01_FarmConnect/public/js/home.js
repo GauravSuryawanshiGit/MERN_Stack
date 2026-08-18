@@ -10,5 +10,5 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
     window.addEventListener("scroll", checkScroll);
-    checkScroll(); // Run once in case already in view
+    checkScroll(); 
 });

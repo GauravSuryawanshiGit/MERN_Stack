@@ -6,7 +6,7 @@ const Question = require("./models/Question");
 const fs = require("fs");
 
 const questions = JSON.parse(
-  fs.readFileSync("./data/questions.json", "utf8")
+    fs.readFileSync("./data/questions.json", "utf8")
 );
 
 async function seed() {

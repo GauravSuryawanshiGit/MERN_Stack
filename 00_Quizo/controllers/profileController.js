@@ -4,27 +4,27 @@ const Result = require("../models/Result");
 exports.getProfile = async (req, res) => {
     try {
         if (!req.session.user) return res.redirect("/login");
-        
+
         const user = await User.findById(req.session.user._id);
         if (!user) return res.redirect("/login");
 
-        const userXP             = Number(user.xp)             || 0;
-        const userTotalQuestions = Number(user.totalQuestions)  || 0;
-        const userTotalCorrect   = Number(user.totalCorrect)    || 0;
-        const userTotalQuizzes   = Number(user.totalQuizzes)    || 0;
-        const userStreak         = Number(user.streak)          || 0;
+        const userXP = Number(user.xp) || 0;
+        const userTotalQuestions = Number(user.totalQuestions) || 0;
+        const userTotalCorrect = Number(user.totalCorrect) || 0;
+        const userTotalQuizzes = Number(user.totalQuizzes) || 0;
+        const userStreak = Number(user.streak) || 0;
 
         const rankCount = await User.countDocuments({ xp: { $gt: userXP } });
-        const rank      = rankCount + 1;
+        const rank = rankCount + 1;
 
         const accuracy = userTotalQuestions > 0
             ? Math.round((userTotalCorrect / userTotalQuestions) * 100)
             : 0;
 
         let level = 1;
-        if (userXP >= 100)  level = 2;
-        if (userXP >= 300)  level = 3;
-        if (userXP >= 600)  level = 4;
+        if (userXP >= 100) level = 2;
+        if (userXP >= 300) level = 3;
+        if (userXP >= 600) level = 4;
         if (userXP >= 1000) level = 5;
         if (userXP >= 1500) level = 6;
 
@@ -33,21 +33,21 @@ exports.getProfile = async (req, res) => {
             .limit(5);
 
         let achievementCount = 0;
-        if (userTotalQuizzes >= 1)  achievementCount++;
+        if (userTotalQuizzes >= 1) achievementCount++;
         if (userTotalQuizzes >= 10) achievementCount++;
         if (userTotalQuizzes >= 50) achievementCount++;
-        if (userXP >= 100)          achievementCount++;
-        if (userXP >= 500)          achievementCount++;
-        if (userXP >= 1000)         achievementCount++;
-        if (userStreak >= 7)        achievementCount++;
+        if (userXP >= 100) achievementCount++;
+        if (userXP >= 500) achievementCount++;
+        if (userXP >= 1000) achievementCount++;
+        if (userStreak >= 7) achievementCount++;
 
-        const reversed       = [...recentAttempts].reverse();
-        const chartLabels    = reversed.map(i => i.subject  || "Unknown");
-        const chartData      = reversed.map(i => i.accuracy || 0);
+        const reversed = [...recentAttempts].reverse();
+        const chartLabels = reversed.map(i => i.subject || "Unknown");
+        const chartData = reversed.map(i => i.accuracy || 0);
 
-        const xpPercent          = Math.min((userXP / 1500) * 100, 100);
+        const xpPercent = Math.min((userXP / 1500) * 100, 100);
         const achievementPercent = Math.round((achievementCount / 11) * 100);
-        const quizzesPercent     = Math.min(userTotalQuizzes, 100);
+        const quizzesPercent = Math.min(userTotalQuizzes, 100);
 
         return res.render("profile/index", {
             user, level, rank, accuracy,
@@ -68,7 +68,7 @@ exports.getEditProfile = async (req, res) => {
 
         const user = await User.findById(req.session.user._id);
         if (!user) {
-            req.session.destroy(() => {});
+            req.session.destroy(() => { });
             return res.redirect("/login");
         }
 
@@ -86,13 +86,12 @@ exports.updateProfile = async (req, res) => {
 
         const user = await User.findById(req.session.user._id);
         if (!user) {
-            req.session.destroy(() => {});
+            req.session.destroy(() => { });
             return res.redirect("/login");
         }
 
         const { name, bio } = req.body;
 
-        // Validate name
         if (!name || !name.trim()) {
             return res.render("profile/edit", {
                 user,
@@ -101,12 +100,12 @@ exports.updateProfile = async (req, res) => {
         }
 
         user.name = name.trim();
-        // Allow empty string bio (user clearing it), but guard against undefined
-        user.bio  = typeof bio === "string" ? bio.trim() : (user.bio || "");
+
+        user.bio = typeof bio === "string" ? bio.trim() : (user.bio || "");
 
         await user.save();
 
-        // Keep session in sync
+
         req.session.user.name = user.name;
 
         req.flash("success", "Profile updated successfully.");

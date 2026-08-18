@@ -3,17 +3,7 @@ const Order = require("../models/order.js");
 const TryCatch = require("../utils/TryCatch.js");
 const axios = require("axios");
 
-// let MAPTILER_API_KEY = process.env.MAP_API;
 
-// module.exports.viewOrder =  TryCatch(async (req, res) => {
-//     const orders = await Order.find({ assignedTo: req.user._id }).populate("user").populate("items.vegetable");
-//     // for (order of orders){
-//     //     console.log(order.items);
-//     // };
-//     // console.log(orders);
-//     // res.send("ok");
-//     res.render("delivery/orders.ejs", { orders });
-// });
 module.exports.viewOrder = TryCatch(async (req, res) => {
     const orders = await Order.find({ assignedTo: req.user._id })
         .populate("user")
@@ -21,12 +11,11 @@ module.exports.viewOrder = TryCatch(async (req, res) => {
 
     let customerLocations = [];
 
-    // Filter out orders that are already delivered
     const pendingOrders = orders.filter(order => order.status !== "Delivered");
 
-    // Fetch coordinates for pending orders only
+
     const locationPromises = pendingOrders.map(async (order) => {
-        const address = order.user.address; // Assuming order.user.address contains the city name
+        const address = order.user.address;
         if (!address) return null;
 
         try {
@@ -41,22 +30,14 @@ module.exports.viewOrder = TryCatch(async (req, res) => {
         return null;
     });
 
-    // Wait for all API calls to complete
+
     const resolvedLocations = await Promise.all(locationPromises);
-    customerLocations = resolvedLocations.filter(loc => loc !== null); // Remove null values
+    customerLocations = resolvedLocations.filter(loc => loc !== null);
 
     res.render("delivery/orders.ejs", { orders, customerLocations });
 });
 
-//order status 
-// module.exports.updateOrderStatus =  TryCatch(async (req, res) => {
-//     const { id } = req.params;
-//     await Order.findByIdAndUpdate(id, { status: "Delivered" });
-//     req.flash("success", "Order marked as Delivered!");
-//     res.redirect("/delivery/orders");
-// });
 
-//order status - 2
 module.exports.updateOrderStatus = TryCatch(async (req, res) => {
     const { id } = req.params;
     const order = await Order.findById(id);
@@ -69,7 +50,7 @@ module.exports.updateOrderStatus = TryCatch(async (req, res) => {
     order.status = "Delivered";
     await order.save();
 
-    // Reduce assigned orders count for delivery boy
+
     await User.findByIdAndUpdate(order.assignedTo, { $inc: { assignedOrders: -1 } });
 
     req.flash("success", "Order marked as Delivered!");

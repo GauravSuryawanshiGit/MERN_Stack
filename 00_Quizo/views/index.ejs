@@ -1,412 +1,131 @@
 <%- include("partials/header") %>
 
-<div class="container-fluid">
+    <div class="container-fluid">
 
-<!-- Welcome Banner -->
 
-<div class="card border-0 shadow-lg mb-5 hero-card">
+        <div class="card border-0 shadow-lg mb-5 hero-card">
 
-    <div class="card-body p-5">
+            <div class="card-body p-5">
 
-        <div class="row align-items-center">
+                <div class="row align-items-center">
 
-            <!-- Left -->
 
-            <div class="col-lg-7">
 
-                <span class="hero-badge">
+                    <div class="col-lg-7">
 
-                    <i class="fa-solid fa-sparkles me-2"></i>
+                        <span class="hero-badge">
 
-                    AI Powered Learning
+                            <i class="fa-solid fa-sparkles me-2"></i>
 
-                </span>
+                            AI Powered Learning
 
-                <h1 class="fw-bold mt-3">
-
-                    Welcome Back,
-
-                    <span class="hero-name">
-
-                        <%= user ? user.name : "Learner" %>
-
-                    </span>
-
-                    👋
-
-                </h1>
-
-                <p class="text-muted fs-5 mt-3">
-
-                    Master Java, Python, DBMS, DSA and more with Quizo.
-
-                </p>
-
-                <div class="mt-4">
-
-                    <% if (user) { %>
-
-                    <a href="/leaderboard" class="btn btn-success btn-lg me-3">
-
-                        <i class="fa-solid fa-trophy me-2"></i>
-
-                        Leaderboard
-
-                    </a>
-
-                    <a href="/dashboard" class="btn btn-outline-success btn-lg">
-
-                        <i class="fa-solid fa-chart-line me-2"></i>
-
-                        Dashboard
-
-                    </a>
-
-                    <% } else { %>
-
-                    <a href="/signup" class="btn btn-success btn-lg me-3">
-
-                        <i class="fa-solid fa-user-plus me-2"></i>
-
-                        Create Account
-
-                    </a>
-
-                    <a href="/login" class="btn btn-outline-success btn-lg">
-
-                        <i class="fa-solid fa-right-to-bracket me-2"></i>
-
-                        Login
-
-                    </a>
-
-                    <% } %>
-
-                </div>
-
-            </div>
-
-            <!-- Right -->
-
-            <div class="col-lg-5 d-none d-lg-block">
-
-                <div class="hero-visual">
-
-                    <div class="floating-card">
-
-                        <small>XP</small>
-
-                        <h2><%= user ? user.xp : 0 %></h2>
-
-                    </div>
-
-                    <div class="floating-card">
-
-                        <small>Quizzes</small>
-
-                        <h2><%= user ? user.totalQuizzes : 0 %></h2>
-
-                    </div>
-
-                    <div class="floating-card">
-
-                        <small>Streak</small>
-
-                        <h2>🔥 <%= user ? user.streak : 0 %></h2>
-
-                    </div>
-
-                    <div class="hero-circle">
-
-                        <i class="fa-solid fa-graduation-cap"></i>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- =========================
-        QUICK STATS
-========================= -->
-
-<div class="row g-4 mb-5">
-
-    <div class="col-xl-3 col-md-6">
-
-        <div class="card stat-card border-0 shadow-sm h-100">
-
-            <div class="card-body d-flex align-items-center">
-
-                <div class="stat-icon me-3">
-
-                    <i class="fa-solid fa-file-circle-question"></i>
-
-                </div>
-
-                <div>
-
-                    <small class="text-muted d-block">
-                        Total Questions
-                    </small>
-
-                    <h2 class="fw-bold mb-0">
-                        517+
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-xl-3 col-md-6">
-
-        <div class="card stat-card border-0 shadow-sm h-100">
-
-            <div class="card-body d-flex align-items-center">
-
-                <div class="stat-icon me-3">
-
-                    <i class="fa-solid fa-book-open"></i>
-
-                </div>
-
-                <div>
-
-                    <small class="text-muted d-block">
-                        Subjects
-                    </small>
-
-                    <h2 class="fw-bold mb-0">
-                        9
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-xl-3 col-md-6">
-
-        <div class="card stat-card border-0 shadow-sm h-100">
-
-            <div class="card-body d-flex align-items-center">
-
-                <div class="stat-icon me-3">
-
-                    <i class="fa-solid fa-ranking-star"></i>
-
-                </div>
-
-                <div>
-
-                    <small class="text-muted d-block">
-                        Leaderboard
-                    </small>
-
-                    <h2 class="fw-bold mb-0 text-success">
-                        LIVE
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-xl-3 col-md-6">
-
-        <div class="card stat-card border-0 shadow-sm h-100">
-
-            <div class="card-body d-flex align-items-center">
-
-                <div class="stat-icon me-3">
-
-                    <i class="fa-solid fa-robot"></i>
-
-                </div>
-
-                <div>
-
-                    <small class="text-muted d-block">
-                        Quiz Engine
-                    </small>
-
-                    <h2 class="fw-bold mb-0">
-                        AI Ready
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- =========================
-        Dashboard Stats
-========================= -->
-
-<div class="row g-4 mb-5">
-
-    <div class="col-xl-3 col-md-6">
-
-        <div class="card dashboard-stat border-0">
-
-            <div class="card-body">
-
-                <div class="d-flex justify-content-between align-items-center">
-
-                    <div>
-
-                        <small class="text-muted">
-                            XP
-                        </small>
-
-                        <h2 class="fw-bold mb-1">
-                            380
-                        </h2>
-
-                        <span class="text-success small fw-semibold">
-                            +120 XP Today
                         </span>
 
-                    </div>
+                        <h1 class="fw-bold mt-3">
 
-                    <div class="dashboard-icon bg-success-subtle">
+                            Welcome Back,
 
-                      
+                            <span class="hero-name">
 
-                    </div>
+                                <%= user ? user.name : "Learner" %>
 
-                </div>
+                            </span>
 
-            </div>
+                            👋
 
-        </div>
+                        </h1>
 
-    </div>
+                        <p class="text-muted fs-5 mt-3">
 
-    <div class="col-xl-3 col-md-6">
+                            Master Java, Python, DBMS, DSA and more with Quizo.
 
-        <div class="card dashboard-stat border-0">
+                        </p>
 
-            <div class="card-body">
+                        <div class="mt-4">
 
-                <div class="d-flex justify-content-between align-items-center">
+                            <% if (user) { %>
 
-                    <div>
+                                <a href="/leaderboard" class="btn btn-success btn-lg me-3">
 
-                        <small class="text-muted">
-                            Level
-                        </small>
+                                    <i class="fa-solid fa-trophy me-2"></i>
 
-                        <h2 class="fw-bold mb-1">
-                            4
-                        </h2>
+                                    Leaderboard
 
-                        <span class="text-muted small">
-                            Next: 120 XP
-                        </span>
+                                </a>
 
-                    </div>
+                                <a href="/dashboard" class="btn btn-outline-success btn-lg">
 
-                    <div class="dashboard-icon level">
+                                    <i class="fa-solid fa-chart-line me-2"></i>
 
-                     
+                                    Dashboard
 
-                    </div>
+                                </a>
 
-                </div>
+                                <% } else { %>
 
-            </div>
+                                    <a href="/signup" class="btn btn-success btn-lg me-3">
 
-        </div>
+                                        <i class="fa-solid fa-user-plus me-2"></i>
 
-    </div>
+                                        Create Account
 
-    <div class="col-xl-3 col-md-6">
+                                    </a>
 
-        <div class="card dashboard-stat border-0">
+                                    <a href="/login" class="btn btn-outline-success btn-lg">
 
-            <div class="card-body">
+                                        <i class="fa-solid fa-right-to-bracket me-2"></i>
 
-                <div class="d-flex justify-content-between align-items-center">
+                                        Login
 
-                    <div>
+                                    </a>
 
-                        <small class="text-muted">
-                            Rank
-                        </small>
+                                    <% } %>
 
-                        <h2 class="fw-bold mb-1">
-                            #2
-                        </h2>
-
-                        <span class="text-muted small">
-                            Top 1%
-                        </span>
+                        </div>
 
                     </div>
 
-                    <div class="dashboard-icon trophy">
 
-                       
+                    <div class="col-lg-5 d-none d-lg-block">
 
-                    </div>
+                        <div class="hero-visual">
 
-                </div>
+                            <div class="floating-card">
 
-            </div>
+                                <small>XP</small>
 
-        </div>
+                                <h2>
+                                    <%= user ? user.xp : 0 %>
+                                </h2>
 
-    </div>
+                            </div>
 
-    <div class="col-xl-3 col-md-6">
+                            <div class="floating-card">
 
-        <div class="card dashboard-stat border-0">
+                                <small>Quizzes</small>
 
-            <div class="card-body">
+                                <h2>
+                                    <%= user ? user.totalQuizzes : 0 %>
+                                </h2>
 
-                <div class="d-flex justify-content-between align-items-center">
+                            </div>
 
-                    <div>
+                            <div class="floating-card">
 
-                        <small class="text-muted">
-                            Streak
-                        </small>
+                                <small>Streak</small>
 
-                        <h2 class="fw-bold mb-1">
-                            🔥 5
-                        </h2>
+                                <h2>🔥 <%= user ? user.streak : 0 %>
+                                </h2>
 
-                        <span class="text-muted small">
-                            Best: 12 Days
-                        </span>
+                            </div>
 
-                    </div>
+                            <div class="hero-circle">
 
-                    <div class="dashboard-icon fire">
+                                <i class="fa-solid fa-graduation-cap"></i>
 
-                       
+                            </div>
+
+                        </div>
 
                     </div>
 
@@ -416,340 +135,581 @@
 
         </div>
 
-    </div>
 
-</div>
+        <div class="row g-4 mb-5">
 
-<!-- Quick Start -->
+            <div class="col-xl-3 col-md-6">
 
-<h3 class="fw-bold mb-4">
+                <div class="card stat-card border-0 shadow-sm h-100">
 
-Quick Start Quiz
-</h3>
+                    <div class="card-body d-flex align-items-center">
 
-<div class="row g-4">
+                        <div class="stat-icon me-3">
 
-<!-- Java -->
+                            <i class="fa-solid fa-file-circle-question"></i>
 
-<div class="col-lg-4">
-<div class="card quiz-card border-0 shadow">
+                        </div>
 
-<div class="card-body text-center">
+                        <div>
 
-<div class="subject-icon">
-    <i class="fa-brands fa-java"></i>
-</div>
+                            <small class="text-muted d-block">
+                                Total Questions
+                            </small>
 
-<h4>Java</h4>
+                            <h2 class="fw-bold mb-0">
+                                517+
+                            </h2>
 
-<p class="text-muted">
-Core Java & OOP
-</p>
+                        </div>
 
-<a
-href="/quiz/start?subject=Java&difficulty=easy&count=10"
-class="btn btn-success w-100"
+                    </div>
 
->
+                </div>
 
-Start Quiz </a>
+            </div>
 
-</div>
+            <div class="col-xl-3 col-md-6">
 
-</div>
-</div>
+                <div class="card stat-card border-0 shadow-sm h-100">
 
-<!-- Python -->
+                    <div class="card-body d-flex align-items-center">
 
-<div class="col-lg-4">
-<div class="card quiz-card border-0 shadow">
+                        <div class="stat-icon me-3">
 
-<div class="card-body text-center">
+                            <i class="fa-solid fa-book-open"></i>
 
-<div class="subject-icon">
-    <i class="fa-brands fa-python"></i>
-</div>
+                        </div>
 
-<h4>Python</h4>
+                        <div>
 
-<p class="text-muted">
-Python Fundamentals
-</p>
+                            <small class="text-muted d-block">
+                                Subjects
+                            </small>
 
-<a
-href="/quiz/start?subject=Python&difficulty=easy&count=10"
-class="btn btn-success w-100"
+                            <h2 class="fw-bold mb-0">
+                                9
+                            </h2>
 
->
+                        </div>
 
-Start Quiz </a>
+                    </div>
 
-</div>
+                </div>
 
-</div>
-</div>
+            </div>
 
-<!-- DBMS -->
+            <div class="col-xl-3 col-md-6">
 
-<div class="col-lg-4">
-<div class="card quiz-card border-0 shadow">
+                <div class="card stat-card border-0 shadow-sm h-100">
 
-<div class="card-body text-center">
+                    <div class="card-body d-flex align-items-center">
 
-<div class="subject-icon">
-    <i class="fa-solid fa-database"></i>
-</div>
+                        <div class="stat-icon me-3">
 
-<h4>DBMS</h4>
+                            <i class="fa-solid fa-ranking-star"></i>
 
-<p class="text-muted">
-SQL & Database Concepts
-</p>
+                        </div>
 
-<a
-href="/quiz/start?subject=DBMS&difficulty=easy&count=10"
-class="btn btn-success w-100"
+                        <div>
 
->
+                            <small class="text-muted d-block">
+                                Leaderboard
+                            </small>
 
-Start Quiz </a>
+                            <h2 class="fw-bold mb-0 text-success">
+                                LIVE
+                            </h2>
 
-</div>
+                        </div>
 
-</div>
-</div>
+                    </div>
 
-<!-- OS -->
+                </div>
 
-<div class="col-lg-4">
-<div class="card quiz-card border-0 shadow">
+            </div>
 
-<div class="card-body text-center">
+            <div class="col-xl-3 col-md-6">
 
-<div class="subject-icon">
-    <i class="fa-solid fa-desktop"></i>
-</div>
+                <div class="card stat-card border-0 shadow-sm h-100">
 
-<h4>Operating System</h4>
+                    <div class="card-body d-flex align-items-center">
 
-<p class="text-muted">
-Scheduling & Memory
-</p>
+                        <div class="stat-icon me-3">
 
-<a
-href="/quiz/start?subject=OS&difficulty=easy&count=10"
-class="btn btn-success w-100"
+                            <i class="fa-solid fa-robot"></i>
 
->
+                        </div>
 
-Start Quiz </a>
+                        <div>
 
-</div>
+                            <small class="text-muted d-block">
+                                Quiz Engine
+                            </small>
 
-</div>
-</div>
+                            <h2 class="fw-bold mb-0">
+                                AI Ready
+                            </h2>
 
-<!-- CN -->
+                        </div>
 
-<div class="col-lg-4">
-<div class="card quiz-card border-0 shadow">
+                    </div>
 
-<div class="card-body text-center">
+                </div>
 
-<div class="subject-icon">
-    <i class="fa-solid fa-globe"></i>
-</div>
+            </div>
 
-<h4>Computer Networks</h4>
+        </div>
 
-<p class="text-muted">
-OSI, TCP/IP & DNS
-</p>
 
-<a
-href="/quiz/start?subject=CN&difficulty=easy&count=10"
-class="btn btn-success w-100"
+        <div class="row g-4 mb-5">
 
->
+            <div class="col-xl-3 col-md-6">
 
-Start Quiz </a>
+                <div class="card dashboard-stat border-0">
 
-</div>
+                    <div class="card-body">
 
-</div>
-</div>
+                        <div class="d-flex justify-content-between align-items-center">
 
-<!-- DSA -->
+                            <div>
 
-<div class="col-lg-4">
-<div class="card quiz-card border-0 shadow">
+                                <small class="text-muted">
+                                    XP
+                                </small>
 
-<div class="card-body text-center">
+                                <h2 class="fw-bold mb-1">
+                                    380
+                                </h2>
 
-<div class="subject-icon">
-    <i class="fa-solid fa-cubes"></i>
-</div>
+                                <span class="text-success small fw-semibold">
+                                    +120 XP Today
+                                </span>
 
-<h4>DSA</h4>
+                            </div>
 
-<p class="text-muted">
-Data Structures & Algorithms
-</p>
+                            <div class="dashboard-icon bg-success-subtle">
 
-<a
-href="/quiz/start?subject=DSA&difficulty=easy&count=10"
-class="btn btn-success w-100"
 
->
 
-Start Quiz </a>
+                            </div>
 
-</div>
+                        </div>
 
-</div>
-</div>
+                    </div>
 
-</div>
+                </div>
 
-</div>
+            </div>
 
+            <div class="col-xl-3 col-md-6">
 
+                <div class="card dashboard-stat border-0">
 
-<div class="card shadow-lg border-0 rounded-4 p-4 mt-5">
+                    <div class="card-body">
 
-    <div class="text-center mb-4">
+                        <div class="d-flex justify-content-between align-items-center">
 
-        <h2 class="fw-bold">
+                            <div>
 
-            🎯 Custom Quiz Builder
+                                <small class="text-muted">
+                                    Level
+                                </small>
 
-        </h2>
+                                <h2 class="fw-bold mb-1">
+                                    4
+                                </h2>
 
-        <p class="text-muted">
+                                <span class="text-muted small">
+                                    Next: 120 XP
+                                </span>
 
-            Choose your own quiz settings.
+                            </div>
 
-        </p>
+                            <div class="dashboard-icon level">
 
-    </div>
 
-    <form action="/quiz/start" method="GET">
 
-        <div class="row g-3 align-items-end">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="card dashboard-stat border-0">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <small class="text-muted">
+                                    Rank
+                                </small>
+
+                                <h2 class="fw-bold mb-1">
+                                    #2
+                                </h2>
+
+                                <span class="text-muted small">
+                                    Top 1%
+                                </span>
+
+                            </div>
+
+                            <div class="dashboard-icon trophy">
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="card dashboard-stat border-0">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <small class="text-muted">
+                                    Streak
+                                </small>
+
+                                <h2 class="fw-bold mb-1">
+                                    🔥 5
+                                </h2>
+
+                                <span class="text-muted small">
+                                    Best: 12 Days
+                                </span>
+
+                            </div>
+
+                            <div class="dashboard-icon fire">
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <h3 class="fw-bold mb-4">
+
+            Quick Start Quiz
+        </h3>
+
+        <div class="row g-4">
+
 
             <div class="col-lg-4">
+                <div class="card quiz-card border-0 shadow">
 
-                <label class="form-label fw-semibold">
+                    <div class="card-body text-center">
 
-                    Subject
+                        <div class="subject-icon">
+                            <i class="fa-brands fa-java"></i>
+                        </div>
 
-                </label>
+                        <h4>Java</h4>
 
-                <select class="form-select" name="subject">
+                        <p class="text-muted">
+                            Core Java & OOP
+                        </p>
 
-    <option value="Java">Java</option>
+                        <a href="/quiz/start?subject=Java&difficulty=easy&count=10" class="btn btn-success w-100">
 
-    <option value="Python">Python</option>
+                            Start Quiz </a>
 
-    <option value="DSA">DSA</option>
+                    </div>
 
-    <option value="DBMS">DBMS</option>
-
-    <option value="OS">Operating System</option>
-
-    <option value="CN">Computer Networks</option>
-
-    <option value="Web Development">Web Development</option>
-
-    <option value="AI & ML">AI & ML</option>
-
-    <option value="Aptitude">Aptitude</option>
-
-</select>
-
+                </div>
             </div>
 
-            <div class="col-lg-3">
 
-                <label class="form-label fw-semibold">
+            <div class="col-lg-4">
+                <div class="card quiz-card border-0 shadow">
 
-                    Difficulty
+                    <div class="card-body text-center">
 
-                </label>
+                        <div class="subject-icon">
+                            <i class="fa-brands fa-python"></i>
+                        </div>
 
-                <select
-                class="form-select"
-                name="difficulty"
-                required>
+                        <h4>Python</h4>
 
-                    <option value="easy">
+                        <p class="text-muted">
+                            Python Fundamentals
+                        </p>
 
-                        Easy
+                        <a href="/quiz/start?subject=Python&difficulty=easy&count=10" class="btn btn-success w-100">
 
-                    </option>
+                            Start Quiz </a>
 
-                    <option value="medium">
+                    </div>
 
-                        Medium
-
-                    </option>
-
-                    <option value="hard">
-
-                        Hard
-
-                    </option>
-
-                </select>
-
+                </div>
             </div>
 
-            <div class="col-lg-3">
 
-                <label class="form-label fw-semibold">
+            <div class="col-lg-4">
+                <div class="card quiz-card border-0 shadow">
 
-                    Number of Questions
+                    <div class="card-body text-center">
 
-                </label>
+                        <div class="subject-icon">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
 
-                <select
-                class="form-select"
-                name="count"
-                required>
+                        <h4>DBMS</h4>
 
-                    <option value="10">10</option>
+                        <p class="text-muted">
+                            SQL & Database Concepts
+                        </p>
 
-                    <option value="20">20</option>
+                        <a href="/quiz/start?subject=DBMS&difficulty=easy&count=10" class="btn btn-success w-100">
 
-                    <option value="30">30</option>
+                            Start Quiz </a>
 
-                    <option value="40">40</option>
+                    </div>
 
-                    <option value="50">50</option>
-
-                    <option value="100">100</option>
-
-                </select>
-
+                </div>
             </div>
 
-            <div class="col-lg-2 d-grid">
 
-                <button
-                class="btn btn-success">
 
-                    Start Quiz
+            <div class="col-lg-4">
+                <div class="card quiz-card border-0 shadow">
 
-                </button>
+                    <div class="card-body text-center">
 
+                        <div class="subject-icon">
+                            <i class="fa-solid fa-desktop"></i>
+                        </div>
+
+                        <h4>Operating System</h4>
+
+                        <p class="text-muted">
+                            Scheduling & Memory
+                        </p>
+
+                        <a href="/quiz/start?subject=OS&difficulty=easy&count=10" class="btn btn-success w-100">
+
+                            Start Quiz </a>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-lg-4">
+                <div class="card quiz-card border-0 shadow">
+
+                    <div class="card-body text-center">
+
+                        <div class="subject-icon">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+
+                        <h4>Computer Networks</h4>
+
+                        <p class="text-muted">
+                            OSI, TCP/IP & DNS
+                        </p>
+
+                        <a href="/quiz/start?subject=CN&difficulty=easy&count=10" class="btn btn-success w-100">
+
+                            Start Quiz </a>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-lg-4">
+                <div class="card quiz-card border-0 shadow">
+
+                    <div class="card-body text-center">
+
+                        <div class="subject-icon">
+                            <i class="fa-solid fa-cubes"></i>
+                        </div>
+
+                        <h4>DSA</h4>
+
+                        <p class="text-muted">
+                            Data Structures & Algorithms
+                        </p>
+
+                        <a href="/quiz/start?subject=DSA&difficulty=easy&count=10" class="btn btn-success w-100">
+
+                            Start Quiz </a>
+
+                    </div>
+
+                </div>
             </div>
 
         </div>
 
-    </form>
-
-</div>
+    </div>
 
 
 
-<%- include("partials/footer") %>
+    <div class="card shadow-lg border-0 rounded-4 p-4 mt-5">
+
+        <div class="text-center mb-4">
+
+            <h2 class="fw-bold">
+
+                🎯 Custom Quiz Builder
+
+            </h2>
+
+            <p class="text-muted">
+
+                Choose your own quiz settings.
+
+            </p>
+
+        </div>
+
+        <form action="/quiz/start" method="GET">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-lg-4">
+
+                    <label class="form-label fw-semibold">
+
+                        Subject
+
+                    </label>
+
+                    <select class="form-select" name="subject">
+
+                        <option value="Java">Java</option>
+
+                        <option value="Python">Python</option>
+
+                        <option value="DSA">DSA</option>
+
+                        <option value="DBMS">DBMS</option>
+
+                        <option value="OS">Operating System</option>
+
+                        <option value="CN">Computer Networks</option>
+
+                        <option value="Web Development">Web Development</option>
+
+                        <option value="AI & ML">AI & ML</option>
+
+                        <option value="Aptitude">Aptitude</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3">
+
+                    <label class="form-label fw-semibold">
+
+                        Difficulty
+
+                    </label>
+
+                    <select class="form-select" name="difficulty" required>
+
+                        <option value="easy">
+
+                            Easy
+
+                        </option>
+
+                        <option value="medium">
+
+                            Medium
+
+                        </option>
+
+                        <option value="hard">
+
+                            Hard
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3">
+
+                    <label class="form-label fw-semibold">
+
+                        Number of Questions
+
+                    </label>
+
+                    <select class="form-select" name="count" required>
+
+                        <option value="10">10</option>
+
+                        <option value="20">20</option>
+
+                        <option value="30">30</option>
+
+                        <option value="40">40</option>
+
+                        <option value="50">50</option>
+
+                        <option value="100">100</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-2 d-grid">
+
+                    <button class="btn btn-success">
+
+                        Start Quiz
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+
+    <%- include("partials/footer") %>

@@ -4,7 +4,7 @@ module.exports.indexVegetable = async (req, res, next) => {
     try {
         if (req.query.search && req.query.search.length > 0) {
             let searchQ = req.query.search;
-            let searchVegetables = await Vegetable.find({ title: { $regex: searchQ, $options: "i" } }) // Case-insensitive search
+            let searchVegetables = await Vegetable.find({ title: { $regex: searchQ, $options: "i" } })
                 .collation({ locale: "en", strength: 2 });
 
             if (searchVegetables.length === 0) {
@@ -13,7 +13,7 @@ module.exports.indexVegetable = async (req, res, next) => {
             }
             return res.render("vegetables/search.ejs", { searchVegetables, searchQ });
         } else {
-            // Fetch all vegetables and sort by createdAt (newest first)
+
             const allVegetables = await Vegetable.find().sort({ createdAt: -1 });
             res.render("vegetables/index.ejs", { allVegetables });
         }

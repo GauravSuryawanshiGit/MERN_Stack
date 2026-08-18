@@ -1,23 +1,22 @@
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
-    try {
-
+    /*Successfully Connect to mongoDB*/ try {
         await mongoose.connect(
             process.env.MONGO_URI
         );
 
-        console.log("✅ MongoDB Atlas Connected");
+        console.log("MongoDB Atlas Connected");
 
-    } catch (err) {
+    } /*Failure to Connect to mongoDB*/catch (err) {
 
         console.log(
             "Database Connection Error:",
-            err.message
+            err.message /*Print error msg*/
         );
 
-        process.exit(1);
+        process.exit(1); /*When failure occurs to connect with DB exit and terminate application*/
     }
 };
 
-module.exports = connectDB;
+module.exports = connectDB; /*make connectDB available to other JS files*/

@@ -34,7 +34,7 @@ async function sendMessage() {
 
     if (!message) return;
 
-    // User Bubble
+
     box.innerHTML += `
         <div class="user-msg">
             ${message}
@@ -45,7 +45,7 @@ async function sendMessage() {
 
     box.scrollTop = box.scrollHeight;
 
-    // Typing Indicator
+
     const typing = document.createElement("div");
 
     typing.className = "ai-msg typing";
@@ -60,17 +60,17 @@ async function sendMessage() {
 
     box.scrollTop = box.scrollHeight;
 
-    try{
+    try {
 
-        const res = await fetch("/ai",{
+        const res = await fetch("/ai", {
 
-            method:"POST",
+            method: "POST",
 
-            headers:{
-                "Content-Type":"application/json"
+            headers: {
+                "Content-Type": "application/json"
             },
 
-            body:JSON.stringify({
+            body: JSON.stringify({
                 message
             })
 
@@ -82,13 +82,13 @@ async function sendMessage() {
 
         box.innerHTML += `
             <div class="ai-msg">
-                ${data.reply.replace(/\n/g,"<br>")}
+                ${data.reply.replace(/\n/g, "<br>")}
             </div>
         `;
 
         box.scrollTop = box.scrollHeight;
 
-    }catch(err){
+    } catch (err) {
 
         typing.remove();
 
@@ -103,11 +103,11 @@ async function sendMessage() {
 }
 const input = document.getElementById("userMessage");
 
-if(input){
+if (input) {
 
-    input.addEventListener("keypress",function(e){
+    input.addEventListener("keypress", function (e) {
 
-        if(e.key==="Enter"){
+        if (e.key === "Enter") {
 
             sendMessage();
 

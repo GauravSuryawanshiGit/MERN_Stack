@@ -3,11 +3,11 @@ maptilersdk.config.apiKey = mapToken;
 const map = new maptilersdk.Map({
     container: 'map',
     style: maptilersdk.MapStyle.STREETS,
-    center: [74.1850, 17.2853], // Default center
+    center: [74.1850, 17.2853],
     zoom: 9
 });
 
-// Add hub locations (Blue)
+
 hubs.forEach(hub => {
     new maptilersdk.Marker({ color: "blue" })
         .setLngLat(hub.coords)
@@ -15,7 +15,7 @@ hubs.forEach(hub => {
         .addTo(map);
 });
 
-// Add customer locations (Red)
+
 customerLocations.forEach(customer => {
     new maptilersdk.Marker({ color: "red" })
         .setLngLat(customer.coords)
@@ -23,7 +23,7 @@ customerLocations.forEach(customer => {
         .addTo(map);
 });
 
-// Find routes for each customer to the nearest hub
+
 async function fetchRoutes() {
     for (let customer of customerLocations) {
         let nearestHub = getNearestHub(customer.coords, hubs);
@@ -65,7 +65,7 @@ async function fetchRoutes() {
     }
 }
 
-// Find nearest hub function
+
 function getNearestHub(customerCoords, hubs) {
     let nearestHub = null;
     let minDistance = Infinity;
@@ -85,5 +85,4 @@ function getNearestHub(customerCoords, hubs) {
     return nearestHub;
 }
 
-// Fetch routes after map loads
 map.on('load', fetchRoutes);

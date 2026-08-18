@@ -1,82 +1,73 @@
 <%- include("../partials/header") %>
 
-<div class="container-fluid">
+    <div class="container-fluid">
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
 
-<div>
+            <div>
 
-<h1 class="fw-bold">
-🏆 Achievements
-</h1>
+                <h1 class="fw-bold">
+                    🏆 Achievements
+                </h1>
 
-<p class="text-muted">
-Unlock achievements as you grow on Quizo
-</p>
+                <p class="text-muted">
+                    Unlock achievements as you grow on Quizo
+                </p>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-<div class="row g-4">
+        <div class="row g-4">
 
-<% achievements.forEach(a => { %>
+            <% achievements.forEach(a=> { %>
 
-<div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6">
 
-<div class="card border-0 shadow-sm achievement-card">
+                    <div class="card border-0 shadow-sm achievement-card">
 
-<div class="card-body text-center p-4">
+                        <div class="card-body text-center p-4">
 
-<div class="achievement-icon">
+                            <div class="achievement-icon">
 
-    <img
-        src="/images/<%= a.icon %>"
-        alt="<%= a.title %>"
-    >
+                                <img src="/images/<%= a.icon %>" alt="<%= a.title %>">
 
-</div>
+                            </div>
 
-<h4>
+                            <h4>
 
-    <%= a.title %>
+                                <%= a.title %>
 
-</h4>
+                            </h4>
 
-<% if(a.unlocked){ %>
+                            <% if(a.unlocked){ %>
 
-<span
-class="badge bg-success mt-2"
+                                <span class="badge bg-success mt-2">
 
->
+                                    Unlocked
 
-Unlocked
+                                </span>
 
-</span>
+                                <% } else { %>
 
-<% } else { %>
+                                    <span class="badge bg-secondary mt-2">
 
-<span
-class="badge bg-secondary mt-2"
+                                        Locked
 
->
+                                    </span>
 
-Locked
+                                    <% } %>
 
-</span>
+                        </div>
 
-<% } %>
+                    </div>
 
-</div>
+                </div>
 
-</div>
+                <% }) %>
 
-</div>
+        </div>
 
-<% }) %>
+    </div>
 
-</div>
-
-</div>
-
-<%- include("../partials/footer") %>
+    <%- include("../partials/footer") %>
