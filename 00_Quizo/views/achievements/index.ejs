@@ -1,73 +1,44 @@
 <%- include("../partials/header") %>
 
-    <div class="container-fluid">
+<!-- Page Header (Large, Left-Aligned) -->
+<div class="panel-header">
+    <h1 class="panel-title">Achievements & Badges</h1>
+    <p class="panel-subtitle">
+        Milestones and awards unlocked through quiz completion, maintaining daily learning streaks, and achieving high accuracy.
+    </p>
+</div>
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-
-            <div>
-
-                <h1 class="fw-bold">
-                    🏆 Achievements
-                </h1>
-
-                <p class="text-muted">
-                    Unlock achievements as you grow on Quizo
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="row g-4">
-
-            <% achievements.forEach(a=> { %>
-
-                <div class="col-lg-4 col-md-6">
-
-                    <div class="card border-0 shadow-sm achievement-card">
-
-                        <div class="card-body text-center p-4">
-
-                            <div class="achievement-icon">
-
-                                <img src="/images/<%= a.icon %>" alt="<%= a.title %>">
-
-                            </div>
-
-                            <h4>
-
-                                <%= a.title %>
-
-                            </h4>
-
-                            <% if(a.unlocked){ %>
-
-                                <span class="badge bg-success mt-2">
-
-                                    Unlocked
-
-                                </span>
-
-                                <% } else { %>
-
-                                    <span class="badge bg-secondary mt-2">
-
-                                        Locked
-
-                                    </span>
-
-                                    <% } %>
-
-                        </div>
-
-                    </div>
-
+<!-- Achievements Grid (Clean, Rectangular, Subtle Borders) -->
+<div class="row g-3">
+    <% achievements.forEach(a => { %>
+        <div class="col-lg-4 col-md-6">
+            <div class="stat-box h-100 d-flex align-items-center gap-3">
+                <div style="width: 54px; height: 54px; min-width: 54px; border-radius: 4px; background: #FFFFFF; border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 6px;">
+                    <img src="/images/<%= a.icon %>" alt="<%= a.title %>" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                 </div>
 
-                <% }) %>
-
+                <div class="flex-grow-1">
+                    <h3 class="h6 fw-bold text-dark mb-1"><%= a.title %></h3>
+                    <div>
+                        <% if (a.unlocked) { %>
+                            <span class="badge bg-success"><i class="fa-solid fa-check me-1"></i> Unlocked</span>
+                        <% } else { %>
+                            <span class="badge bg-secondary"><i class="fa-solid fa-lock me-1"></i> Locked</span>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
         </div>
+    <% }) %>
+</div>
 
-    </div>
+<div class="mt-4 pt-3 border-top d-flex gap-2">
+    <a href="/dashboard" class="btn btn-quizo-primary">
+        <i class="fa-solid fa-gauge-high me-1"></i> View Dashboard
+    </a>
+    <a href="/" class="btn btn-quizo-secondary">
+        <i class="fa-solid fa-play me-1"></i> Practice More Quizzes
+    </a>
+</div>
 
-    <%- include("../partials/footer") %>
+<%- include("../partials/footer") %>

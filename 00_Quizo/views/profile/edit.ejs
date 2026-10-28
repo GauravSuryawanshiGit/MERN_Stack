@@ -1,58 +1,69 @@
 <%- include("../partials/header") %>
 
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-7">
-                <div class="card shadow border-0 rounded-4">
-                    <div class="card-body p-5">
+<!-- Page Header (Large, Left-Aligned) -->
+<div class="panel-header">
+    <h1 class="panel-title">Edit Profile</h1>
+    <p class="panel-subtitle">
+        Update your personal profile information, display name, profile avatar, and bio.
+    </p>
+</div>
 
-                        <h2 class="mb-1">Edit Profile</h2>
-                        <p class="text-muted mb-4">Update your name and bio below.</p>
+<% if (typeof error !== "undefined" && error) { %>
+    <div class="alert alert-danger mb-4" style="border-radius: var(--radius-sm);">
+        <i class="fa-solid fa-circle-exclamation me-2"></i><%= error %>
+    </div>
+<% } %>
 
-                        <% if (typeof error !=="undefined" && error) { %>
-                            <div class="alert alert-danger rounded-3">
-                                <%= error %>
-                            </div>
-                            <% } %>
-
-                                <form action="/profile/edit" method="POST" novalidate>
-
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label fw-semibold">Full Name</label>
-                                        <input type="text" id="name" class="form-control" name="name"
-                                            value="<%= user.name %>" required maxlength="80"
-                                            placeholder="Your full name">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label class="form-label fw-semibold">Email</label>
-                                        <input type="email" class="form-control bg-light" value="<%= user.email %>"
-                                            readonly tabindex="-1">
-                                        <div class="form-text">Email cannot be changed.</div>
-                                    </div>
-
-                                    <div class="mb-4">
-                                        <label for="bio" class="form-label fw-semibold">Bio</label>
-                                        <textarea id="bio" class="form-control" rows="4" name="bio" maxlength="300"
-                                            placeholder="Tell us a little about yourself…"><%= typeof user.bio === "string" ? user.bio : "" %></textarea>
-                                        <div class="form-text">Max 300 characters.</div>
-                                    </div>
-
-                                    <div class="d-flex gap-3">
-                                        <button type="submit" class="btn btn-success px-4">
-                                            Save Changes
-                                        </button>
-                                        <a href="/profile" class="btn btn-outline-secondary px-4">
-                                            Cancel
-                                        </a>
-                                    </div>
-
-                                </form>
-
-                    </div>
+<div class="auth-panel-wrapper" style="max-width: 640px;">
+    <form action="/profile/edit" method="POST" enctype="multipart/form-data" novalidate>
+        <!-- Profile Picture Preview & Upload -->
+        <div class="stat-box mb-4">
+            <div class="d-flex align-items-center gap-3">
+                <div style="width: 72px; height: 72px; min-width: 72px; border-radius: 4px; background: var(--primary-light); color: #FFFFFF; font-size: 1.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border-medium);">
+                    <% if (user.avatar && user.avatar.startsWith("data:image/")) { %>
+                        <img src="<%= user.avatar %>" alt="Current avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                    <% } else { %>
+                        <%= (user.name || "U").charAt(0).toUpperCase() %>
+                    <% } %>
+                </div>
+                <div class="flex-grow-1">
+                    <label for="avatar" class="form-label mb-1">Upload New Avatar</label>
+                    <input type="file" id="avatar" class="form-control" name="avatar" accept="image/png,image/jpeg,image/webp,image/gif">
+                    <div class="form-text">Accepted formats: PNG, JPG, WebP, GIF (Max 2 MB).</div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <%- include("../partials/footer") %>
+        <!-- Full Name -->
+        <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" id="name" class="form-control" name="name" value="<%= user.name %>" required maxlength="80" placeholder="Your full name">
+        </div>
+
+        <!-- Email (Readonly) -->
+        <div class="mb-3">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-control" value="<%= user.email %>" readonly tabindex="-1" style="background-color: var(--bg-subtle);">
+            <div class="form-text">Account email address cannot be modified.</div>
+        </div>
+
+        <!-- Bio -->
+        <div class="mb-4">
+            <label for="bio" class="form-label">Biography / Description</label>
+            <textarea id="bio" class="form-control" rows="3" name="bio" maxlength="300" placeholder="Brief statement about your learning interests and goals..."><%= typeof user.bio === "string" ? user.bio : "" %></textarea>
+            <div class="form-text">Maximum 300 characters.</div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-quizo-primary">
+                <i class="fa-solid fa-floppy-disk me-1"></i> Save Changes
+            </button>
+            <a href="/profile" class="btn btn-quizo-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+<%- include("../partials/footer") %>

@@ -1,37 +1,43 @@
 <%- include("../partials/header") %>
 
-    <div class="auth-container">
-
-        <div class="auth-card">
-
-            <h2>Create Account 🚀</h2>
-
-            <p class="auth-subtitle">
-                Join Quizo and start your learning journey today.
-            </p>
-
-            <form method="POST" action="/signup" data-submit-alert="true" data-submit-title="Creating your account"
-                data-submit-text="Setting up your profile and getting Quizo ready.">
-
-                <input type="text" name="name" placeholder="Full Name" required>
-
-                <input type="email" name="email" placeholder="Email Address" required>
-
-                <input type="password" name="password" placeholder="Create Password" required>
-
-                <button type="submit">
-                    Create Account
-                </button>
-
-            </form>
-
-            <p class="auth-link">
-                Already have an account?
-                <a href="/login">Login here</a>
-            </p>
-
-        </div>
-
+<div class="auth-panel-wrapper">
+    <!-- Page Header (Large, Left-Aligned) -->
+    <div class="panel-header">
+        <h1 class="panel-title">Create an Account</h1>
+        <p class="panel-subtitle">
+            Join Quizo today to save your assessment scores, earn XP and badges, and compete on the global leaderboard.
+        </p>
     </div>
 
-    <%- include("../partials/footer") %>
+    <div class="auth-form-card">
+        <form method="POST" action="/signup" data-submit-alert="true" data-submit-title="Creating your account"
+            data-submit-text="Setting up your profile and getting Quizo ready.">
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="e.g. Gaurav Suryawanshi" required autocomplete="name">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="name@example.com" required autocomplete="email">
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Create Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Choose a secure password" required autocomplete="new-password">
+            </div>
+
+            <button type="submit" class="btn btn-quizo-primary w-100 mt-2">
+                <i class="fa-solid fa-user-plus me-1"></i> Create Account
+            </button>
+        </form>
+
+        <div class="auth-form-footer pt-3 mt-3 border-top">
+            Already registered with Quizo?
+            <a href="/login" class="text-primary fw-semibold ms-1">Login here</a>
+        </div>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>

@@ -50,7 +50,9 @@ exports.getProfile = async (req, res) => {
         const quizzesPercent = Math.min(userTotalQuizzes, 100);
 
         return res.render("profile/index", {
-            user, level, rank, accuracy,
+            user,
+            userDoc: user,
+            level, rank, accuracy,
             achievementCount, recentAttempts,
             chartLabels, chartData,
             xpPercent, achievementPercent, quizzesPercent
@@ -100,13 +102,17 @@ exports.updateProfile = async (req, res) => {
         }
 
         user.name = name.trim();
-
         user.bio = typeof bio === "string" ? bio.trim() : (user.bio || "");
+
+        if (req.file) {
+            user.avatar = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+        }
 
         await user.save();
 
-
         req.session.user.name = user.name;
+        req.session.user.avatar = user.avatar;
+        req.session.user.bio = user.bio;
 
         req.flash("success", "Profile updated successfully.");
         return res.redirect("/profile");

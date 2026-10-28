@@ -1,6 +1,20 @@
 {
+  "name": "quizo",
+  "version": "2.0.0",
+  "description": "Enterprise-Grade Production Quiz Platform with Zero-Repetition Engine and Seva Setu Layout",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js",
+    "seed": "node seedQuestions.js",
+    "build:dataset": "node scripts/buildDataset.js",
+    "test": "node tests/quiz-engine.test.js && node test-e2e-routes.js && node tests/comprehensive-qa.test.js",
+    "test:engine": "node tests/quiz-engine.test.js",
+    "test:e2e": "node test-e2e-routes.js",
+    "test:qa": "node tests/comprehensive-qa.test.js"
+  },
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",  
+    "@google/generative-ai": "^0.24.1",
     "bcrypt": "^6.0.0",
     "connect-mongo": "^6.0.0",
     "dotenv": "^17.4.2",
@@ -13,14 +27,6 @@
     "node": "^24.12.0",
     "xlsx": "^0.18.5"
   },
-  "name": "main",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js",
-    "dev": "node app.js"
-  },
-  "author": "Quizo Official",
+  "author": "Quizo Engineering Team",
   "license": "ISC"
 }

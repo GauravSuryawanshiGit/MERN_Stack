@@ -1,46 +1,31 @@
 <%- include("../partials/header") %>
 
-    <div class="container-fluid">
-
-        <section class="utility-page">
-
-            <div class="utility-card">
-
-                <div class="utility-icon">
-
-                    <i class="fa-solid fa-compass-drafting"></i>
-
-                </div>
-
-                <p class="utility-eyebrow">
-                    Error 404
-                </p>
-
-                <h1>
-                    This page wandered off the map
-                </h1>
-
-                <p class="utility-copy">
-                    The page you tried to open does not exist or may have been moved.
-                    Let’s get you back to a working part of Quizo.
-                </p>
-
-                <div class="utility-actions">
-
-                    <a href="/" class="btn btn-success btn-lg">
-                        Go Home
-                    </a>
-
-                    <a href="/dashboard" class="btn btn-outline-success btn-lg">
-                        Open Dashboard
-                    </a>
-
-                </div>
-
-            </div>
-
-        </section>
-
+<div class="auth-panel-wrapper" style="text-align: left;">
+    <!-- Page Header (Large, Left-Aligned) -->
+    <div class="panel-header">
+        <h1 class="panel-title">Page Not Found (Error 404)</h1>
+        <p class="panel-subtitle">
+            The page you requested does not exist or may have been moved.
+        </p>
     </div>
 
-    <%- include("../partials/footer") %>
+    <div class="stat-box mb-4">
+        <p class="text-muted mb-0">
+            Please check the URL for typing errors or use the navigation options below to return to active sections of Quizo.
+        </p>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+        <a href="/" class="btn btn-quizo-primary">
+            <i class="fa-solid fa-house me-1"></i> Return to Home
+        </a>
+        <a href="/dashboard" class="btn btn-quizo-secondary">
+            <i class="fa-solid fa-gauge-high me-1"></i> Go to Dashboard
+        </a>
+        <a href="/leaderboard" class="btn btn-outline-success">
+            <i class="fa-solid fa-trophy me-1"></i> View Leaderboard
+        </a>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>

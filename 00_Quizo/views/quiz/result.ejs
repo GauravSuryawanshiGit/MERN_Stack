@@ -1,135 +1,91 @@
 <%- include("../partials/header") %>
 
-    <div class="container-fluid">
+<!-- Page Header (Large, Left-Aligned) -->
+<div class="panel-header">
+    <h1 class="panel-title">Assessment Performance Summary</h1>
+    <p class="panel-subtitle">
+        Your answers have been verified and scored on the server. Review your detailed score, accuracy, and progression metrics below.
+    </p>
+</div>
 
-        <div class="card hero-card border-0 shadow-lg mb-4">
-
-            <div class="card-body text-center p-5">
-
-                <h1 class="display-4 fw-bold">
-                    🎉 Quiz Complete
-                </h1>
-
-                <p class="lead">
-                    Great job! Here's your performance summary.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-lg-3">
-
-                <div class="card stat-card shadow-sm border-0">
-
-                    <div class="card-body text-center">
-
-                        <h6>Score</h6>
-
-                        <h2>
-
-                            <%= correct %>/<%= total %>
-
-                        </h2>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3">
-
-                <div class="card stat-card shadow-sm border-0">
-
-                    <div class="card-body text-center">
-
-                        <h6>Accuracy</h6>
-
-                        <h2>
-
-                            <%= accuracy %>%
-
-                        </h2>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3">
-
-                <div class="card stat-card shadow-sm border-0">
-
-                    <div class="card-body text-center">
-
-                        <h6>XP Earned</h6>
-
-                        <h2>
-
-                            +<%= xp %>
-
-                        </h2>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3">
-
-                <div class="card stat-card shadow-sm border-0">
-
-                    <div class="card-body text-center">
-
-                        <h6>Time Taken</h6>
-
-                        <h2>
-
-                            <%= Math.floor(quizTime/60) %>m
-                                <%= quizTime%60 %>s
-
-                        </h2>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="text-center mt-5">
-            <a href="/quiz/review/<%= resultId %>" class="btn btn-primary btn-lg me-3">
-                Review Answers
-            </a>
-
-            <a href="/dashboard" class="btn btn-success btn-lg me-3">
-
-                Dashboard
-
-            </a>
-
-            <a href="/leaderboard" class="btn btn-outline-success btn-lg me-3">
-
-                Leaderboard
-
-            </a>
-
-            <a href="/" class="btn btn-dark btn-lg">
-
-                Play Again
-
-            </a>
-
-        </div>
-
+<!-- Performance Summary Grid (Clean, Subtle Bordered Metric Boxes) -->
+<div class="result-stat-grid mb-4">
+    <div class="stat-box">
+        <div class="stat-box-label">Final Score</div>
+        <div class="stat-box-value"><%= correct %> / <%= total %></div>
+        <div class="stat-box-desc">Correct answers out of total questions</div>
     </div>
 
-    <%- include("../partials/footer") %>
+    <div class="stat-box">
+        <div class="stat-box-label">Accuracy Rate</div>
+        <div class="stat-box-value <%= accuracy >= 70 ? 'text-success' : (accuracy >= 40 ? 'text-warning' : 'text-danger') %>">
+            <%= accuracy %>%
+        </div>
+        <div class="stat-box-desc">Percentage of correct evaluations</div>
+    </div>
+
+    <div class="stat-box">
+        <div class="stat-box-label">Experience Points</div>
+        <div class="stat-box-value text-success">+<%= xp %> XP</div>
+        <div class="stat-box-desc">Added to your learner profile</div>
+    </div>
+
+    <div class="stat-box">
+        <div class="stat-box-label">Time Elapsed</div>
+        <div class="stat-box-value">
+            <%= Math.floor(quizTime / 60) %>m <%= quizTime % 60 %>s
+        </div>
+        <div class="stat-box-desc">Total duration on this assessment</div>
+    </div>
+</div>
+
+<!-- Breakdown Details: Correct vs Incorrect vs Skipped -->
+<div class="stat-box mb-4">
+    <h3 class="h6 fw-bold text-dark mb-3">Answer Breakdown</h3>
+    <div class="d-flex flex-wrap gap-4">
+        <div>
+            <span class="text-muted small d-block">Correct Answers</span>
+            <span class="text-success fw-bold fs-5">
+                <i class="fa-solid fa-circle-check me-1"></i> <%= correct %>
+            </span>
+        </div>
+        <div>
+            <span class="text-muted small d-block">Incorrect Answers</span>
+            <span class="text-danger fw-bold fs-5">
+                <i class="fa-solid fa-circle-xmark me-1"></i> <%= typeof incorrect !== "undefined" ? incorrect : (total - correct) %>
+            </span>
+        </div>
+        <div>
+            <span class="text-muted small d-block">Skipped / Unanswered</span>
+            <span class="text-secondary fw-bold fs-5">
+                <i class="fa-solid fa-forward me-1"></i> <%= typeof skipped !== "undefined" ? skipped : 0 %>
+            </span>
+        </div>
+        <div>
+            <span class="text-muted small d-block">Category Practiced</span>
+            <span class="text-dark fw-bold fs-5">
+                <%= typeof category !== "undefined" ? category : (typeof subject !== "undefined" ? subject : "Assessment") %>
+            </span>
+        </div>
+    </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- Action Buttons (Rectangular, Left-Aligned) -->
+<div class="d-flex flex-wrap gap-2">
+    <a href="/quiz/review/<%= resultId %>" class="btn btn-quizo-primary">
+        <i class="fa-solid fa-book-open me-1"></i> Review Full Answers & Explanations
+    </a>
+    <a href="/dashboard" class="btn btn-quizo-secondary">
+        <i class="fa-solid fa-gauge-high me-1"></i> Go to Dashboard
+    </a>
+    <a href="/leaderboard" class="btn btn-outline-success">
+        <i class="fa-solid fa-trophy me-1"></i> View Leaderboard
+    </a>
+    <a href="/" class="btn btn-quizo-secondary">
+        <i class="fa-solid fa-rotate me-1"></i> Practice Next Quiz
+    </a>
+</div>
+
+<%- include("../partials/footer") %>

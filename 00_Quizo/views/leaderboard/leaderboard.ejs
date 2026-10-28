@@ -1,340 +1,158 @@
 <%- include("../partials/header") %>
 
-    <div class="container-fluid">
+<!-- Page Header (Large, Left-Aligned) -->
+<div class="panel-header">
+    <h1 class="panel-title">Global Leaderboard</h1>
+    <p class="panel-subtitle">
+        National rankings for learners on Quizo based on total accumulated experience points (XP), assessment accuracy, and active streaks.
+    </p>
+</div>
 
-
-        <div class="card hero-card border-0 shadow-lg mb-4">
-
-            <div class="card-body p-5">
-
-                <h1 class="fw-bold">
-                    🏆 Global Leaderboard
-                </h1>
-
-                <p class="mb-0">
-                    Compete with top performers and climb the rankings.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="row g-4 mb-5">
-
-            <% if(leaders[1]){ %>
-
-                <div class="col-lg-4">
-
-                    <div class="card border-0 shadow stat-card">
-
-                        <div class="card-body text-center">
-
-                            <h1>🥈</h1>
-
-                            <h4>
-                                <%= leaders[1].name %>
-                            </h4>
-
-                            <% const acc2=leaders[1].totalQuestions> 0
-                                ? Math.round(
-                                (leaders[1].totalCorrect /
-                                leaders[1].totalQuestions) * 100
-                                )
-                                : 0;
-
-                                %>
-
-                                <p>
-                                    Accuracy: <%= acc2 %>%
-                                </p>
-
-                                <p>
-                                    XP: <%= leaders[1].xp %>
-                                </p>
-
-                        </div>
-
+<!-- Section 1: Top 3 Performers (Clean Podium Cards) -->
+<div class="row g-3 mb-4">
+    <!-- Rank 1 (Gold) -->
+    <% if (leaders && leaders[0]) { %>
+        <% const acc0 = leaders[0].totalQuestions > 0 ? Math.round((leaders[0].totalCorrect / leaders[0].totalQuestions) * 100) : 0; %>
+        <div class="col-lg-4 col-md-12">
+            <div class="stat-box h-100 border-2" style="border-color: #F59E0B !important;">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-warning text-dark"><i class="fa-solid fa-crown me-1"></i> Rank 1 (Champion)</span>
+                    <span class="text-warning fs-5"><i class="fa-solid fa-medal"></i></span>
+                </div>
+                <h3 class="h5 fw-bold text-dark mb-1"><%= leaders[0].name %></h3>
+                <div class="d-flex gap-4 mt-2">
+                    <div>
+                        <div class="stat-box-label">Total XP</div>
+                        <div class="fw-bold fs-5 text-success"><%= leaders[0].xp %> XP</div>
                     </div>
-
+                    <div>
+                        <div class="stat-box-label">Accuracy</div>
+                        <div class="fw-bold fs-5"><%= acc0 %>%</div>
+                    </div>
+                    <div>
+                        <div class="stat-box-label">Streak</div>
+                        <div class="fw-bold fs-5 text-warning"><i class="fa-solid fa-fire me-1"></i><%= leaders[0].streak || 0 %></div>
+                    </div>
                 </div>
-
-                <% } %>
-
-                    <% if(leaders[0]){ %>
-
-                        <div class="col-lg-4">
-
-                            <div class="card border-0 shadow stat-card">
-
-                                <div class="card-body text-center">
-
-                                    <h1>🥇</h1>
-
-                                    <h3 class="fw-bold">
-                                        <%= leaders[0].name %>
-                                    </h3>
-
-                                    <% const acc1=leaders[0].totalQuestions> 0
-                                        ? Math.round(
-                                        (leaders[0].totalCorrect /
-                                        leaders[0].totalQuestions) * 100
-                                        )
-                                        : 0;
-
-                                        %>
-
-                                        <p>
-                                            Accuracy: <%= acc1 %>%
-                                        </p>
-
-                                        <p>
-                                            XP: <%= leaders[0].xp %>
-                                        </p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <% } %>
-
-                            <% if(leaders[2]){ %>
-
-                                <div class="col-lg-4">
-
-                                    <div class="card border-0 shadow stat-card">
-
-                                        <div class="card-body text-center">
-
-                                            <h1>🥉</h1>
-
-                                            <h4>
-                                                <%= leaders[2].name %>
-                                            </h4>
-
-                                            <% const acc3=leaders[2].totalQuestions> 0
-                                                ? Math.round(
-                                                (leaders[2].totalCorrect /
-                                                leaders[2].totalQuestions) * 100
-                                                )
-                                                : 0;
-
-                                                %>
-
-                                                <p>
-                                                    Accuracy: <%= acc3 %>%
-                                                </p>
-
-                                                <p>
-                                                    XP: <%= leaders[2].xp %>
-                                                </p>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <% } %>
-
-        </div>
-
-
-        <div class="card border-0 shadow-sm">
-
-            <div class="card-body">
-
-                <h4 class="mb-4">
-                    <i class="fa-solid fa-crown"></i>
-                    Full Rankings
-                </h4>
-
-                <div class="table-responsive">
-
-                    <table class="table align-middle">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>Rank</th>
-                                <th>User</th>
-                                <th>XP</th>
-                                <th>Accuracy</th>
-                                <th> Streak</th>
-                                <th>Quizzes</th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            <% leaders.forEach((user,index)=>{ %>
-
-                                <% const accuracy=user.totalQuestions> 0
-                                    ? Math.round(
-                                    (user.totalCorrect /
-                                    user.totalQuestions) * 100
-                                    )
-                                    : 0;
-
-                                    %>
-
-
-                                    <tr>
-
-                                        <td>
-
-                                            <% if(index===0){ %>
-
-                                                <span class="badge bg-warning text-dark">
-                                                    🥇 #1
-                                                </span>
-
-                                                <% }else if(index===1){ %>
-
-                                                    <span class="badge bg-secondary">
-                                                        🥈 #2
-                                                    </span>
-
-                                                    <% }else if(index===2){ %>
-
-                                                        <span class="badge bg-dark">
-                                                            🥉 #3
-                                                        </span>
-
-                                                        <% }else{ %>
-
-                                                            #<%= index+1 %>
-
-                                                                <% } %>
-
-                                        </td>
-
-                                        <td>
-
-                                            <div class="d-flex align-items-center gap-2">
-
-                                                <div style="
-                                    width:42px;
-                                    height:42px;
-                                    border-radius:50%;
-                                    background:#0f766e;
-                                    color:white;
-                                    display:flex;
-                                    align-items:center;
-                                    justify-content:center;
-                                    font-weight:700;
-                                    ">
-
-                                                    <%= (user.name || "U" ).charAt(0).toUpperCase() %>
-
-                                                </div>
-
-                                                <strong>
-                                                    <%= user.name || "Unknown User" %>
-                                                </strong>
-
-                                            </div>
-
-                                        </td>
-
-                                        <td>
-
-                                            <strong>
-                                                <%= user.xp %>
-                                            </strong>
-
-                                        </td>
-
-                                        <td>
-
-                                            <span class="badge bg-success">
-
-                                                <%= accuracy %>%
-
-                                            </span>
-
-                                        </td>
-
-                                        <td>
-
-                                            🔥 <%= user.streak %>
-
-                                        </td>
-
-                                        <td>
-
-                                            <%= user.totalQuizzes %>
-
-                                        </td>
-
-                                    </tr>
-
-                                    <% }) %>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
             </div>
-
         </div>
+    <% } %>
 
-    </div>
+    <!-- Rank 2 (Silver) -->
+    <% if (leaders && leaders[1]) { %>
+        <% const acc1 = leaders[1].totalQuestions > 0 ? Math.round((leaders[1].totalCorrect / leaders[1].totalQuestions) * 100) : 0; %>
+        <div class="col-lg-4 col-md-6">
+            <div class="stat-box h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-secondary"><i class="fa-solid fa-medal me-1"></i> Rank 2 (Runner Up)</span>
+                    <span class="text-secondary fs-5"><i class="fa-solid fa-medal"></i></span>
+                </div>
+                <h3 class="h5 fw-bold text-dark mb-1"><%= leaders[1].name %></h3>
+                <div class="d-flex gap-4 mt-2">
+                    <div>
+                        <div class="stat-box-label">Total XP</div>
+                        <div class="fw-bold fs-5 text-success"><%= leaders[1].xp %> XP</div>
+                    </div>
+                    <div>
+                        <div class="stat-box-label">Accuracy</div>
+                        <div class="fw-bold fs-5"><%= acc1 %>%</div>
+                    </div>
+                    <div>
+                        <div class="stat-box-label">Streak</div>
+                        <div class="fw-bold fs-5 text-warning"><i class="fa-solid fa-fire me-1"></i><%= leaders[1].streak || 0 %></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
 
+    <!-- Rank 3 (Bronze) -->
+    <% if (leaders && leaders[2]) { %>
+        <% const acc2 = leaders[2].totalQuestions > 0 ? Math.round((leaders[2].totalCorrect / leaders[2].totalQuestions) * 100) : 0; %>
+        <div class="col-lg-4 col-md-6">
+            <div class="stat-box h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-danger"><i class="fa-solid fa-medal me-1"></i> Rank 3</span>
+                    <span class="text-danger fs-5"><i class="fa-solid fa-medal"></i></span>
+                </div>
+                <h3 class="h5 fw-bold text-dark mb-1"><%= leaders[2].name %></h3>
+                <div class="d-flex gap-4 mt-2">
+                    <div>
+                        <div class="stat-box-label">Total XP</div>
+                        <div class="fw-bold fs-5 text-success"><%= leaders[2].xp %> XP</div>
+                    </div>
+                    <div>
+                        <div class="stat-box-label">Accuracy</div>
+                        <div class="fw-bold fs-5"><%= acc2 %>%</div>
+                    </div>
+                    <div>
+                        <div class="stat-box-label">Streak</div>
+                        <div class="fw-bold fs-5 text-warning"><i class="fa-solid fa-fire me-1"></i><%= leaders[2].streak || 0 %></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+</div>
 
-    <script>
+<!-- Section 2: Complete Rankings Table -->
+<h2 class="section-title">All Rankings</h2>
+<p class="section-subtitle">Full list of participants ordered by total accumulated XP.</p>
 
-        function fireConfetti() {
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width: 80px;">Rank</th>
+                <th>Learner</th>
+                <th>Experience Points</th>
+                <th>Accuracy</th>
+                <th>Streak</th>
+                <th>Quizzes Taken</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (leaders && leaders.length > 0) { %>
+                <% leaders.forEach((user, index) => { %>
+                    <% const accuracy = user.totalQuestions > 0 ? Math.round((user.totalCorrect / user.totalQuestions) * 100) : 0; %>
+                    <tr>
+                        <td>
+                            <% if (index === 0) { %>
+                                <span class="badge bg-warning text-dark">#1</span>
+                            <% } else if (index === 1) { %>
+                                <span class="badge bg-secondary">#2</span>
+                            <% } else if (index === 2) { %>
+                                <span class="badge bg-danger">#3</span>
+                            <% } else { %>
+                                <span class="fw-semibold text-muted">#<%= index + 1 %></span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <strong><%= user.name %></strong>
+                        </td>
+                        <td>
+                            <span class="text-success fw-semibold"><%= user.xp || 0 %> XP</span>
+                        </td>
+                        <td>
+                            <%= accuracy %>%
+                        </td>
+                        <td>
+                            <i class="fa-solid fa-fire text-warning me-1"></i><%= user.streak || 0 %> Days
+                        </td>
+                        <td>
+                            <%= user.totalQuizzes || 0 %>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-4">
+                        No leaderboard rankings available yet.
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
 
-            confetti({
-
-                particleCount: 120,
-
-                angle: 60,
-
-                spread: 70,
-
-                origin: { x: 0 },
-
-                colors: [
-                    "#0F766E",
-                    "#14B8A6",
-                    "#FBBF24",
-                    "#FFFFFF"
-                ]
-
-            });
-
-            confetti({
-
-                particleCount: 120,
-
-                angle: 120,
-
-                spread: 70,
-
-                origin: { x: 1 },
-
-                colors: [
-                    "#0F766E",
-                    "#14B8A6",
-                    "#FBBF24",
-                    "#FFFFFF"
-                ]
-
-            });
-
-        }
-
-        window.onload = fireConfetti;
-
-    </script>
-
-    <%- include("../partials/footer") %>
+<%- include("../partials/footer") %>

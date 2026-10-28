@@ -1,49 +1,36 @@
 <%- include("../partials/header") %>
 
-    <div class="container-fluid">
-
-        <section class="utility-page">
-
-            <div class="utility-card">
-
-                <div class="utility-icon warning">
-
-                    <i class="fa-solid fa-user-check"></i>
-
-                </div>
-
-                <p class="utility-eyebrow">
-                    Account already exists
-                </p>
-
-                <h1>
-                    That email is already registered
-                </h1>
-
-                <p class="utility-copy">
-                    We found an existing Quizo account for
-                    <strong>
-                        <%= email %>
-                    </strong>.
-                    You can log in right away or go back and use a different email address.
-                </p>
-
-                <div class="utility-actions">
-
-                    <a href="/login" class="btn btn-success btn-lg">
-                        Go to Login
-                    </a>
-
-                    <a href="/signup" class="btn btn-outline-success btn-lg">
-                        Use Another Email
-                    </a>
-
-                </div>
-
-            </div>
-
-        </section>
-
+<div class="auth-panel-wrapper">
+    <!-- Page Header (Large, Left-Aligned) -->
+    <div class="panel-header">
+        <h1 class="panel-title">Email Already Registered</h1>
+        <p class="panel-subtitle">
+            An existing Quizo account is already associated with this email address.
+        </p>
     </div>
 
-    <%- include("../partials/footer") %>
+    <div class="stat-box mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="text-warning fs-2">
+                <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+            <div>
+                <h3 class="h6 fw-bold text-dark mb-1">Account Found</h3>
+                <p class="text-muted small mb-0">
+                    We found an account registered under <strong><%= email %></strong>. If this is your account, please log in below.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+        <a href="/login" class="btn btn-quizo-primary">
+            <i class="fa-solid fa-right-to-bracket me-1"></i> Proceed to Login
+        </a>
+        <a href="/signup" class="btn btn-quizo-secondary">
+            <i class="fa-solid fa-user-plus me-1"></i> Use Another Email
+        </a>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>

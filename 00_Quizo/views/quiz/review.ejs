@@ -1,82 +1,61 @@
 <%- include("../partials/header") %>
 
-    <div class="container-fluid">
+<!-- Page Header (Large, Left-Aligned) -->
+<div class="panel-header">
+    <h1 class="panel-title">Review Quiz Answers</h1>
+    <p class="panel-subtitle">
+        Review your submitted answers, compare them with correct answers, and read explanations to reinforce your understanding.
+    </p>
+</div>
 
-        <h1 class="mb-4">
-            📖 Review Answers
-        </h1>
+<!-- Vertically Stacked Question Reviews -->
+<% questions.forEach((q, index) => { %>
+    <div class="review-item">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="question-number">Question <%= index + 1 %> of <%= questions.length %></span>
+            <% if (result.answers[q._id] === q.correctAnswer) { %>
+                <span class="badge bg-success"><i class="fa-solid fa-check me-1"></i> Correct</span>
+            <% } else { %>
+                <span class="badge bg-danger"><i class="fa-solid fa-xmark me-1"></i> Incorrect</span>
+            <% } %>
+        </div>
 
-        <% questions.forEach((q,index)=>{ %>
+        <h3 class="h5 fw-bold text-dark mb-3">
+            <%= q.question %>
+        </h3>
 
-            <div class="card shadow-sm border-0 mb-4">
+        <div class="mb-2">
+            <strong>Your Answer:</strong>
+            <span class="<%= result.answers[q._id] === q.correctAnswer ? 'text-success fw-semibold' : 'text-danger fw-semibold' %> ms-1">
+                <%= result.answers[q._id] || "Not Answered" %>
+            </span>
+        </div>
 
-                <div class="card-body">
-
-                    <h5>
-                        Q<%= index+1 %>.
-                            <%= q.question %>
-                    </h5>
-
-                    <hr>
-
-                    <p>
-
-                        <strong>Your Answer:</strong>
-
-                        <%= result.answers[q._id] || "Not Answered" %>
-
-                            <% if( result.answers[q._id]===q.correctAnswer ){ %>
-
-                                <span class="badge bg-success">
-                                    Correct
-                                </span>
-
-                                <% } else { %>
-
-                                    <span class="badge bg-danger">
-                                        Wrong
-                                    </span>
-
-                                    <% } %>
-
-                    </p>
-
-                    <p>
-
-                        <strong>
-                            Correct Answer:
-                        </strong>
-
-                        <span class="text-success">
-
-                            <%= q.correctAnswer %>
-
-                        </span>
-
-                    </p>
-
-                    <p>
-
-                        <strong>
-                            Explanation:
-                        </strong>
-
-                        <%= q.explanation %>
-
-                    </p>
-
-                </div>
-
+        <% if (result.answers[q._id] !== q.correctAnswer) { %>
+            <div class="mb-2">
+                <strong>Correct Answer:</strong>
+                <span class="text-success fw-semibold ms-1">
+                    <%= q.correctAnswer %>
+                </span>
             </div>
+        <% } %>
 
-            <% }) %>
-
-                <a href="/dashboard" class="btn btn-success">
-
-                    Back To Dashboard
-
-                </a>
-
+        <% if (q.explanation && q.explanation.trim() !== "") { %>
+            <div class="review-explanation">
+                <strong>Explanation:</strong>
+                <div class="text-secondary mt-1"><%= q.explanation %></div>
+            </div>
+        <% } %>
     </div>
+<% }) %>
 
-    <%- include("../partials/footer") %>
+<div class="mt-4 pt-2">
+    <a href="/dashboard" class="btn btn-quizo-primary">
+        <i class="fa-solid fa-gauge-high me-1"></i> Back to Dashboard
+    </a>
+    <a href="/" class="btn btn-quizo-secondary ms-2">
+        <i class="fa-solid fa-house me-1"></i> Home
+    </a>
+</div>
+
+<%- include("../partials/footer") %>

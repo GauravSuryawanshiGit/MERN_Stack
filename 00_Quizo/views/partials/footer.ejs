@@ -1,279 +1,213 @@
-<footer class="quizo-footer">
-    <div>
-        <hr>
-        <div class="footer-top">
+        </div><!-- /.quizo-panel -->
+    </main><!-- /.quizo-main -->
 
-            <div class="footer-brand">
+    <!-- Minimal Clean Footer with Relevant Links -->
+    <footer class="quizo-footer">
+        <div class="quizo-footer-container">
+            <div class="quizo-footer-content">
+                <div class="quizo-footer-brand">
+                    <span class="quizo-footer-logo">
+                        <i class="fa-solid fa-graduation-cap me-2"></i>Quizo
+                    </span>
+                    <span class="quizo-footer-desc">
+                        Interactive Skill Assessment & Quiz Platform
+                    </span>
+                </div>
 
-                <h4 class="footer-logo">
-
-                    <i class="fa-solid fa-graduation-cap me-2"></i>
-
-                    Quizo
-
-                </h4>
-
-                <p class="footer-text">
-
-                    Learn smarter. Practice consistently. Build your career with AI-powered quizzes.
-
-                </p>
-
+                <div class="quizo-footer-nav" aria-label="Footer Navigation">
+                    <a href="/">Home</a>
+                    <a href="/dashboard">Dashboard</a>
+                    <a href="/leaderboard">Leaderboard</a>
+                    <a href="/achievements">Achievements</a>
+                    <% if (user) { %>
+                        <a href="/profile">Profile</a>
+                        <% if (user.role === "admin") { %>
+                            <a href="/admin">Admin</a>
+                        <% } %>
+                    <% } else { %>
+                        <a href="/login">Login</a>
+                        <a href="/signup">Sign Up</a>
+                    <% } %>
+                </div>
             </div>
 
-            <div class="footer-links">
-
-                <a href="/">Home</a>
-
-                <a href="/dashboard">Dashboard</a>
-
-                <a href="/leaderboard">Leaderboard</a>
-
-                <a href="/profile">Profile</a>
-
+            <div class="quizo-footer-bottom">
+                <span>&copy; 2026 Quizo. All rights reserved.</span>
+                <span class="quizo-footer-version">Version 2.0</span>
             </div>
-
         </div>
+    </footer>
 
-        <hr>
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Confetti & SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <div class="footer-bottom">
-
-            <span>
-
-                © 2026 Quizo • Built with ❤️ for learners
-
-            </span>
-
-            <span>
-
-                Version 2.0
-
-            </span>
-
-        </div>
-
-    </div>
-
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<% if(typeof chartLabels !=="undefined" && typeof chartData !=="undefined" ){ %>
-
+    <% if (typeof chartLabels !== "undefined" && typeof chartData !== "undefined") { %>
     <script>
-
         const ctx = document.getElementById("subjectChart");
-
         if (ctx) {
-
             new Chart(ctx, {
-
                 type: "bar",
-
                 data: {
-
-                    labels:<% - JSON.stringify(chartLabels) %>,
-
+                    labels: <%- JSON.stringify(chartLabels) %>,
                     datasets: [{
-
-                        label: "Average Accuracy",
-
-                        data:<% - JSON.stringify(chartData) %>,
-
+                        label: "Average Accuracy (%)",
+                        data: <%- JSON.stringify(chartData) %>,
                         backgroundColor: "#0F766E",
-
-                        borderRadius: 8
-
+                        borderRadius: 4
                     }]
-
                 },
-
                 options: {
-
                     responsive: true,
-
                     maintainAspectRatio: false,
-
                     plugins: {
                         legend: { display: false }
                     },
-
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: 100
+                            max: 100,
+                            ticks: {
+                                callback: function(value) { return value + "%"; }
+                            }
                         }
                     }
-
                 }
-
             });
-
         }
-
     </script>
-
     <% } %>
 
-        <%- include("chatbot") %>
+    <!-- Floating Chatbot Partial & Script -->
+    <%- include("chatbot") %>
+    <script src="/js/chatbot.js"></script>
 
-            <script src="/js/chatbot.js"></script>
+    <!-- SweetAlert Flash Message Handler -->
+    <% if (typeof alert !== "undefined" && alert) { %>
+    <script>
+        const pageAlert = <%- JSON.stringify(alert) %>;
+        if (pageAlert.mode === "modal") {
+            Swal.fire({
+                icon: pageAlert.type || "info",
+                title: pageAlert.title || "Notice",
+                text: pageAlert.message || "",
+                confirmButtonColor: "#0F766E",
+                confirmButtonText: pageAlert.confirmButtonText || "OK"
+            });
+        } else {
+            Swal.fire({
+                toast: true,
+                position: "top-end",
+                icon: pageAlert.type || "info",
+                title: pageAlert.title || pageAlert.message || "Notice",
+                text: pageAlert.title ? (pageAlert.message || "") : "",
+                showConfirmButton: false,
+                timer: 3200,
+                timerProgressBar: true
+            });
+        }
+    </script>
+    <% } %>
 
-            <% if (typeof alert !=="undefined" && alert) { %>
-                <script>
+    <!-- Form & Navigation Confirmation Handlers -->
+    <script>
+        function submitWithAlert(form) {
+            if (form.dataset.submitting === "true") {
+                form.submit();
+                return;
+            }
+            form.dataset.submitting = "true";
 
-                    const pageAlert = <% - JSON.stringify(alert) %>;
+            Swal.fire({
+                title: form.dataset.submitTitle || "Please wait",
+                text: form.dataset.submitText || "We are processing your request.",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
 
-                    if (pageAlert.mode === "modal") {
-                        Swal.fire({
-                            icon: pageAlert.type || "info",
-                            title: pageAlert.title || "Notice",
-                            text: pageAlert.message || "",
-                            confirmButtonColor: "#0f766e",
-                            confirmButtonText: pageAlert.confirmButtonText || "OK"
-                        });
-                    } else {
-                        Swal.fire({
-                            toast: true,
-                            position: "top-end",
-                            icon: pageAlert.type || "info",
-                            title: pageAlert.title || pageAlert.message || "Notice",
-                            text: pageAlert.title ? (pageAlert.message || "") : "",
-                            showConfirmButton: false,
-                            timer: 3200,
-                            timerProgressBar: true
-                        });
+            setTimeout(() => {
+                form.submit();
+            }, 150);
+        }
+
+        document.querySelectorAll("[data-confirm='true']").forEach(link => {
+            link.addEventListener("click", event => {
+                event.preventDefault();
+                Swal.fire({
+                    title: link.dataset.confirmTitle || "Are you sure?",
+                    text: link.dataset.confirmText || "",
+                    icon: link.dataset.confirmIcon || "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#0F766E",
+                    cancelButtonColor: "#64748B",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "Cancel"
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        window.location.href = link.href;
                     }
+                });
+            });
+        });
 
-                </script>
-                <% } %>
+        document.querySelectorAll("form[data-submit-alert='true']").forEach(form => {
+            form.addEventListener("submit", event => {
+                if (form.dataset.submitting === "true") {
+                    return;
+                }
+                event.preventDefault();
 
-                    <script>
-
-                        function submitWithAlert(form) {
-                            if (form.dataset.submitting === "true") {
-                                form.submit();
-                                return;
-                            }
-
-                            form.dataset.submitting = "true";
-
-                            Swal.fire({
-                                title: form.dataset.submitTitle || "Please wait",
-                                text: form.dataset.submitText || "We are processing your request.",
-                                allowOutsideClick: false,
-                                allowEscapeKey: false,
-                                showConfirmButton: false,
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                }
-                            });
-
-                            setTimeout(() => {
-                                form.submit();
-                            }, 150);
+                if (form.dataset.confirmSubmit === "true") {
+                    Swal.fire({
+                        title: form.dataset.confirmTitle || "Are you sure?",
+                        text: form.dataset.confirmText || "",
+                        icon: "question",
+                        showCancelButton: true,
+                        confirmButtonColor: "#0F766E",
+                        cancelButtonColor: "#64748B",
+                        confirmButtonText: "Submit",
+                        cancelButtonText: "Cancel"
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            submitWithAlert(form);
                         }
+                    });
+                    return;
+                }
 
-                        document.querySelectorAll("[data-confirm='true']").forEach(link => {
-                            link.addEventListener("click", event => {
-                                event.preventDefault();
+                submitWithAlert(form);
+            });
+        });
+    </script>
 
-                                Swal.fire({
-                                    title: link.dataset.confirmTitle || "Are you sure?",
-                                    text: link.dataset.confirmText || "",
-                                    icon: link.dataset.confirmIcon || "warning",
-                                    showCancelButton: true,
-                                    confirmButtonColor: "#0f766e",
-                                    cancelButtonColor: "#6b7280",
-                                    confirmButtonText: "Yes",
-                                    cancelButtonText: "Cancel"
-                                }).then(result => {
-                                    if (result.isConfirmed) {
-                                        window.location.href = link.href;
-                                    }
-                                });
-                            });
-                        });
+    <!-- Dynamic Subjects Loader -->
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const subjectSelect = document.getElementById("subjectSelect");
+            if (!subjectSelect) return;
 
-                        document.querySelectorAll("form[data-submit-alert='true']").forEach(form => {
-                            form.addEventListener("submit", event => {
-                                if (form.dataset.submitting === "true") {
-                                    return;
-                                }
-
-                                event.preventDefault();
-
-                                if (form.dataset.confirmSubmit === "true") {
-                                    Swal.fire({
-                                        title: form.dataset.confirmTitle || "Are you sure?",
-                                        text: form.dataset.confirmText || "",
-                                        icon: "question",
-                                        showCancelButton: true,
-                                        confirmButtonColor: "#0f766e",
-                                        cancelButtonColor: "#6b7280",
-                                        confirmButtonText: "Submit",
-                                        cancelButtonText: "Cancel"
-                                    }).then(result => {
-                                        if (result.isConfirmed) {
-                                            submitWithAlert(form);
-                                        }
-                                    });
-
-                                    return;
-                                }
-
-                                submitWithAlert(form);
-                            });
-                        });
-
-                    </script>
-
-                    <script>
-
-                        document.addEventListener("DOMContentLoaded", async () => {
-
-                            const subjectSelect =
-                                document.getElementById("subjectSelect");
-
-                            if (!subjectSelect) return;
-
-                            try {
-
-                                const response =
-                                    await fetch("/api/subjects");
-
-                                const subjects =
-                                    await response.json();
-
-                                subjectSelect.innerHTML = "";
-
-                                subjects.forEach(subject => {
-
-                                    subjectSelect.innerHTML +=
-
-                                        `<option value="${subject}">
-
-                ${subject}
-
-            </option>`;
-
-                                });
-
-                            }
-
-                            catch (err) {
-
-                                console.log(err);
-
-                            }
-
-                        });
-
-                    </script>
-
-
-                    </body>
-
-                    </html>
+            try {
+                const response = await fetch("/api/subjects");
+                const subjects = await response.json();
+                if (Array.isArray(subjects) && subjects.length > 0) {
+                    subjectSelect.innerHTML = "";
+                    subjects.forEach(subject => {
+                        const opt = document.createElement("option");
+                        opt.value = subject;
+                        opt.textContent = subject;
+                        subjectSelect.appendChild(opt);
+                    });
+                }
+            } catch (err) {
+                console.log("Could not load dynamic subjects:", err);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,35 +3,98 @@ const mongoose = require("mongoose");
 const resultSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        index: true
     },
 
-    username: String,
+    guestId: {
+        type: String,
+        trim: true,
+        index: true
+    },
 
-    subject: String,
+    attemptId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "QuizAttempt",
+        index: true
+    },
 
-    difficulty: String,
+    username: {
+        type: String,
+        default: "Learner"
+    },
 
-    correct: Number,
+    domain: {
+        type: String,
+        default: "Programming & CS"
+    },
 
-    total: Number,
+    category: {
+        type: String,
+        required: true,
+        index: true
+    },
 
-    accuracy: Number,
+    subject: {
+        type: String,
+        index: true
+    },
 
-    timeTaken: Number,
+    difficulty: {
+        type: String,
+        default: "easy"
+    },
+
+    correct: {
+        type: Number,
+        required: true
+    },
+
+    total: {
+        type: Number,
+        required: true
+    },
+
+    incorrect: {
+        type: Number,
+        default: 0
+    },
+
+    skipped: {
+        type: Number,
+        default: 0
+    },
+
+    accuracy: {
+        type: Number,
+        required: true
+    },
+
+    xp: {
+        type: Number,
+        default: 0
+    },
+
+    quizTime: {
+        type: Number,
+        default: 0
+    },
+
+    timeTaken: {
+        type: Number,
+        default: 0
+    },
 
     answers: {
         type: Object,
         default: {}
-    },
-
-    xp: Number,
-    quizTime: {
-        type: Number,
-        default: 0
     }
 }, {
     timestamps: true
 });
+
+resultSchema.index({ userId: 1, createdAt: -1 });
+resultSchema.index({ guestId: 1, createdAt: -1 });
+resultSchema.index({ category: 1, createdAt: -1 });
 
 module.exports = mongoose.model("Result", resultSchema);

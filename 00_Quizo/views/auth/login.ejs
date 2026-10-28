@@ -1,35 +1,38 @@
 <%- include("../partials/header") %>
 
-    <div class="auth-container">
-
-        <div class="auth-card">
-
-            <h2>Welcome Back 👋</h2>
-
-            <p class="auth-subtitle">
-                Login to continue your learning journey.
-            </p>
-
-            <form method="POST" action="/login" data-submit-alert="true" data-submit-title="Signing you in"
-                data-submit-text="Checking your credentials and loading your dashboard.">
-
-                <input type="email" name="email" placeholder="Email" required>
-
-                <input type="password" name="password" placeholder="Password" required>
-
-                <button type="submit">
-                    Login
-                </button>
-
-            </form>
-
-            <p class="auth-link">
-                Don't have an account?
-                <a href="/signup">Create one here</a>
-            </p>
-
-        </div>
-
+<div class="auth-panel-wrapper">
+    <!-- Page Header (Large, Left-Aligned) -->
+    <div class="panel-header">
+        <h1 class="panel-title">Sign In to Quizo</h1>
+        <p class="panel-subtitle">
+            Enter your account credentials to access your dashboard, quiz history, and saved progress.
+        </p>
     </div>
 
-    <%- include("../partials/footer") %>
+    <div class="auth-form-card">
+        <form method="POST" action="/login" data-submit-alert="true" data-submit-title="Signing you in"
+            data-submit-text="Checking your credentials and loading your dashboard.">
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="name@example.com" required autocomplete="email">
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn btn-quizo-primary w-100 mt-2">
+                <i class="fa-solid fa-right-to-bracket me-1"></i> Sign In
+            </button>
+        </form>
+
+        <div class="auth-form-footer pt-3 mt-3 border-top">
+            Don't have a Quizo account?
+            <a href="/signup" class="text-primary fw-semibold ms-1">Create one here</a>
+        </div>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>

@@ -1,180 +1,356 @@
 <%- include("../partials/header") %>
 
-    <div class="container-fluid">
-
-
-        <div class="card hero-card border-0 shadow-lg mb-4">
-
-            <div class="card-body d-flex justify-content-between align-items-center">
-
-                <div>
-
-                    <h2 class="fw-bold mb-1">
-                        <%= subject %> Quiz
-                    </h2>
-
-                    <p class="mb-0">
-                        Difficulty: <%= difficulty %>
-                    </p>
-
-                </div>
-
-                <div class="text-end">
-
-                    <h4>
-                        ⏱ <span id="timer">00:00</span>
-                    </h4>
-
-                    <button type="button" id="startBtn" class="btn btn-success me-2">
-
-                        Start </button>
-
-                    <button type="button" id="stopBtn" class="btn btn-light">
-
-                        Stop </button>
-
-                </div>
-
-            </div>
-
+<!-- Page Header (Large, Left-Aligned) -->
+<div class="panel-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+        <h1 class="panel-title"><%= category || subject %> Assessment</h1>
+        <p class="panel-subtitle">
+            Difficulty: <strong><%= difficulty ? difficulty.charAt(0).toUpperCase() + difficulty.slice(1) : "Easy" %></strong>
+            &bull; Question count: <strong><%= questions.length %></strong>
+            &bull; All questions must be submitted before the timer expires.
+        </p>
+    </div>
+    <!-- Timer & Controls -->
+    <div class="d-flex align-items-center gap-2">
+        <div class="quiz-timer-box">
+            <span class="text-muted small fw-semibold"><i class="fa-regular fa-clock me-1"></i> Time Remaining:</span>
+            <span id="quizTimerDisplay" class="timer-indicator">10:00</span>
         </div>
+    </div>
+</div>
 
-
-        <div class="progress mb-4" style="height:12px;">
-
-            <div class="progress-bar bg-success" style="width:100%;">
-
-            </div>
-
+<!-- Question Navigation Palette & Stats Bar -->
+<div class="stat-box mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+        <span class="small fw-bold text-dark text-uppercase">Question Palette</span>
+        <div class="d-flex gap-3 small">
+            <span><i class="fa-solid fa-circle text-success me-1"></i> Answered: <strong id="answeredCount">0</strong></span>
+            <span><i class="fa-solid fa-circle text-secondary me-1"></i> Unanswered: <strong id="unansweredCount"><%= questions.length %></strong></span>
+            <span><i class="fa-solid fa-flag text-warning me-1"></i> Flagged: <strong id="flaggedCount">0</strong></span>
         </div>
-
-        <form action="/quiz/submit" method="POST" data-submit-alert="true" data-confirm-submit="true"
-            data-confirm-title="Submit quiz?"
-            data-confirm-text="Once submitted, your answers will be evaluated and saved."
-            data-submit-title="Submitting quiz" data-submit-text="Calculating your score and updating your progress.">
-
-            <input type="hidden" id="quizTime" name="quizTime" value="0">
-
-            <input type="hidden" name="subject" value="<%= subject %>">
-
-            <input type="hidden" name="difficulty" value="<%= difficulty %>">
-
-            <% if (typeof isDailyChallenge !=="undefined" && isDailyChallenge) { %>
-
-                <input type="hidden" name="isDailyChallenge" value="true">
-
-                <% } %>
-
-                    <% questions.forEach((q,index)=>{ %>
-
-                        <div class="card border-0 shadow-sm mb-4 quiz-question-card">
-
-                            <div class="card-body p-4">
-
-                                <div class="d-flex justify-content-between mb-3">
-
-                                    <h5 class="fw-bold">
-                                        Question <%= index+1 %>
-                                    </h5>
-
-                                    <span class="badge bg-success">
-                                        #<%= index+1 %>
-                                    </span>
-
-                                </div>
-
-                                <h4 class="mb-4">
-
-                                    <%= q.question %>
-
-                                </h4>
-
-                                <div class="row">
-
-                                    <% q.options.forEach(option=> { %>
-
-                                        <div class="col-md-6 mb-3">
-
-                                            <label class="option-card">
-
-                                                <input type="radio" name="<%= q._id %>" value="<%= option %>" required>
-
-                                                <span>
-                                                    <%= option %>
-                                                </span>
-
-                                            </label>
-
-                                        </div>
-
-                                        <% }) %>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <% }) %>
-
-                            <div class="text-center mb-5">
-
-                                <button class="btn btn-success btn-lg px-5">
-
-                                    Submit Quiz
-
-                                </button>
-
-                            </div>
-
-        </form>
-
     </div>
 
-    <%- include("../partials/footer") %>
+    <!-- Clickable Question Number Pills -->
+    <div class="d-flex flex-wrap gap-2" id="questionPalette">
+        <% questions.forEach((q, index) => { %>
+            <button type="button" class="btn btn-sm btn-outline-secondary palette-btn <%= index === 0 ? 'active' : '' %>"
+                data-index="<%= index %>" style="width: 38px; height: 38px; font-weight: 600;">
+                <%= index + 1 %>
+            </button>
+        <% }) %>
+    </div>
+</div>
 
-        <script>
+<!-- Main Quiz Form -->
+<form id="quizForm" action="/quiz/submit" method="POST">
+    <input type="hidden" name="attemptId" value="<%= attemptId %>">
+    <input type="hidden" id="quizTime" name="quizTime" value="0">
+    <input type="hidden" name="category" value="<%= category || subject %>">
+    <input type="hidden" name="subject" value="<%= subject || category %>">
+    <input type="hidden" name="difficulty" value="<%= difficulty %>">
+    <% if (typeof isDailyChallenge !== "undefined" && isDailyChallenge) { %>
+        <input type="hidden" name="isDailyChallenge" value="true">
+    <% } %>
 
-            let seconds = 0;
-            let interval = null;
+    <!-- Question Cards (Step Navigation) -->
+    <div id="questionsContainer">
+        <% questions.forEach((q, index) => { %>
+            <div class="quiz-step-card" id="questionCard-<%= index %>" style="<%= index === 0 ? 'display: block;' : 'display: none;' %>">
+                <div class="quiz-question-box">
+                    <div class="question-meta">
+                        <span class="question-number">Question <%= index + 1 %> of <%= questions.length %></span>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-sm btn-outline-warning flag-btn" data-index="<%= index %>">
+                                <i class="fa-regular fa-flag me-1"></i> Mark for Review
+                            </button>
+                            <span class="badge bg-secondary">#<%= index + 1 %></span>
+                        </div>
+                    </div>
 
-            const timerDisplay =
-                document.getElementById("timer");
+                    <div class="question-text">
+                        <%= q.question %>
+                    </div>
 
-            document
-                .getElementById("startBtn")
-                .addEventListener("click", () => {
+                    <div class="options-list">
+                        <% q.options.forEach((option, optIdx) => { %>
+                            <label class="option-card" for="opt-<%= q._id %>-<%= optIdx %>">
+                                <input type="radio" id="opt-<%= q._id %>-<%= optIdx %>" name="<%= q._id %>" value="<%= option %>" class="quiz-option-radio" data-qindex="<%= index %>">
+                                <span><%= option %></span>
+                            </label>
+                        <% }) %>
+                    </div>
 
-                    if (interval) return;
+                    <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn btn-sm btn-outline-danger clear-btn" data-index="<%= index %>" data-qid="<%= q._id %>">
+                            <i class="fa-solid fa-eraser me-1"></i> Clear Selection
+                        </button>
+                        <span class="small text-muted">Select one option to record your answer</span>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
 
-                    interval = setInterval(() => {
+    <!-- Navigation & Submit Bar -->
+    <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top flex-wrap gap-2">
+        <div class="d-flex gap-2">
+            <button type="button" id="prevBtn" class="btn btn-quizo-secondary" disabled>
+                <i class="fa-solid fa-arrow-left me-1"></i> Previous
+            </button>
+            <button type="button" id="nextBtn" class="btn btn-quizo-secondary">
+                Next <i class="fa-solid fa-arrow-right ms-1"></i>
+            </button>
+        </div>
 
-                        seconds++;
+        <div class="d-flex gap-2">
+            <a href="/" class="btn btn-quizo-secondary" data-confirm="true"
+                data-confirm-title="Leave Quiz?"
+                data-confirm-text="Your quiz progress will be abandoned."
+                data-confirm-icon="warning">
+                Cancel
+            </a>
+            <button type="button" id="submitModalBtn" class="btn btn-quizo-primary btn-lg">
+                <i class="fa-solid fa-check me-1"></i> Submit Assessment
+            </button>
+        </div>
+    </div>
+</form>
 
-                        const mins =
-                            Math.floor(seconds / 60);
+<%- include("../partials/footer") %>
 
-                        const secs =
-                            seconds % 60;
+<script>
+    const totalQuestions = <%= questions.length %>;
+    const allocatedSeconds = <%= durationSeconds || (questions.length * 60) %>;
+    let currentQuestionIndex = 0;
+    let remainingSeconds = allocatedSeconds;
+    let elapsedSeconds = 0;
+    let timerInterval = null;
 
-                        timerDisplay.textContent =
-                            `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    const flaggedQuestions = new Set();
+    const answeredQuestions = new Set();
 
-                        document
-                            .getElementById("quizTime")
-                            .value = seconds;
+    // DOM Elements
+    const timerDisplay = document.getElementById("quizTimerDisplay");
+    const quizTimeInput = document.getElementById("quizTime");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const submitBtn = document.getElementById("submitModalBtn");
+    const quizForm = document.getElementById("quizForm");
 
-                    }, 1000);
+    // Show specific question index
+    function showQuestion(index) {
+        if (index < 0 || index >= totalQuestions) return;
 
+        // Hide all cards
+        for (let i = 0; i < totalQuestions; i++) {
+            const card = document.getElementById(`questionCard-${i}`);
+            if (card) card.style.display = (i === index) ? "block" : "none";
+        }
+
+        currentQuestionIndex = index;
+
+        // Update Prev / Next Buttons
+        prevBtn.disabled = (index === 0);
+        if (index === totalQuestions - 1) {
+            nextBtn.textContent = "Finish Review";
+        } else {
+            nextBtn.innerHTML = 'Next <i class="fa-solid fa-arrow-right ms-1"></i>';
+        }
+
+        updatePaletteUI();
+    }
+
+    // Update Question Palette Visual States
+    function updatePaletteUI() {
+        for (let i = 0; i < totalQuestions; i++) {
+            const pill = document.querySelector(`.palette-btn[data-index="${i}"]`);
+            if (!pill) continue;
+
+            pill.className = "btn btn-sm palette-btn";
+
+            if (i === currentQuestionIndex) {
+                pill.style.outline = "2px solid #0F766E";
+                pill.style.outlineOffset = "2px";
+            } else {
+                pill.style.outline = "none";
+            }
+
+            if (flaggedQuestions.has(i)) {
+                pill.classList.add("btn-warning", "text-dark");
+            } else if (answeredQuestions.has(i)) {
+                pill.classList.add("btn-success");
+            } else {
+                pill.classList.add("btn-outline-secondary");
+            }
+        }
+
+        // Update counts
+        document.getElementById("answeredCount").textContent = answeredQuestions.size;
+        document.getElementById("unansweredCount").textContent = totalQuestions - answeredQuestions.size;
+        document.getElementById("flaggedCount").textContent = flaggedQuestions.size;
+    }
+
+    // Radio change listener
+    document.querySelectorAll(".quiz-option-radio").forEach(radio => {
+        radio.addEventListener("change", function() {
+            const qIdx = parseInt(this.dataset.qindex, 10);
+            answeredQuestions.add(qIdx);
+            updatePaletteUI();
+        });
+    });
+
+    // Clear Selection
+    document.querySelectorAll(".clear-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const idx = parseInt(this.dataset.index, 10);
+            const qid = this.dataset.qid;
+            document.querySelectorAll(`input[name="${qid}"]`).forEach(r => r.checked = false);
+            answeredQuestions.delete(idx);
+            updatePaletteUI();
+        });
+    });
+
+    // Flag for review
+    document.querySelectorAll(".flag-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const idx = parseInt(this.dataset.index, 10);
+            if (flaggedQuestions.has(idx)) {
+                flaggedQuestions.delete(idx);
+                this.innerHTML = '<i class="fa-regular fa-flag me-1"></i> Mark for Review';
+                this.className = "btn btn-sm btn-outline-warning flag-btn";
+            } else {
+                flaggedQuestions.add(idx);
+                this.innerHTML = '<i class="fa-solid fa-flag text-warning me-1"></i> Flagged';
+                this.className = "btn btn-sm btn-warning text-dark flag-btn";
+            }
+            updatePaletteUI();
+        });
+    });
+
+    // Palette pill click
+    document.querySelectorAll(".palette-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const idx = parseInt(this.dataset.index, 10);
+            showQuestion(idx);
+        });
+    });
+
+    // Previous / Next buttons
+    prevBtn.addEventListener("click", () => {
+        if (currentQuestionIndex > 0) showQuestion(currentQuestionIndex - 1);
+    });
+
+    nextBtn.addEventListener("click", () => {
+        if (currentQuestionIndex < totalQuestions - 1) {
+            showQuestion(currentQuestionIndex + 1);
+        } else {
+            // At last question, trigger submit dialog
+            promptSubmit();
+        }
+    });
+
+    // Timer Implementation with Auto-Submit
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            remainingSeconds--;
+            elapsedSeconds++;
+
+            quizTimeInput.value = elapsedSeconds;
+
+            const mins = Math.floor(Math.max(0, remainingSeconds) / 60);
+            const secs = Math.max(0, remainingSeconds) % 60;
+            timerDisplay.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+
+            if (remainingSeconds <= 60) {
+                timerDisplay.classList.add("text-danger");
+                timerDisplay.style.borderColor = "#DC2626";
+            }
+
+            if (remainingSeconds <= 0) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                autoSubmitExpired();
+            }
+        }, 1000);
+    }
+
+    function autoSubmitExpired() {
+        Swal.fire({
+            title: "Time Has Expired!",
+            text: "Your quiz time has finished. Your answers are being submitted automatically.",
+            icon: "warning",
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        setTimeout(() => {
+            quizForm.submit();
+        }, 800);
+    }
+
+    // Manual Submit with Unanswered Count Warning
+    function promptSubmit() {
+        const answered = answeredQuestions.size;
+        const unanswered = totalQuestions - answered;
+
+        let warningText = `You have answered ${answered} of ${totalQuestions} questions.`;
+        if (unanswered > 0) {
+            warningText += ` Notice: ${unanswered} question${unanswered === 1 ? ' is' : 's are'} still unanswered and will be marked as skipped.`;
+        } else {
+            warningText += " All questions have been answered.";
+        }
+
+        Swal.fire({
+            title: "Submit Assessment?",
+            text: warningText,
+            icon: unanswered > 0 ? "warning" : "question",
+            showCancelButton: true,
+            confirmButtonColor: "#0F766E",
+            cancelButtonColor: "#64748B",
+            confirmButtonText: "Yes, Submit Now",
+            cancelButtonText: "Return to Questions"
+        }).then(result => {
+            if (result.isConfirmed) {
+                clearInterval(timerInterval);
+                Swal.fire({
+                    title: "Evaluating Your Assessment",
+                    text: "Calculating score, recording accuracy, and updating your progress...",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
                 });
 
-            document
-                .getElementById("stopBtn")
-                .addEventListener("click", () => {
+                setTimeout(() => {
+                    quizForm.submit();
+                }, 200);
+            }
+        });
+    }
 
-                    clearInterval(interval);
-                    interval = null;
+    submitBtn.addEventListener("click", promptSubmit);
 
-                });
+    // Prevent accidental page leave / navigation loss
+    window.addEventListener("beforeunload", function(e) {
+        if (quizForm.dataset.submitting !== "true" && remainingSeconds > 0) {
+            e.preventDefault();
+            e.returnValue = "";
+        }
+    });
 
-        </script>
+    quizForm.addEventListener("submit", function() {
+        this.dataset.submitting = "true";
+    });
+
+    // Start timer & palette on load
+    window.addEventListener("DOMContentLoaded", () => {
+        startTimer();
+        updatePaletteUI();
+    });
+</script>

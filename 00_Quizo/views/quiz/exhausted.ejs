@@ -1,0 +1,51 @@
+<%- include("../partials/header") %>
+
+<div class="auth-panel-wrapper" style="max-width: 680px;">
+    <!-- Page Header (Large, Left-Aligned) -->
+    <div class="panel-header">
+        <h1 class="panel-title">Question Bank Completed</h1>
+        <p class="panel-subtitle">
+            You have answered all available questions in this category.
+        </p>
+    </div>
+
+    <div class="stat-box mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="text-success fs-1">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+                <h3 class="h6 fw-bold text-dark mb-1">
+                    <%= category %> (<%= difficulty.toUpperCase() %>) Exhausted
+                </h3>
+                <p class="text-muted small mb-0">
+                    <%= message || `You have completed all ${totalAnswered} questions in this category. To avoid repeating questions, Quizo will not re-serve previously presented questions unless you explicitly reset your practice history.` %>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Options -->
+    <div class="d-flex flex-wrap gap-2">
+        <form action="/quiz/reset-history" method="POST" class="d-inline">
+            <input type="hidden" name="category" value="<%= category %>">
+            <button type="submit" class="btn btn-quizo-primary" data-confirm="true"
+                data-confirm-title="Reset History for <%= category %>?"
+                data-confirm-text="This will clear your question history for this category so you can practice all questions again."
+                data-confirm-icon="question">
+                <i class="fa-solid fa-arrows-rotate me-1"></i> Reset History & Practice Again
+            </button>
+        </form>
+
+        <a href="/" class="btn btn-quizo-secondary">
+            <i class="fa-solid fa-compass me-1"></i> Explore Other Categories
+        </a>
+
+        <a href="/dashboard" class="btn btn-outline-success">
+            <i class="fa-solid fa-gauge-high me-1"></i> Go to Dashboard
+        </a>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>
+

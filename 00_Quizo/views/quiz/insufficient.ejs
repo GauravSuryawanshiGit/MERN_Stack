@@ -1,0 +1,51 @@
+<%- include("../partials/header") %>
+
+<div class="auth-panel-wrapper" style="max-width: 680px;">
+    <!-- Page Header (Large, Left-Aligned) -->
+    <div class="panel-header">
+        <h1 class="panel-title">Limited Unseen Questions Remaining</h1>
+        <p class="panel-subtitle">
+            Not enough unseen questions to form a full <%= requestedCount %>-question assessment.
+        </p>
+    </div>
+
+    <div class="stat-box mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="text-warning fs-1">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+                <h3 class="h6 fw-bold text-dark mb-1">
+                    <%= unseenAvailable %> Unseen Questions Left in <%= category %> (<%= difficulty.toUpperCase() %>)
+                </h3>
+                <p class="text-muted small mb-0">
+                    <%= message || `Only ${unseenAvailable} unseen questions remain out of the requested ${requestedCount}. You can start a shorter quiz with all remaining questions or reset your history for this category.` %>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Options -->
+    <div class="d-flex flex-wrap gap-2">
+        <a href="/quiz/start?category=<%= encodeURIComponent(category) %>&difficulty=<%= difficulty %>&count=<%= unseenAvailable %>&allowShorter=true" class="btn btn-quizo-primary">
+            <i class="fa-solid fa-play me-1"></i> Start Shorter Quiz (<%= unseenAvailable %> Questions)
+        </a>
+
+        <form action="/quiz/reset-history" method="POST" class="d-inline">
+            <input type="hidden" name="category" value="<%= category %>">
+            <button type="submit" class="btn btn-quizo-secondary" data-confirm="true"
+                data-confirm-title="Reset History for <%= category %>?"
+                data-confirm-text="This will reset your question history for this category so you can take full quizzes again."
+                data-confirm-icon="question">
+                <i class="fa-solid fa-arrows-rotate me-1"></i> Reset History
+            </button>
+        </form>
+
+        <a href="/" class="btn btn-outline-success">
+            <i class="fa-solid fa-house me-1"></i> Choose Another Subject
+        </a>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>
+

@@ -1,715 +1,364 @@
 <%- include("partials/header") %>
 
-    <div class="container-fluid">
-
-
-        <div class="card border-0 shadow-lg mb-5 hero-card">
-
-            <div class="card-body p-5">
-
-                <div class="row align-items-center">
-
-
-
-                    <div class="col-lg-7">
-
-                        <span class="hero-badge">
-
-                            <i class="fa-solid fa-sparkles me-2"></i>
-
-                            AI Powered Learning
-
-                        </span>
-
-                        <h1 class="fw-bold mt-3">
-
-                            Welcome Back,
-
-                            <span class="hero-name">
-
-                                <%= user ? user.name : "Learner" %>
-
-                            </span>
-
-                            👋
-
-                        </h1>
-
-                        <p class="text-muted fs-5 mt-3">
-
-                            Master Java, Python, DBMS, DSA and more with Quizo.
-
-                        </p>
-
-                        <div class="mt-4">
-
-                            <% if (user) { %>
-
-                                <a href="/leaderboard" class="btn btn-success btn-lg me-3">
-
-                                    <i class="fa-solid fa-trophy me-2"></i>
-
-                                    Leaderboard
-
-                                </a>
-
-                                <a href="/dashboard" class="btn btn-outline-success btn-lg">
-
-                                    <i class="fa-solid fa-chart-line me-2"></i>
-
-                                    Dashboard
-
-                                </a>
-
-                                <% } else { %>
-
-                                    <a href="/signup" class="btn btn-success btn-lg me-3">
-
-                                        <i class="fa-solid fa-user-plus me-2"></i>
-
-                                        Create Account
-
-                                    </a>
-
-                                    <a href="/login" class="btn btn-outline-success btn-lg">
-
-                                        <i class="fa-solid fa-right-to-bracket me-2"></i>
-
-                                        Login
-
-                                    </a>
-
-                                    <% } %>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="col-lg-5 d-none d-lg-block">
-
-                        <div class="hero-visual">
-
-                            <div class="floating-card">
-
-                                <small>XP</small>
-
-                                <h2>
-                                    <%= user ? user.xp : 0 %>
-                                </h2>
-
-                            </div>
-
-                            <div class="floating-card">
-
-                                <small>Quizzes</small>
-
-                                <h2>
-                                    <%= user ? user.totalQuizzes : 0 %>
-                                </h2>
-
-                            </div>
-
-                            <div class="floating-card">
-
-                                <small>Streak</small>
-
-                                <h2>🔥 <%= user ? user.streak : 0 %>
-                                </h2>
-
-                            </div>
-
-                            <div class="hero-circle">
-
-                                <i class="fa-solid fa-graduation-cap"></i>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+<!-- Header Section (Large, Left-Aligned Heading & Subtitle) -->
+<div class="panel-header">
+    <h1 class="panel-title">
+        <% if (user) { %>
+            Welcome Back, <%= user.name %>
+        <% } else { %>
+            Welcome to Quizo
+        <% } %>
+    </h1>
+    <p class="panel-subtitle">
+        Enterprise-grade skill assessment platform featuring over 3,000+ curated questions across Programming, Placement Exams, and General Knowledge. Practice with zero-repetition logic.
+    </p>
+</div>
+
+<!-- Primary & Secondary Action Buttons (Rectangular, Left-Aligned) -->
+<div class="d-flex flex-wrap gap-2 mb-4">
+    <% if (user) { %>
+        <a href="#customBuilder" class="btn btn-quizo-primary">
+            <i class="fa-solid fa-play me-1"></i> Start Custom Quiz
+        </a>
+        <a href="/dashboard" class="btn btn-quizo-secondary">
+            <i class="fa-solid fa-gauge-high me-1"></i> View Dashboard
+        </a>
+        <a href="/leaderboard" class="btn btn-outline-success">
+            <i class="fa-solid fa-trophy me-1"></i> Leaderboard
+        </a>
+    <% } else { %>
+        <a href="/signup" class="btn btn-quizo-primary">
+            <i class="fa-solid fa-user-plus me-1"></i> Create Free Account
+        </a>
+        <a href="/login" class="btn btn-quizo-secondary">
+            <i class="fa-solid fa-right-to-bracket me-1"></i> Login
+        </a>
+        <a href="#quickStart" class="btn btn-outline-success">
+            <i class="fa-solid fa-play me-1"></i> Browse Quizzes
+        </a>
+    <% } %>
+</div>
+
+<!-- Vertically Stacked Section 1: Overview Summary / Key Metrics -->
+<% if (user) { %>
+    <div class="stats-grid mb-4">
+        <div class="stat-box">
+            <div class="stat-box-label">Experience Points</div>
+            <div class="stat-box-value"><%= user.xp || 0 %> XP</div>
+            <div class="stat-box-desc">Total earned across all quizzes</div>
         </div>
-
-
-        <div class="row g-4 mb-5">
-
-            <div class="col-xl-3 col-md-6">
-
-                <div class="card stat-card border-0 shadow-sm h-100">
-
-                    <div class="card-body d-flex align-items-center">
-
-                        <div class="stat-icon me-3">
-
-                            <i class="fa-solid fa-file-circle-question"></i>
-
-                        </div>
-
-                        <div>
-
-                            <small class="text-muted d-block">
-                                Total Questions
-                            </small>
-
-                            <h2 class="fw-bold mb-0">
-                                517+
-                            </h2>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+        <div class="stat-box">
+            <div class="stat-box-label">Current Level</div>
+            <div class="stat-box-value">
+                Level <%= (user.xp || 0) >= 2500 ? 7 : (user.xp || 0) >= 1500 ? 6 : (user.xp || 0) >= 1000 ? 5 : (user.xp || 0) >= 600 ? 4 : (user.xp || 0) >= 300 ? 3 : (user.xp || 0) >= 100 ? 2 : 1 %>
             </div>
-
-            <div class="col-xl-3 col-md-6">
-
-                <div class="card stat-card border-0 shadow-sm h-100">
-
-                    <div class="card-body d-flex align-items-center">
-
-                        <div class="stat-icon me-3">
-
-                            <i class="fa-solid fa-book-open"></i>
-
-                        </div>
-
-                        <div>
-
-                            <small class="text-muted d-block">
-                                Subjects
-                            </small>
-
-                            <h2 class="fw-bold mb-0">
-                                9
-                            </h2>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-
-                <div class="card stat-card border-0 shadow-sm h-100">
-
-                    <div class="card-body d-flex align-items-center">
-
-                        <div class="stat-icon me-3">
-
-                            <i class="fa-solid fa-ranking-star"></i>
-
-                        </div>
-
-                        <div>
-
-                            <small class="text-muted d-block">
-                                Leaderboard
-                            </small>
-
-                            <h2 class="fw-bold mb-0 text-success">
-                                LIVE
-                            </h2>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-
-                <div class="card stat-card border-0 shadow-sm h-100">
-
-                    <div class="card-body d-flex align-items-center">
-
-                        <div class="stat-icon me-3">
-
-                            <i class="fa-solid fa-robot"></i>
-
-                        </div>
-
-                        <div>
-
-                            <small class="text-muted d-block">
-                                Quiz Engine
-                            </small>
-
-                            <h2 class="fw-bold mb-0">
-                                AI Ready
-                            </h2>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+            <div class="stat-box-desc">Keep answering to level up</div>
         </div>
-
-
-        <div class="row g-4 mb-5">
-
-            <div class="col-xl-3 col-md-6">
-
-                <div class="card dashboard-stat border-0">
-
-                    <div class="card-body">
-
-                        <div class="d-flex justify-content-between align-items-center">
-
-                            <div>
-
-                                <small class="text-muted">
-                                    XP
-                                </small>
-
-                                <h2 class="fw-bold mb-1">
-                                    380
-                                </h2>
-
-                                <span class="text-success small fw-semibold">
-                                    +120 XP Today
-                                </span>
-
-                            </div>
-
-                            <div class="dashboard-icon bg-success-subtle">
-
-
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-
-                <div class="card dashboard-stat border-0">
-
-                    <div class="card-body">
-
-                        <div class="d-flex justify-content-between align-items-center">
-
-                            <div>
-
-                                <small class="text-muted">
-                                    Level
-                                </small>
-
-                                <h2 class="fw-bold mb-1">
-                                    4
-                                </h2>
-
-                                <span class="text-muted small">
-                                    Next: 120 XP
-                                </span>
-
-                            </div>
-
-                            <div class="dashboard-icon level">
-
-
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-
-                <div class="card dashboard-stat border-0">
-
-                    <div class="card-body">
-
-                        <div class="d-flex justify-content-between align-items-center">
-
-                            <div>
-
-                                <small class="text-muted">
-                                    Rank
-                                </small>
-
-                                <h2 class="fw-bold mb-1">
-                                    #2
-                                </h2>
-
-                                <span class="text-muted small">
-                                    Top 1%
-                                </span>
-
-                            </div>
-
-                            <div class="dashboard-icon trophy">
-
-
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-xl-3 col-md-6">
-
-                <div class="card dashboard-stat border-0">
-
-                    <div class="card-body">
-
-                        <div class="d-flex justify-content-between align-items-center">
-
-                            <div>
-
-                                <small class="text-muted">
-                                    Streak
-                                </small>
-
-                                <h2 class="fw-bold mb-1">
-                                    🔥 5
-                                </h2>
-
-                                <span class="text-muted small">
-                                    Best: 12 Days
-                                </span>
-
-                            </div>
-
-                            <div class="dashboard-icon fire">
-
-
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+        <div class="stat-box">
+            <div class="stat-box-label">Completed Quizzes</div>
+            <div class="stat-box-value"><%= user.totalQuizzes || 0 %></div>
+            <div class="stat-box-desc">Total assessments finished</div>
         </div>
-
-
-        <h3 class="fw-bold mb-4">
-
-            Quick Start Quiz
-        </h3>
-
-        <div class="row g-4">
-
-
-            <div class="col-lg-4">
-                <div class="card quiz-card border-0 shadow">
-
-                    <div class="card-body text-center">
-
-                        <div class="subject-icon">
-                            <i class="fa-brands fa-java"></i>
-                        </div>
-
-                        <h4>Java</h4>
-
-                        <p class="text-muted">
-                            Core Java & OOP
-                        </p>
-
-                        <a href="/quiz/start?subject=Java&difficulty=easy&count=10" class="btn btn-success w-100">
-
-                            Start Quiz </a>
-
-                    </div>
-
-                </div>
+        <div class="stat-box">
+            <div class="stat-box-label">Active Streak</div>
+            <div class="stat-box-value">
+                <i class="fa-solid fa-fire text-warning me-1"></i><%= user.streak || 0 %> Days
             </div>
-
-
-            <div class="col-lg-4">
-                <div class="card quiz-card border-0 shadow">
-
-                    <div class="card-body text-center">
-
-                        <div class="subject-icon">
-                            <i class="fa-brands fa-python"></i>
-                        </div>
-
-                        <h4>Python</h4>
-
-                        <p class="text-muted">
-                            Python Fundamentals
-                        </p>
-
-                        <a href="/quiz/start?subject=Python&difficulty=easy&count=10" class="btn btn-success w-100">
-
-                            Start Quiz </a>
-
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div class="col-lg-4">
-                <div class="card quiz-card border-0 shadow">
-
-                    <div class="card-body text-center">
-
-                        <div class="subject-icon">
-                            <i class="fa-solid fa-database"></i>
-                        </div>
-
-                        <h4>DBMS</h4>
-
-                        <p class="text-muted">
-                            SQL & Database Concepts
-                        </p>
-
-                        <a href="/quiz/start?subject=DBMS&difficulty=easy&count=10" class="btn btn-success w-100">
-
-                            Start Quiz </a>
-
-                    </div>
-
-                </div>
-            </div>
-
-
-
-            <div class="col-lg-4">
-                <div class="card quiz-card border-0 shadow">
-
-                    <div class="card-body text-center">
-
-                        <div class="subject-icon">
-                            <i class="fa-solid fa-desktop"></i>
-                        </div>
-
-                        <h4>Operating System</h4>
-
-                        <p class="text-muted">
-                            Scheduling & Memory
-                        </p>
-
-                        <a href="/quiz/start?subject=OS&difficulty=easy&count=10" class="btn btn-success w-100">
-
-                            Start Quiz </a>
-
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div class="col-lg-4">
-                <div class="card quiz-card border-0 shadow">
-
-                    <div class="card-body text-center">
-
-                        <div class="subject-icon">
-                            <i class="fa-solid fa-globe"></i>
-                        </div>
-
-                        <h4>Computer Networks</h4>
-
-                        <p class="text-muted">
-                            OSI, TCP/IP & DNS
-                        </p>
-
-                        <a href="/quiz/start?subject=CN&difficulty=easy&count=10" class="btn btn-success w-100">
-
-                            Start Quiz </a>
-
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div class="col-lg-4">
-                <div class="card quiz-card border-0 shadow">
-
-                    <div class="card-body text-center">
-
-                        <div class="subject-icon">
-                            <i class="fa-solid fa-cubes"></i>
-                        </div>
-
-                        <h4>DSA</h4>
-
-                        <p class="text-muted">
-                            Data Structures & Algorithms
-                        </p>
-
-                        <a href="/quiz/start?subject=DSA&difficulty=easy&count=10" class="btn btn-success w-100">
-
-                            Start Quiz </a>
-
-                    </div>
-
-                </div>
-            </div>
-
+            <div class="stat-box-desc">Consecutive days of practice</div>
         </div>
-
     </div>
+<% } else { %>
+    <div class="stats-grid mb-4">
+        <div class="stat-box">
+            <div class="stat-box-label">Curated Question Bank</div>
+            <div class="stat-box-value">3,250+</div>
+            <div class="stat-box-desc">Verified unique assessment items</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-box-label">Domains & Subjects</div>
+            <div class="stat-box-value">33 Categories</div>
+            <div class="stat-box-desc">Programming, Placements, General Knowledge</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-box-label">Question History</div>
+            <div class="stat-box-value text-success">Zero Repetition</div>
+            <div class="stat-box-desc">Persistent question tracking per user</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-box-label">AI Study Assistant</div>
+            <div class="stat-box-value">24/7 Active</div>
+            <div class="stat-box-desc">Ask questions anytime via chat</div>
+        </div>
+    </div>
+<% } %>
 
+<hr class="section-divider">
 
+<!-- Vertically Stacked Section 2: Quick Start Quizzes -->
+<div id="quickStart">
+    <h2 class="section-title">Quick Start Quizzes</h2>
+    <p class="section-subtitle">
+        Jump straight into practice across core computer science and competitive topics.
+    </p>
 
-    <div class="card shadow-lg border-0 rounded-4 p-4 mt-5">
-
-        <div class="text-center mb-4">
-
-            <h2 class="fw-bold">
-
-                🎯 Custom Quiz Builder
-
-            </h2>
-
-            <p class="text-muted">
-
-                Choose your own quiz settings.
-
-            </p>
-
+    <div class="subject-grid">
+        <!-- Java -->
+        <div class="subject-item-card">
+            <div>
+                <div class="subject-item-header">
+                    <h3 class="subject-item-title">Java</h3>
+                    <span class="subject-item-badge">Programming</span>
+                </div>
+                <p class="subject-item-desc">
+                    Core Java, OOPs concepts, exceptions, JVM architecture, and collections.
+                </p>
+            </div>
+            <a href="/quiz/start?category=Java&difficulty=easy&count=10" class="btn btn-quizo-primary w-100">
+                Start Java Quiz
+            </a>
         </div>
 
-        <form action="/quiz/start" method="GET">
-
-            <div class="row g-3 align-items-end">
-
-                <div class="col-lg-4">
-
-                    <label class="form-label fw-semibold">
-
-                        Subject
-
-                    </label>
-
-                    <select class="form-select" name="subject">
-
-                        <option value="Java">Java</option>
-
-                        <option value="Python">Python</option>
-
-                        <option value="DSA">DSA</option>
-
-                        <option value="DBMS">DBMS</option>
-
-                        <option value="OS">Operating System</option>
-
-                        <option value="CN">Computer Networks</option>
-
-                        <option value="Web Development">Web Development</option>
-
-                        <option value="AI & ML">AI & ML</option>
-
-                        <option value="Aptitude">Aptitude</option>
-
-                    </select>
-
+        <!-- Python -->
+        <div class="subject-item-card">
+            <div>
+                <div class="subject-item-header">
+                    <h3 class="subject-item-title">Python</h3>
+                    <span class="subject-item-badge">Programming</span>
                 </div>
+                <p class="subject-item-desc">
+                    Syntax, data types, control flow, functions, modules, and data handling.
+                </p>
+            </div>
+            <a href="/quiz/start?category=Python&difficulty=easy&count=10" class="btn btn-quizo-primary w-100">
+                Start Python Quiz
+            </a>
+        </div>
 
-                <div class="col-lg-3">
-
-                    <label class="form-label fw-semibold">
-
-                        Difficulty
-
-                    </label>
-
-                    <select class="form-select" name="difficulty" required>
-
-                        <option value="easy">
-
-                            Easy
-
-                        </option>
-
-                        <option value="medium">
-
-                            Medium
-
-                        </option>
-
-                        <option value="hard">
-
-                            Hard
-
-                        </option>
-
-                    </select>
-
+        <!-- DSA -->
+        <div class="subject-item-card">
+            <div>
+                <div class="subject-item-header">
+                    <h3 class="subject-item-title">DSA</h3>
+                    <span class="subject-item-badge">Algorithms</span>
                 </div>
+                <p class="subject-item-desc">
+                    Arrays, linked lists, stacks, queues, trees, searching, and sorting.
+                </p>
+            </div>
+            <a href="/quiz/start?category=DSA&difficulty=easy&count=10" class="btn btn-quizo-primary w-100">
+                Start DSA Quiz
+            </a>
+        </div>
 
-                <div class="col-lg-3">
-
-                    <label class="form-label fw-semibold">
-
-                        Number of Questions
-
-                    </label>
-
-                    <select class="form-select" name="count" required>
-
-                        <option value="10">10</option>
-
-                        <option value="20">20</option>
-
-                        <option value="30">30</option>
-
-                        <option value="40">40</option>
-
-                        <option value="50">50</option>
-
-                        <option value="100">100</option>
-
-                    </select>
-
+        <!-- DBMS -->
+        <div class="subject-item-card">
+            <div>
+                <div class="subject-item-header">
+                    <h3 class="subject-item-title">DBMS & SQL</h3>
+                    <span class="subject-item-badge">Databases</span>
                 </div>
+                <p class="subject-item-desc">
+                    SQL queries, normalization, ACID properties, transactions, and indexing.
+                </p>
+            </div>
+            <a href="/quiz/start?category=DBMS&difficulty=easy&count=10" class="btn btn-quizo-primary w-100">
+                Start DBMS Quiz
+            </a>
+        </div>
 
-                <div class="col-lg-2 d-grid">
-
-                    <button class="btn btn-success">
-
-                        Start Quiz
-
-                    </button>
-
+        <!-- Aptitude -->
+        <div class="subject-item-card">
+            <div>
+                <div class="subject-item-header">
+                    <h3 class="subject-item-title">Quantitative Aptitude</h3>
+                    <span class="subject-item-badge">Placements</span>
                 </div>
+                <p class="subject-item-desc">
+                    Percentages, profit & loss, time and work, ratios, and averages.
+                </p>
+            </div>
+            <a href="/quiz/start?category=Aptitude&difficulty=easy&count=10" class="btn btn-quizo-primary w-100">
+                Start Aptitude Quiz
+            </a>
+        </div>
 
+        <!-- Indian History -->
+        <div class="subject-item-card">
+            <div>
+                <div class="subject-item-header">
+                    <h3 class="subject-item-title">Indian History</h3>
+                    <span class="subject-item-badge">General Knowledge</span>
+                </div>
+                <p class="subject-item-desc">
+                    Ancient civilizations, medieval empires, and freedom movement milestones.
+                </p>
+            </div>
+            <a href="/quiz/start?category=Indian%20History&difficulty=easy&count=10" class="btn btn-quizo-primary w-100">
+                Start History Quiz
+            </a>
+        </div>
+    </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- Vertically Stacked Section 3: Advanced Custom Quiz Builder -->
+<div class="builder-box" id="customBuilder">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+        <h2 class="section-title mt-0 mb-0">Custom Quiz Builder</h2>
+        <span id="unseenBadge" class="badge bg-success px-3 py-2 fs-6">Checking availability...</span>
+    </div>
+    <p class="section-subtitle">
+        Configure your quiz parameters across domains, categories, and difficulty levels. Quizo automatically excludes all questions you have previously seen.
+    </p>
+
+    <form action="/quiz/start" method="GET" id="customQuizForm">
+        <div class="row g-3 align-items-end">
+            <!-- Domain Selection -->
+            <div class="col-lg-3 col-md-6">
+                <label for="domainSelect" class="form-label">Domain</label>
+                <select class="form-select" id="domainSelect" name="domain">
+                    <option value="Programming & CS">Programming & CS</option>
+                    <option value="Placements & Exams">Competitive Exams & Placements</option>
+                    <option value="General Knowledge">General Knowledge & Learning</option>
+                </select>
             </div>
 
-        </form>
+            <!-- Category / Subject Selection -->
+            <div class="col-lg-3 col-md-6">
+                <label for="categorySelect" class="form-label">Category</label>
+                <select class="form-select" id="categorySelect" name="category" required>
+                    <!-- Populated dynamically via JS -->
+                </select>
+            </div>
 
-    </div>
+            <!-- Difficulty Selection -->
+            <div class="col-lg-2 col-md-6">
+                <label for="difficultySelect" class="form-label">Difficulty</label>
+                <select class="form-select" id="difficultySelect" name="difficulty" required>
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
 
+            <!-- Number of Questions -->
+            <div class="col-lg-2 col-md-6">
+                <label for="countSelect" class="form-label">Question Count</label>
+                <select class="form-select" id="countSelect" name="count" required>
+                    <option value="5">5 Questions</option>
+                    <option value="10" selected>10 Questions</option>
+                    <option value="15">15 Questions</option>
+                    <option value="20">20 Questions</option>
+                    <option value="30">30 Questions</option>
+                </select>
+            </div>
 
+            <!-- Submit Button -->
+            <div class="col-lg-2 col-md-6">
+                <button type="submit" class="btn btn-quizo-primary w-100" id="startQuizBtn">
+                    <i class="fa-solid fa-play me-1"></i> Start Quiz
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
 
-    <%- include("partials/footer") %>
+<%- include("partials/footer") %>
+
+<!-- Dynamic Cascading Domain & Unseen Count Script -->
+<script>
+    const DOMAIN_CATEGORIES = {
+        "Programming & CS": [
+            { id: "Java", name: "Java" },
+            { id: "Python", name: "Python" },
+            { id: "JavaScript", name: "JavaScript" },
+            { id: "C", name: "C Programming" },
+            { id: "C++", name: "C++" },
+            { id: "DSA", name: "Data Structures & Algorithms" },
+            { id: "DBMS", name: "DBMS & SQL" },
+            { id: "OS", name: "Operating Systems" },
+            { id: "CN", name: "Computer Networks" },
+            { id: "Software Engineering", name: "Software Engineering" },
+            { id: "Web Development", name: "Web Development" },
+            { id: "Cybersecurity", name: "Cybersecurity" },
+            { id: "Cloud Computing", name: "Cloud Computing" },
+            { id: "AI & ML", name: "AI & Machine Learning" },
+            { id: "Generative AI", name: "Generative AI & RAG" }
+        ],
+        "Placements & Exams": [
+            { id: "Aptitude", name: "Quantitative Aptitude" },
+            { id: "Logical Reasoning", name: "Logical Reasoning" },
+            { id: "Verbal Ability", name: "Verbal Ability" },
+            { id: "English Grammar", name: "English Grammar" },
+            { id: "Coding MCQs", name: "Coding MCQs & Output" },
+            { id: "General Computer Awareness", name: "Computer Awareness" }
+        ],
+        "General Knowledge": [
+            { id: "Indian History", name: "Indian History" },
+            { id: "Geography", name: "Geography" },
+            { id: "General Science", name: "General Science" },
+            { id: "General Knowledge", name: "General Knowledge" },
+            { id: "Financial Literacy", name: "Financial Literacy" }
+        ]
+    };
+
+    const domainSelect = document.getElementById("domainSelect");
+    const categorySelect = document.getElementById("categorySelect");
+    const difficultySelect = document.getElementById("difficultySelect");
+    const unseenBadge = document.getElementById("unseenBadge");
+    const startQuizBtn = document.getElementById("startQuizBtn");
+
+    function updateCategoryDropdown() {
+        const domain = domainSelect.value;
+        const categories = DOMAIN_CATEGORIES[domain] || DOMAIN_CATEGORIES["Programming & CS"];
+
+        categorySelect.innerHTML = "";
+        categories.forEach(cat => {
+            const opt = document.createElement("option");
+            opt.value = cat.id;
+            opt.textContent = cat.name;
+            categorySelect.appendChild(opt);
+        });
+
+        checkUnseenCount();
+    }
+
+    async function checkUnseenCount() {
+        const category = categorySelect.value;
+        const difficulty = difficultySelect.value;
+        const domain = domainSelect.value;
+
+        if (!category) return;
+
+        unseenBadge.textContent = "Checking availability...";
+        unseenBadge.className = "badge bg-secondary px-3 py-2 fs-6";
+
+        try {
+            const res = await fetch(`/quiz/api/unseen-count?domain=${encodeURIComponent(domain)}&category=${encodeURIComponent(category)}&difficulty=${encodeURIComponent(difficulty)}`);
+            const data = await res.json();
+            const count = data.unseenCount || 0;
+
+            if (count === 0) {
+                unseenBadge.textContent = "All 100% Completed! (Exhausted)";
+                unseenBadge.className = "badge bg-danger px-3 py-2 fs-6";
+                startQuizBtn.innerHTML = '<i class="fa-solid fa-arrows-rotate me-1"></i> Reset / Practice';
+            } else {
+                unseenBadge.textContent = `${count} Unseen Questions Available`;
+                unseenBadge.className = "badge bg-success px-3 py-2 fs-6";
+                startQuizBtn.innerHTML = '<i class="fa-solid fa-play me-1"></i> Start Quiz';
+            }
+        } catch (err) {
+            unseenBadge.textContent = "Ready to Practice";
+            unseenBadge.className = "badge bg-success px-3 py-2 fs-6";
+        }
+    }
+
+    domainSelect.addEventListener("change", updateCategoryDropdown);
+    categorySelect.addEventListener("change", checkUnseenCount);
+    difficultySelect.addEventListener("change", checkUnseenCount);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        updateCategoryDropdown();
+    });
+</script>
